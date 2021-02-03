@@ -3,7 +3,7 @@
 //  MOV
 //
 //  Created by 今入　庸介 on 2021/02/03.
-//  Copyright © 2021 Mobility Technologies Co., Ltd. All rights reserved.
+//  Copyright © 2021 Yosuke Imairi. All rights reserved.
 //
 
 import RIBs
