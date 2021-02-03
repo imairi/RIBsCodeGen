@@ -149,7 +149,7 @@ struct DependencyCommand: Command {
 
                 print(text)
                 print("... 書き込み中 ...")
-                try text.write(to: URL.init(fileURLWithPath: parentRouterFile.path!), atomically: true, encoding: .utf8)
+//                try text.write(to: URL.init(fileURLWithPath: parentRouterFile.path!), atomically: true, encoding: .utf8)
                 print("... 書き込み完了 ...")
             }
         } catch {
@@ -312,7 +312,7 @@ struct DependencyCommand: Command {
             text.insert(contentsOf: "private let \(child.lowercased())Builder: \(child)Buildable\r\n", at: propertyInsertIndex)
             print(text)
             print("... 書き込み中 ...")
-            try text.write(to: URL.init(fileURLWithPath: parentRouterFile.path!), atomically: true, encoding: .utf8)
+//            try text.write(to: URL.init(fileURLWithPath: parentRouterFile.path!), atomically: true, encoding: .utf8)
             print("... 書き込み完了 ...")
         } catch {
             print(error)
@@ -404,7 +404,7 @@ struct DependencyCommand: Command {
             text.insert(contentsOf: ",\r\n \(child.lowercased())Builder: \(child)Buildable", at: argumentInsertIndex)
             print(text)
             print("... 書き込み中 ...")
-            try text.write(to: URL.init(fileURLWithPath: parentRouterFile.path!), atomically: true, encoding: .utf8)
+//            try text.write(to: URL.init(fileURLWithPath: parentRouterFile.path!), atomically: true, encoding: .utf8)
             print("... 書き込み完了 ...")
         } catch {
             print(error)
@@ -484,7 +484,7 @@ struct DependencyCommand: Command {
 
             print(text)
             print("... 書き込み中 ...")
-            try text.write(to: URL.init(fileURLWithPath: parentRouterFile.path!), atomically: true, encoding: .utf8)
+//            try text.write(to: URL.init(fileURLWithPath: parentRouterFile.path!), atomically: true, encoding: .utf8)
             print("... 書き込み完了 ...")
         } catch {
             print(error)
