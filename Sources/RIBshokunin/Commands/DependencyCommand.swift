@@ -147,10 +147,7 @@ struct DependencyCommand: Command {
                 let insertIndex = text.utf8.index(text.startIndex, offsetBy: insertPosition)
                 text.insert(contentsOf: ",\r\n \(child)Listener", at: insertIndex)
 
-                print(text)
-                print("... 書き込み中 ...")
-//                try text.write(to: URL.init(fileURLWithPath: parentRouterFile.path!), atomically: true, encoding: .utf8)
-                print("... 書き込み完了 ...")
+                write(text: text, toPath: parentRouterPath)
             }
         } catch {
             print(error)
@@ -310,10 +307,8 @@ struct DependencyCommand: Command {
             var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
             let propertyInsertIndex = text.utf8.index(text.startIndex, offsetBy: initLeadingPosition)
             text.insert(contentsOf: "private let \(child.lowercased())Builder: \(child)Buildable\r\n", at: propertyInsertIndex)
-            print(text)
-            print("... 書き込み中 ...")
-//            try text.write(to: URL.init(fileURLWithPath: parentRouterFile.path!), atomically: true, encoding: .utf8)
-            print("... 書き込み完了 ...")
+
+            write(text: text, toPath: parentRouterPath)
         } catch {
             print(error)
         }
@@ -402,10 +397,8 @@ struct DependencyCommand: Command {
 
             let argumentInsertIndex = text.utf8.index(text.startIndex, offsetBy: initArgumentEndPosition)
             text.insert(contentsOf: ",\r\n \(child.lowercased())Builder: \(child)Buildable", at: argumentInsertIndex)
-            print(text)
-            print("... 書き込み中 ...")
-//            try text.write(to: URL.init(fileURLWithPath: parentRouterFile.path!), atomically: true, encoding: .utf8)
-            print("... 書き込み完了 ...")
+
+            write(text: text, toPath: parentRouterPath)
         } catch {
             print(error)
         }
@@ -482,12 +475,22 @@ struct DependencyCommand: Command {
             let builderInitializeInsertIndex = text.utf8.index(text.startIndex, offsetBy: initBodyEndPosition)
             text.insert(contentsOf: "self.\(child.lowercased())Builder = \(child.lowercased())Builder\r\n", at: builderInitializeInsertIndex)
 
-            print(text)
-            print("... 書き込み中 ...")
-//            try text.write(to: URL.init(fileURLWithPath: parentRouterFile.path!), atomically: true, encoding: .utf8)
-            print("... 書き込み完了 ...")
+            write(text: text, toPath: parentRouterPath)
         } catch {
             print(error)
+        }
+    }
+}
+
+extension DependencyCommand {
+    func write(text: String, toPath path: String) {
+        do {
+            print(text)
+            print("... 書き込み中 ...")
+//            try text.write(to: URL(fileURLWithPath: path), atomically: true, encoding: .utf8)
+            print("... 書き込み完了 ...")
+        } catch {
+            print("書き込みエラー", error)
         }
     }
 }
