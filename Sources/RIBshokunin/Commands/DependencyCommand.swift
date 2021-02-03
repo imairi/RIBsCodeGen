@@ -91,21 +91,11 @@ struct DependencyCommand: Command {
         var insertPosition = 0
 
         for substructure in substructures {
-            guard let kind = getDeclarationKind(from: substructure) else {
-                continue
-            }
-
-            // class と protocol の塊のみを取り出す
-            guard [.class, .protocol].contains(kind) else {
-                continue
-            }
-
+            let kind = getDeclarationKind(from: substructure)
             let keyName = getKeyName(from: substructure)
 
-            print("sub.key.name: \(keyName)")
-
             // Interactable に ChildListener を付与するかどうかの判定
-            if keyName == "\(parent)Interactable" {
+            if kind == .some(.protocol) , keyName == "\(parent)Interactable" {
                 print("Interactable 準拠しているものを確認する")
                 if let inheritedTypes = substructure["key.inheritedtypes"] as? [[String: SourceKitRepresentable]] {
                     for inheritedType in inheritedTypes {
