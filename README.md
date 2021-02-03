@@ -1,0 +1,2 @@
+# RIBshokunin
+Generate RIBs boilerplate
