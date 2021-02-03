@@ -148,57 +148,37 @@ struct DependencyCommand: Command {
 
     func hasChildBuilder(parentRouterPath: String) -> Bool {
         let parentRouterFile = File(path: parentRouterPath)!
-        let parentRouterStructure = try! Structure(file: parentRouterFile)
+        let parentRouterFileStructure = try! Structure(file: parentRouterFile)
 //        print(parentRouterStructure)
 
-        // key.substructure はソースコードの class, protocol などの一塊の集まり。
-        let substructures = getSubstructures(from: parentRouterStructure.dictionary)
+        let parentRouterStructures = getStructures(from: parentRouterFileStructure,
+                                                  targetKind: .class,
+                                                  targetKeyName: "\(parent)Router")
 
         var hasChildBuilder = false
 
-        for substructure in substructures {
-            guard let kind = getDeclarationKind(from: substructure) else {
+        for parentRouterStructure in parentRouterStructures {
+            guard let kind = getDeclarationKind(from: parentRouterStructure) else {
                 continue
             }
 
-            // class と protocol の塊のみを取り出す
-            guard [.class, .protocol].contains(kind) else {
+            // var instance のみを取り出す
+            guard [.varInstance].contains(kind) else {
                 continue
             }
 
-            let keyName = getKeyName(from: substructure)
+            let keyName = getKeyName(from: parentRouterStructure)
+            guard let keyTypeName = parentRouterStructure["key.typename"] as? String else {
+                continue
+            }
 
-            print("sub.key.name: \(keyName)")
+            print("Router instance -> ", keyName)
+            print("Router instance type -> ", keyTypeName)
 
-            // Router 内に 子 RIB の Builder があるかどうかのチェック
-            // なければ、追加する
-            if keyName == "\(parent)Router" {
-                print("Router のプロパティを検査する")
-                let substructures = getSubstructures(from: substructure)
-                for substructure in substructures {
-                    guard let kind = getDeclarationKind(from: substructure) else {
-                        continue
-                    }
-
-                    // var instance のみを取り出す
-                    guard [.varInstance].contains(kind) else {
-                        continue
-                    }
-
-                    let keyName = getKeyName(from: substructure)
-                    guard let keyTypeName = substructure["key.typename"] as? String else {
-                        continue
-                    }
-
-                    print("Router instance -> ", keyName)
-                    print("Router instance type -> ", keyTypeName)
-
-                    // 子 RIB の Builder がプロパティとして含まれているかチェックする
-                    // private let updateAccountBuilder: UpdateAccountBuildable のようなものが入っているかチェック
-                    if keyTypeName == "\(child)Buildable" {
-                        hasChildBuilder = true
-                    }
-                }
+            // 子 RIB の Builder がプロパティとして含まれているかチェックする
+            // private let updateAccountBuilder: UpdateAccountBuildable のようなものが入っているかチェック
+            if keyTypeName == "\(child)Buildable" {
+                hasChildBuilder = true
             }
         }
 
@@ -208,62 +188,41 @@ struct DependencyCommand: Command {
 
     func addChildBuilderProperty(parentRouterPath: String) {
         let parentRouterFile = File(path: parentRouterPath)!
-        let parentRouterStructure = try! Structure(file: parentRouterFile)
+        let parentRouterFileStructure = try! Structure(file: parentRouterFile)
 //        print(parentRouterStructure)
 
-        // key.substructure はソースコードの class, protocol などの一塊の集まり。
-        let substructures = getSubstructures(from: parentRouterStructure.dictionary)
+        let parentRouterStructures = getStructures(from: parentRouterFileStructure,
+                                                  targetKind: .class,
+                                                  targetKeyName: "\(parent)Router")
 
         var initLeadingPosition = 0
 
-        for substructure in substructures {
-            guard let kind = getDeclarationKind(from: substructure) else {
+        for parentRouterStructure in parentRouterStructures {
+
+            guard let kind = getDeclarationKind(from: parentRouterStructure) else {
                 continue
             }
 
-            // class と protocol の塊のみを取り出す
-            guard [.class, .protocol].contains(kind) else {
-                continue
-            }
 
-            let keyName = getKeyName(from: substructure)
+            // init の塊を解析する
+            let methodName = getKeyName(from: parentRouterStructure)
+            if kind == .functionMethodInstance,
+               methodName.contains("init") {
 
-            print("sub.key.name: \(keyName)")
-
-            // Router 内に 子 RIB の Builder があるかどうかのチェック
-            // なければ、追加する
-            if keyName == "\(parent)Router" {
-                print("Router のプロパティを検査する")
-                let substructures = getSubstructures(from: substructure)
-                for substructure in substructures {
-
-                    guard let kind = getDeclarationKind(from: substructure) else {
-                        continue
-                    }
-
-
-                    // init の塊を解析する
-                    let methodName = getKeyName(from: substructure)
-                    if kind == .functionMethodInstance,
-                       methodName.contains("init") {
-
-                        // init の override 修飾子の位置を確認する
-                        if let attributes = substructure["key.attributes"] as? [[String: SourceKitRepresentable]] {
-                            for attribute in attributes {
-                                guard let key = attribute["key.attribute"] as? String,
-                                      let attributeKind = SwiftDeclarationAttributeKind(rawValue: key),
-                                      attributeKind == .override else {
-                                    return
-                                }
-                                let overrideAttributeOffset = attribute["key.offset"] as? Int64
-                                initLeadingPosition = Int(overrideAttributeOffset ?? 0)
-                            }
-                        } else {
-                            // TODO: init の初期位置を確認する
+                // init の override 修飾子の位置を確認する
+                if let attributes = parentRouterStructure["key.attributes"] as? [[String: SourceKitRepresentable]] {
+                    for attribute in attributes {
+                        guard let key = attribute["key.attribute"] as? String,
+                              let attributeKind = SwiftDeclarationAttributeKind(rawValue: key),
+                              attributeKind == .override else {
+                            return
                         }
+                        let overrideAttributeOffset = attribute["key.offset"] as? Int64
+                        initLeadingPosition = Int(overrideAttributeOffset ?? 0)
                     }
+                } else {
+                    // TODO: init の初期位置を確認する
                 }
-
             }
         }
 
@@ -283,62 +242,41 @@ struct DependencyCommand: Command {
     // TODO: override を同時に削除しないといけない★
     func addChildBuilderArgument(parentRouterPath: String) {
         let parentRouterFile = File(path: parentRouterPath)!
-        let parentRouterStructure = try! Structure(file: parentRouterFile)
+        let parentRouterFileStructure = try! Structure(file: parentRouterFile)
 //        print(parentRouterStructure)
 
-        // key.substructure はソースコードの class, protocol などの一塊の集まり。
-        let substructures = getSubstructures(from: parentRouterStructure.dictionary)
+        let parentRouterStructures = getStructures(from: parentRouterFileStructure,
+                                                  targetKind: .class,
+                                                  targetKeyName: "\(parent)Router")
 
         var initArgumentEndPosition = 0
 
-        for substructure in substructures {
-            guard let kind = getDeclarationKind(from: substructure) else {
+        for parentRouterStructure in parentRouterStructures {
+
+            guard let kind = getDeclarationKind(from: parentRouterStructure) else {
                 continue
             }
 
-            // class と protocol の塊のみを取り出す
-            guard [.class, .protocol].contains(kind) else {
-                continue
-            }
+            // init の塊を解析する
+            let methodName = getKeyName(from: parentRouterStructure)
+            if kind == .functionMethodInstance,
+               methodName.contains("init") {
+                let initSubstructures = getSubstructures(from: parentRouterStructure)
 
-            let keyName = getKeyName(from: substructure)
-
-            print("sub.key.name: \(keyName)")
-
-            // Router 内に 子 RIB の Builder があるかどうかのチェック
-            // なければ、追加する
-            if keyName == "\(parent)Router" {
-                print("Router のプロパティを検査する")
-                let substructures = getSubstructures(from: substructure)
-
-                for substructure in substructures {
-
-                    guard let kind = getDeclarationKind(from: substructure) else {
-                        continue
+                let initArguments = initSubstructures.filter { initSubstructure -> Bool in
+                    guard let kindValue = initSubstructure["key.kind"] as? String,
+                          let kind = SwiftDeclarationKind(rawValue: kindValue),
+                          kind == .varParameter else {
+                        return false
                     }
-
-                    // init の塊を解析する
-                    let methodName = getKeyName(from: substructure)
-                    if kind == .functionMethodInstance,
-                       methodName.contains("init") {
-                        let initSubstructures = getSubstructures(from: substructure)
-
-                        let initArguments = initSubstructures.filter { initSubstructure -> Bool in
-                            guard let kindValue = initSubstructure["key.kind"] as? String,
-                                  let kind = SwiftDeclarationKind(rawValue: kindValue),
-                                  kind == .varParameter else {
-                                return false
-                            }
-                            return true
-                        }
-                        print("Router 初期化メソッドの最後の引数", initArguments.last ?? "nil")
-                        guard let lastArgumentLength = initArguments.last?["key.length"] as? Int64,
-                              let lastArgumentOffset = initArguments.last?["key.offset"] as? Int64 else {
-                            return
-                        }
-                        initArgumentEndPosition = Int(lastArgumentOffset + lastArgumentLength)
-                    }
+                    return true
                 }
+                print("Router 初期化メソッドの最後の引数", initArguments.last ?? "nil")
+                guard let lastArgumentLength = initArguments.last?["key.length"] as? Int64,
+                      let lastArgumentOffset = initArguments.last?["key.offset"] as? Int64 else {
+                    return
+                }
+                initArgumentEndPosition = Int(lastArgumentOffset + lastArgumentLength)
             }
         }
 
@@ -357,53 +295,31 @@ struct DependencyCommand: Command {
     }
 
     func addChildBuilderInitialize(parentRouterPath: String) {
+
         let parentRouterFile = File(path: parentRouterPath)!
-        let parentRouterStructure = try! Structure(file: parentRouterFile)
+        let parentRouterFileStructure = try! Structure(file: parentRouterFile)
 //        print(parentRouterStructure)
 
-        // key.substructure はソースコードの class, protocol などの一塊の集まり。
-        let substructures = getSubstructures(from: parentRouterStructure.dictionary)
+        let parentRouterStructures = getStructures(from: parentRouterFileStructure,
+                                                  targetKind: .class,
+                                                  targetKeyName: "\(parent)Router")
 
         var initBodyEndPosition = 0
 
-        for substructure in substructures {
-            guard let kind = getDeclarationKind(from: substructure) else {
+        for parentRouterStructure in parentRouterStructures {
+            guard let kind = getDeclarationKind(from: parentRouterStructure) else {
                 continue
             }
 
-            // class と protocol の塊のみを取り出す
-            guard [.class, .protocol].contains(kind) else {
-                continue
-            }
+            // init の塊を解析する
+            let methodName = getKeyName(from: parentRouterStructure)
+            if kind == .functionMethodInstance,
+               methodName.contains("init") {
 
-            let keyName = getKeyName(from: substructure)
-
-            print("sub.key.name: \(keyName)")
-
-            // Router 内に 子 RIB の Builder があるかどうかのチェック
-            // なければ、追加する
-            if keyName == "\(parent)Router" {
-                print("Router のプロパティを検査する")
-
-                let substructures = getSubstructures(from: substructure)
-
-                for substructure in substructures {
-
-                    guard let kind = getDeclarationKind(from: substructure) else {
-                        continue
-                    }
-
-                    // init の塊を解析する
-                    let methodName = getKeyName(from: substructure)
-                    if kind == .functionMethodInstance,
-                       methodName.contains("init") {
-
-                        // init の中身の最後の位置を確認する
-                        let initBodyLength = substructure["key.bodylength"] as? Int64 ?? 0
-                        let initBodyOffset = substructure["key.bodyoffset"] as? Int64 ?? 0
-                        initBodyEndPosition = Int(initBodyOffset + initBodyLength)
-                    }
-                }
+                // init の中身の最後の位置を確認する
+                let initBodyLength = parentRouterStructure["key.bodylength"] as? Int64 ?? 0
+                let initBodyOffset = parentRouterStructure["key.bodyoffset"] as? Int64 ?? 0
+                initBodyEndPosition = Int(initBodyOffset + initBodyLength)
             }
         }
 
@@ -443,10 +359,26 @@ extension DependencyCommand {
         do {
             print(text)
             print("... 書き込み中 ...")
-//            try text.write(to: URL(fileURLWithPath: path), atomically: true, encoding: .utf8)
+            try text.write(to: URL(fileURLWithPath: path), atomically: true, encoding: .utf8)
             print("... 書き込み完了 ...")
         } catch {
             print("書き込みエラー", error)
         }
+    }
+
+    func getStructures(from structure: Structure, targetKind: SwiftDeclarationKind, targetKeyName: String) -> [[String: SourceKitRepresentable]] {
+        // class, protocol などの一塊の集まり
+        let substructures = getSubstructures(from: structure.dictionary)
+
+        for substructure in substructures {
+            let kind = getDeclarationKind(from: substructure)
+            let keyName = getKeyName(from: substructure)
+
+            if kind == targetKind, keyName == targetKeyName {
+                return getSubstructures(from: substructure)
+            }
+        }
+
+        return []
     }
 }
