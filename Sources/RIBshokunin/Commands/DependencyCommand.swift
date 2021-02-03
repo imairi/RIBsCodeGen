@@ -271,12 +271,6 @@ struct DependencyCommand: Command {
                     return
                 }
                 initArgumentEndPosition = Int(lastArgumentOffset + lastArgumentLength)
-
-//                let initBodyLength = parentRouterStructure["key.bodylength"] as? Int64 ?? 0
-//                let initBodyOffset = parentRouterStructure["key.bodyoffset"] as? Int64 ?? 0
-//                initArgumentEndPosition = Int(initBodyOffset + initBodyLength)
-//
-//                print("after", initArgumentEndPosition)
             }
         }
 
@@ -303,7 +297,7 @@ struct DependencyCommand: Command {
         let parentRouterStructures = getStructures(from: parentRouterFileStructure,
                                                   targetKind: .class,
                                                   targetKeyName: "\(parent)Router")
-        
+
         let initSubStructures = getSubStructures(from: parentRouterStructures, name: "init")
         let superInitStartPosition = getOuterLeadingPosition(from: initSubStructures, name: "super.init")
 
