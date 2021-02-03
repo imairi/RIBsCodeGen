@@ -73,6 +73,11 @@ struct DependencyCommand: Command {
             addChildBuilderArgument(parentRouterPath: parentRouterPath!)
             addChildBuilderInitialize(parentRouterPath: parentRouterPath!)
         }
+
+//        let parentRouterFile = File(path: parentRouterPath!)!
+//        print("before", parentRouterFile.contents)
+//        let a = try! parentRouterFile.format(trimmingTrailingWhitespace: true, useTabs: true, indentWidth: 4)
+//        print("after", a)
     }
     
     func run() -> Result {
@@ -127,7 +132,7 @@ struct DependencyCommand: Command {
             if !isConformsToChild { // 親RouterのInteractableを、ChildListener に準拠させる
                 var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
                 let insertIndex = text.utf8.index(text.startIndex, offsetBy: insertPosition)
-                text.insert(contentsOf: ",\r\n \(child)Listener", at: insertIndex)
+                text.insert(contentsOf: ",\n \(child)Listener", at: insertIndex)
 
                 write(text: text, toPath: parentRouterPath)
             }
@@ -220,7 +225,7 @@ struct DependencyCommand: Command {
         do {
             var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
             let propertyInsertIndex = text.utf8.index(text.startIndex, offsetBy: initLeadingPosition)
-            text.insert(contentsOf: "private let \(child.lowercased())Builder: \(child)Buildable\r\n", at: propertyInsertIndex)
+            text.insert(contentsOf: "private let \(child.lowercased())Builder: \(child)Buildable\n", at: propertyInsertIndex)
 
             write(text: text, toPath: parentRouterPath)
         } catch {
@@ -275,7 +280,7 @@ struct DependencyCommand: Command {
             var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
 
             let argumentInsertIndex = text.utf8.index(text.startIndex, offsetBy: initArgumentEndPosition)
-            text.insert(contentsOf: ",\r\n \(child.lowercased())Builder: \(child)Buildable", at: argumentInsertIndex)
+            text.insert(contentsOf: ",\n \(child.lowercased())Builder: \(child)Buildable", at: argumentInsertIndex)
 
             write(text: text, toPath: parentRouterPath)
         } catch {
@@ -287,7 +292,7 @@ struct DependencyCommand: Command {
 
         let parentRouterFile = File(path: parentRouterPath)!
         let parentRouterFileStructure = try! Structure(file: parentRouterFile)
-//        print(parentRouterStructure)
+//        print(parentRouterFileStructure)
 
         let parentRouterStructures = getStructures(from: parentRouterFileStructure,
                                                   targetKind: .class,
@@ -318,7 +323,7 @@ struct DependencyCommand: Command {
             var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
 
             let builderInitializeInsertIndex = text.utf8.index(text.startIndex, offsetBy: initBodyEndPosition)
-            text.insert(contentsOf: "self.\(child.lowercased())Builder = \(child.lowercased())Builder\r\n", at: builderInitializeInsertIndex)
+            text.insert(contentsOf: "self.\(child.lowercased())Builder = \(child.lowercased())Builder\n", at: builderInitializeInsertIndex)
 
             write(text: text, toPath: parentRouterPath)
         } catch {
