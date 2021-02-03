@@ -72,6 +72,7 @@ struct DependencyCommand: Command {
             addChildBuilderProperty(parentRouterPath: parentRouterPath!)
             addChildBuilderArgument(parentRouterPath: parentRouterPath!)
             addChildBuilderInitialize(parentRouterPath: parentRouterPath!)
+            removeRouterInitializeOverrideAttribute(parentRouterPath: parentRouterPath!)
         }
 
         // フォーマットして保存
@@ -202,55 +203,83 @@ struct DependencyCommand: Command {
         }
     }
 
-    // TODO: override を同時に削除しないといけない★
     func addChildBuilderArgument(parentRouterPath: String) {
         let parentRouterFile = File(path: parentRouterPath)!
         let parentRouterFileStructure = try! Structure(file: parentRouterFile)
-//        print(parentRouterStructure)
+        print(parentRouterFileStructure.dictionary.bridge())
 
         let parentRouterStructures = getSubStructures(from: parentRouterFileStructure,
-                                                  targetKind: .class,
-                                                  targetKeyName: "\(parent)Router")
+                                                      targetKind: .class,
+                                                      targetKeyName: "\(parent)Router")
 
         var initArgumentEndPosition = 0
-        var shouldRemoveOverrideAttribute = false
 
-        for parentRouterStructure in parentRouterStructures {
+        let initSubStructures = getSubStructures(from: parentRouterStructures, name: "init")
 
-            guard let kind = getDeclarationKind(from: parentRouterStructure) else {
-                continue
+        let initArguments = initSubStructures.filter { initStructure -> Bool in
+            guard let kindValue = initStructure["key.kind"] as? String,
+                  let kind = SwiftDeclarationKind(rawValue: kindValue),
+                  kind == .varParameter else {
+                return false
             }
-
-            // init の塊を解析する
-            let methodName = getKeyName(from: parentRouterStructure)
-            if kind == .functionMethodInstance,
-               methodName.contains("init") {
-                let initStructures = getSubStructures(from: parentRouterStructure)
-
-                let initArguments = initStructures.filter { initStructure -> Bool in
-                    guard let kindValue = initStructure["key.kind"] as? String,
-                          let kind = SwiftDeclarationKind(rawValue: kindValue),
-                          kind == .varParameter else {
-                        return false
-                    }
-                    return true
-                }
-                print("Router 初期化メソッドの最後の引数", initArguments.last ?? "nil")
-                guard let lastArgumentLength = initArguments.last?["key.length"] as? Int64,
-                      let lastArgumentOffset = initArguments.last?["key.offset"] as? Int64 else {
-                    return
-                }
-                initArgumentEndPosition = Int(lastArgumentOffset + lastArgumentLength)
-            }
+            return true
         }
+        print("Router 初期化メソッドの最後の引数", initArguments.last ?? "nil")
+        guard let lastArgumentLength = initArguments.last?["key.length"] as? Int64,
+              let lastArgumentOffset = initArguments.last?["key.offset"] as? Int64 else {
+            return
+        }
+        initArgumentEndPosition = Int(lastArgumentOffset + lastArgumentLength)
 
-        print("initArgumentEndPosition", initArgumentEndPosition)
+        print("initArgumentEndPosition★", initArgumentEndPosition)
 
         do {
             var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
 
             let argumentInsertIndex = text.utf8.index(text.startIndex, offsetBy: initArgumentEndPosition)
             text.insert(contentsOf: ",\n \(child.lowercasedFirstLetter())Builder: \(child)Buildable", at: argumentInsertIndex)
+
+            write(text: text, toPath: parentRouterPath)
+        } catch {
+            print(error)
+        }
+    }
+
+    func removeRouterInitializeOverrideAttribute(parentRouterPath: String) {
+        let parentRouterFile = File(path: parentRouterPath)!
+        let parentRouterFileStructure = try! Structure(file: parentRouterFile)
+        print(parentRouterFileStructure.dictionary.bridge())
+
+        let parentRouterStructures = getSubStructures(from: parentRouterFileStructure,
+                                                      targetKind: .class,
+                                                      targetKeyName: "\(parent)Router")
+
+        var shouldRemoveOverrideAttribute = false
+
+        let initStructure = getStructure(from: parentRouterStructures, name: "init")
+
+        if let attributes = initStructure["key.attributes"] as? [[String: SourceKitRepresentable]] {
+            for attribute in attributes {
+                guard let key = attribute["key.attribute"] as? String,
+                      let attributeKind = SwiftDeclarationAttributeKind(rawValue: key),
+                      attributeKind == .override else {
+                    return
+                }
+                shouldRemoveOverrideAttribute = true
+            }
+        }
+
+        print("shouldRemoveOverrideAttribute★", shouldRemoveOverrideAttribute)
+
+        do {
+            guard shouldRemoveOverrideAttribute else {
+                print("override 消す処理をスキップ")
+                return
+            }
+            var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
+            text = text.replacingOccurrences(of: "override init", with: "init")
+
+            print(text)
 
             write(text: text, toPath: parentRouterPath)
         } catch {
@@ -285,6 +314,14 @@ struct DependencyCommand: Command {
 }
 
 extension DependencyCommand {
+    func getStructure(from structures: [[String: SourceKitRepresentable]], name: String) -> [String: SourceKitRepresentable] {
+        let targetStructures = structures.filter { structure -> Bool in
+            let keyName = getKeyName(from: structure)
+            return keyName.contains(name) // test(), test2() などで誤検知あり
+        }
+        return targetStructures.first ?? [String: SourceKitRepresentable]()
+    }
+
     func getSubStructures(from structure: [String: SourceKitRepresentable]) -> [[String: SourceKitRepresentable]] {
         return structure["key.substructure"] as? [[String: SourceKitRepresentable]] ?? []
     }
