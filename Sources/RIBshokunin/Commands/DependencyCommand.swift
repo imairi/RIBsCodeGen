@@ -225,7 +225,7 @@ struct DependencyCommand: Command {
         do {
             var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
             let propertyInsertIndex = text.utf8.index(text.startIndex, offsetBy: initLeadingPosition)
-            text.insert(contentsOf: "private let \(child.lowercased())Builder: \(child)Buildable\n", at: propertyInsertIndex)
+            text.insert(contentsOf: "private let \(child.lowercased())Builder: \(child)Buildable\n\n", at: propertyInsertIndex)
 
             write(text: text, toPath: parentRouterPath)
         } catch {
@@ -255,10 +255,10 @@ struct DependencyCommand: Command {
             let methodName = getKeyName(from: parentRouterStructure)
             if kind == .functionMethodInstance,
                methodName.contains("init") {
-                let initSubstructures = getSubstructures(from: parentRouterStructure)
+                let initStructures = getSubstructures(from: parentRouterStructure)
 
-                let initArguments = initSubstructures.filter { initSubstructure -> Bool in
-                    guard let kindValue = initSubstructure["key.kind"] as? String,
+                let initArguments = initStructures.filter { initStructure -> Bool in
+                    guard let kindValue = initStructure["key.kind"] as? String,
                           let kind = SwiftDeclarationKind(rawValue: kindValue),
                           kind == .varParameter else {
                         return false
@@ -292,13 +292,13 @@ struct DependencyCommand: Command {
 
         let parentRouterFile = File(path: parentRouterPath)!
         let parentRouterFileStructure = try! Structure(file: parentRouterFile)
-//        print(parentRouterFileStructure)
+        print(parentRouterFileStructure)
 
         let parentRouterStructures = getStructures(from: parentRouterFileStructure,
                                                   targetKind: .class,
                                                   targetKeyName: "\(parent)Router")
 
-        var initBodyEndPosition = 0
+        var superInitStartPosition = 0
 
         for parentRouterStructure in parentRouterStructures {
             guard let kind = getDeclarationKind(from: parentRouterStructure) else {
@@ -309,20 +309,22 @@ struct DependencyCommand: Command {
             let methodName = getKeyName(from: parentRouterStructure)
             if kind == .functionMethodInstance,
                methodName.contains("init") {
-
-                // init の中身の最後の位置を確認する
-                let initBodyLength = parentRouterStructure["key.bodylength"] as? Int64 ?? 0
-                let initBodyOffset = parentRouterStructure["key.bodyoffset"] as? Int64 ?? 0
-                initBodyEndPosition = Int(initBodyOffset + initBodyLength)
+                let initStructures = getSubstructures(from: parentRouterStructure)
+                guard let superInitStructure = initStructures.filter({ getKeyName(from: $0) == "super.init" }).first else {
+                    return
+                }
+                // super.init の先頭の位置を確認する
+                let superInitNameOffset = superInitStructure["key.nameoffset"] as? Int64 ?? 0
+                superInitStartPosition = Int(superInitNameOffset)
             }
         }
 
-        print("initBodyEndPosition", initBodyEndPosition)
+        print("superInitEndPosition", superInitStartPosition)
 
         do {
             var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
 
-            let builderInitializeInsertIndex = text.utf8.index(text.startIndex, offsetBy: initBodyEndPosition)
+            let builderInitializeInsertIndex = text.utf8.index(text.startIndex, offsetBy: superInitStartPosition)
             text.insert(contentsOf: "self.\(child.lowercased())Builder = \(child.lowercased())Builder\n", at: builderInitializeInsertIndex)
 
             write(text: text, toPath: parentRouterPath)
