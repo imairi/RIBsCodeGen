@@ -74,10 +74,10 @@ struct DependencyCommand: Command {
             addChildBuilderInitialize(parentRouterPath: parentRouterPath!)
         }
 
-//        let parentRouterFile = File(path: parentRouterPath!)!
-//        print("before", parentRouterFile.contents)
-//        let a = try! parentRouterFile.format(trimmingTrailingWhitespace: true, useTabs: true, indentWidth: 4)
-//        print("after", a)
+        // フォーマットして保存
+        if let formattedText = format(path: parentRouterPath!) {
+            write(text: formattedText, toPath: parentRouterPath!)
+        }
     }
     
     func run() -> Result {
@@ -225,7 +225,7 @@ struct DependencyCommand: Command {
         do {
             var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
             let propertyInsertIndex = text.utf8.index(text.startIndex, offsetBy: initLeadingPosition)
-            text.insert(contentsOf: "private let \(child.lowercased())Builder: \(child)Buildable\n\n", at: propertyInsertIndex)
+            text.insert(contentsOf: "private let \(child.lowercasedFirstLetter())Builder: \(child)Buildable\n\n", at: propertyInsertIndex)
 
             write(text: text, toPath: parentRouterPath)
         } catch {
@@ -280,7 +280,7 @@ struct DependencyCommand: Command {
             var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
 
             let argumentInsertIndex = text.utf8.index(text.startIndex, offsetBy: initArgumentEndPosition)
-            text.insert(contentsOf: ",\n \(child.lowercased())Builder: \(child)Buildable", at: argumentInsertIndex)
+            text.insert(contentsOf: ",\n \(child.lowercasedFirstLetter())Builder: \(child)Buildable", at: argumentInsertIndex)
 
             write(text: text, toPath: parentRouterPath)
         } catch {
@@ -305,7 +305,7 @@ struct DependencyCommand: Command {
             var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
 
             let builderInitializeInsertIndex = text.utf8.index(text.startIndex, offsetBy: superInitStartPosition)
-            text.insert(contentsOf: "self.\(child.lowercased())Builder = \(child.lowercased())Builder\n", at: builderInitializeInsertIndex)
+            text.insert(contentsOf: "self.\(child.lowercasedFirstLetter())Builder = \(child.lowercasedFirstLetter())Builder\n", at: builderInitializeInsertIndex)
 
             write(text: text, toPath: parentRouterPath)
         } catch {
@@ -401,5 +401,26 @@ extension DependencyCommand {
         } catch {
             print("書き込みエラー", error)
         }
+    }
+
+    func format(path: String) -> String? {
+        var formattedText: String?
+        do {
+            guard let parentRouterFile = File(path: path) else {
+                print("該当ファイルが見つかりませんでした。", path)
+                return nil
+            }
+            formattedText = try parentRouterFile.format(trimmingTrailingWhitespace: true, useTabs: true, indentWidth: 4)
+        } catch {
+            print("フォーマットエラー", error)
+        }
+
+        return formattedText
+    }
+}
+
+private extension String {
+    func lowercasedFirstLetter() -> String {
+        prefix(1).lowercased() + dropFirst()
     }
 }
