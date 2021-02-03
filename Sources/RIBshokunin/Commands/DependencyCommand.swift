@@ -193,7 +193,6 @@ struct DependencyCommand: Command {
                 continue
             }
 
-
             // init の塊を解析する
             let methodName = getKeyName(from: parentRouterStructure)
             if kind == .functionMethodInstance,
@@ -345,17 +344,6 @@ extension DependencyCommand {
         structure["key.name"] as? String ?? ""
     }
 
-    func write(text: String, toPath path: String) {
-        do {
-            print(text)
-            print("... 書き込み中 ...")
-            try text.write(to: URL(fileURLWithPath: path), atomically: true, encoding: .utf8)
-            print("... 書き込み完了 ...")
-        } catch {
-            print("書き込みエラー", error)
-        }
-    }
-
     func getStructures(from structure: Structure, targetKind: SwiftDeclarationKind, targetKeyName: String) -> [[String: SourceKitRepresentable]] {
         // class, protocol などの一塊の集まり
         let substructures = getSubstructures(from: structure.dictionary)
@@ -370,5 +358,19 @@ extension DependencyCommand {
         }
 
         return []
+    }
+}
+
+// MARK: - execute
+extension DependencyCommand {
+    func write(text: String, toPath path: String) {
+        do {
+            print(text)
+            print("... 書き込み中 ...")
+//            try text.write(to: URL(fileURLWithPath: path), atomically: true, encoding: .utf8)
+            print("... 書き込み完了 ...")
+        } catch {
+            print("書き込みエラー", error)
+        }
     }
 }
