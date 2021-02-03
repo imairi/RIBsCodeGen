@@ -91,11 +91,7 @@ struct DependencyCommand: Command {
         var insertPosition = 0
 
         for substructure in substructures {
-            guard let kindValue = substructure["key.kind"] as? String else {
-                continue
-            }
-
-            guard let kind = SwiftDeclarationKind(rawValue: kindValue) else {
+            guard let kind = getDeclarationKind(from: substructure) else {
                 continue
             }
 
@@ -104,9 +100,7 @@ struct DependencyCommand: Command {
                 continue
             }
 
-            guard let keyName = substructure["key.name"] as? String else {
-                continue
-            }
+            let keyName = getKeyName(from: substructure)
 
             print("sub.key.name: \(keyName)")
 
@@ -163,11 +157,7 @@ struct DependencyCommand: Command {
         var hasChildBuilder = false
 
         for substructure in substructures {
-            guard let kindValue = substructure["key.kind"] as? String else {
-                continue
-            }
-
-            guard let kind = SwiftDeclarationKind(rawValue: kindValue) else {
+            guard let kind = getDeclarationKind(from: substructure) else {
                 continue
             }
 
@@ -176,9 +166,7 @@ struct DependencyCommand: Command {
                 continue
             }
 
-            guard let keyName = substructure["key.name"] as? String else {
-                continue
-            }
+            let keyName = getKeyName(from: substructure)
 
             print("sub.key.name: \(keyName)")
 
@@ -188,12 +176,7 @@ struct DependencyCommand: Command {
                 print("Router のプロパティを検査する")
                 let substructures = getSubstructures(from: substructure)
                 for substructure in substructures {
-
-                    guard let kindValue = substructure["key.kind"] as? String else {
-                        continue
-                    }
-
-                    guard let kind = SwiftDeclarationKind(rawValue: kindValue) else {
+                    guard let kind = getDeclarationKind(from: substructure) else {
                         continue
                     }
 
@@ -202,8 +185,8 @@ struct DependencyCommand: Command {
                         continue
                     }
 
-                    guard let keyName = substructure["key.name"] as? String,
-                          let keyTypeName = substructure["key.typename"] as? String else {
+                    let keyName = getKeyName(from: substructure)
+                    guard let keyTypeName = substructure["key.typename"] as? String else {
                         continue
                     }
 
@@ -234,11 +217,7 @@ struct DependencyCommand: Command {
         var initLeadingPosition = 0
 
         for substructure in substructures {
-            guard let kindValue = substructure["key.kind"] as? String else {
-                continue
-            }
-
-            guard let kind = SwiftDeclarationKind(rawValue: kindValue) else {
+            guard let kind = getDeclarationKind(from: substructure) else {
                 continue
             }
 
@@ -247,9 +226,7 @@ struct DependencyCommand: Command {
                 continue
             }
 
-            guard let keyName = substructure["key.name"] as? String else {
-                continue
-            }
+            let keyName = getKeyName(from: substructure)
 
             print("sub.key.name: \(keyName)")
 
@@ -260,18 +237,14 @@ struct DependencyCommand: Command {
                 let substructures = getSubstructures(from: substructure)
                 for substructure in substructures {
 
-                    guard let kindValue = substructure["key.kind"] as? String else {
-                        continue
-                    }
-
-                    guard let kind = SwiftDeclarationKind(rawValue: kindValue) else {
+                    guard let kind = getDeclarationKind(from: substructure) else {
                         continue
                     }
 
 
                     // init の塊を解析する
+                    let methodName = getKeyName(from: substructure)
                     if kind == .functionMethodInstance,
-                       let methodName = substructure["key.name"] as? String,
                        methodName.contains("init") {
 
                         // init の override 修飾子の位置を確認する
@@ -319,11 +292,7 @@ struct DependencyCommand: Command {
         var initArgumentEndPosition = 0
 
         for substructure in substructures {
-            guard let kindValue = substructure["key.kind"] as? String else {
-                continue
-            }
-
-            guard let kind = SwiftDeclarationKind(rawValue: kindValue) else {
+            guard let kind = getDeclarationKind(from: substructure) else {
                 continue
             }
 
@@ -332,9 +301,7 @@ struct DependencyCommand: Command {
                 continue
             }
 
-            guard let keyName = substructure["key.name"] as? String else {
-                continue
-            }
+            let keyName = getKeyName(from: substructure)
 
             print("sub.key.name: \(keyName)")
 
@@ -346,18 +313,13 @@ struct DependencyCommand: Command {
 
                 for substructure in substructures {
 
-                    guard let kindValue = substructure["key.kind"] as? String else {
+                    guard let kind = getDeclarationKind(from: substructure) else {
                         continue
                     }
-
-                    guard let kind = SwiftDeclarationKind(rawValue: kindValue) else {
-                        continue
-                    }
-
 
                     // init の塊を解析する
+                    let methodName = getKeyName(from: substructure)
                     if kind == .functionMethodInstance,
-                       let methodName = substructure["key.name"] as? String,
                        methodName.contains("init") {
                         let initSubstructures = getSubstructures(from: substructure)
 
@@ -405,11 +367,7 @@ struct DependencyCommand: Command {
         var initBodyEndPosition = 0
 
         for substructure in substructures {
-            guard let kindValue = substructure["key.kind"] as? String else {
-                continue
-            }
-
-            guard let kind = SwiftDeclarationKind(rawValue: kindValue) else {
+            guard let kind = getDeclarationKind(from: substructure) else {
                 continue
             }
 
@@ -418,9 +376,7 @@ struct DependencyCommand: Command {
                 continue
             }
 
-            guard let keyName = substructure["key.name"] as? String else {
-                continue
-            }
+            let keyName = getKeyName(from: substructure)
 
             print("sub.key.name: \(keyName)")
 
@@ -433,18 +389,13 @@ struct DependencyCommand: Command {
 
                 for substructure in substructures {
 
-                    guard let kindValue = substructure["key.kind"] as? String else {
+                    guard let kind = getDeclarationKind(from: substructure) else {
                         continue
                     }
-
-                    guard let kind = SwiftDeclarationKind(rawValue: kindValue) else {
-                        continue
-                    }
-
 
                     // init の塊を解析する
+                    let methodName = getKeyName(from: substructure)
                     if kind == .functionMethodInstance,
-                       let methodName = substructure["key.name"] as? String,
                        methodName.contains("init") {
 
                         // init の中身の最後の位置を確認する
@@ -476,11 +427,23 @@ extension DependencyCommand {
         return structure["key.substructure"] as? [[String: SourceKitRepresentable]] ?? []
     }
 
+    func getDeclarationKind(from structure: [String: SourceKitRepresentable]) -> SwiftDeclarationKind? {
+        guard let kindValue = structure["key.kind"] as? String else {
+            return nil
+        }
+
+        return SwiftDeclarationKind(rawValue: kindValue)
+    }
+
+    func getKeyName(from structure: [String: SourceKitRepresentable]) -> String {
+        structure["key.name"] as? String ?? ""
+    }
+
     func write(text: String, toPath path: String) {
         do {
             print(text)
             print("... 書き込み中 ...")
-            try text.write(to: URL(fileURLWithPath: path), atomically: true, encoding: .utf8)
+//            try text.write(to: URL(fileURLWithPath: path), atomically: true, encoding: .utf8)
             print("... 書き込み完了 ...")
         } catch {
             print("書き込みエラー", error)
