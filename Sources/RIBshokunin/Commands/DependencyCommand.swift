@@ -146,7 +146,7 @@ struct DependencyCommand: Command {
         let parentRouterFileStructure = try! Structure(file: parentRouterFile)
 //        print(parentRouterStructure)
 
-        let parentRouterStructures = getStructures(from: parentRouterFileStructure,
+        let parentRouterStructures = getSubStructures(from: parentRouterFileStructure,
                                                   targetKind: .class,
                                                   targetKeyName: "\(parent)Router")
 
@@ -186,46 +186,15 @@ struct DependencyCommand: Command {
         let parentRouterFileStructure = try! Structure(file: parentRouterFile)
 //        print(parentRouterStructure)
 
-        let parentRouterStructures = getStructures(from: parentRouterFileStructure,
-                                                  targetKind: .class,
-                                                  targetKeyName: "\(parent)Router")
-
-        var initLeadingPosition = 0
-
-        for parentRouterStructure in parentRouterStructures {
-
-            guard let kind = getDeclarationKind(from: parentRouterStructure) else {
-                continue
-            }
-
-            // init の塊を解析する
-            let methodName = getKeyName(from: parentRouterStructure)
-            if kind == .functionMethodInstance,
-               methodName.contains("init") {
-
-                // init の override 修飾子の位置を確認する
-                if let attributes = parentRouterStructure["key.attributes"] as? [[String: SourceKitRepresentable]] {
-                    for attribute in attributes {
-                        guard let key = attribute["key.attribute"] as? String,
-                              let attributeKind = SwiftDeclarationAttributeKind(rawValue: key),
-                              attributeKind == .override else {
-                            return
-                        }
-                        let overrideAttributeOffset = attribute["key.offset"] as? Int64
-                        initLeadingPosition = Int(overrideAttributeOffset ?? 0)
-                    }
-                } else {
-                    // TODO: init の初期位置を確認する
-                }
-            }
-        }
+        let parentRouterFileSubStructure = getSubStructures(from: parentRouterFileStructure.dictionary)
+        let initLeadingPosition = getInnerLeadingPosition(from: parentRouterFileSubStructure, name: "\(parent)Router")
 
         print("initLeadingPosition", initLeadingPosition)
 
         do {
             var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
             let propertyInsertIndex = text.utf8.index(text.startIndex, offsetBy: initLeadingPosition)
-            text.insert(contentsOf: "private let \(child.lowercasedFirstLetter())Builder: \(child)Buildable\n\n", at: propertyInsertIndex)
+            text.insert(contentsOf: "\n\nprivate let \(child.lowercasedFirstLetter())Builder: \(child)Buildable", at: propertyInsertIndex)
 
             write(text: text, toPath: parentRouterPath)
         } catch {
@@ -239,11 +208,12 @@ struct DependencyCommand: Command {
         let parentRouterFileStructure = try! Structure(file: parentRouterFile)
 //        print(parentRouterStructure)
 
-        let parentRouterStructures = getStructures(from: parentRouterFileStructure,
+        let parentRouterStructures = getSubStructures(from: parentRouterFileStructure,
                                                   targetKind: .class,
                                                   targetKeyName: "\(parent)Router")
 
         var initArgumentEndPosition = 0
+        var shouldRemoveOverrideAttribute = false
 
         for parentRouterStructure in parentRouterStructures {
 
@@ -292,14 +262,14 @@ struct DependencyCommand: Command {
 
         let parentRouterFile = File(path: parentRouterPath)!
         let parentRouterFileStructure = try! Structure(file: parentRouterFile)
-        print(parentRouterFileStructure)
+//        print(parentRouterFileStructure)
 
-        let parentRouterStructures = getStructures(from: parentRouterFileStructure,
-                                                  targetKind: .class,
-                                                  targetKeyName: "\(parent)Router")
+        let parentRouterStructures = getSubStructures(from: parentRouterFileStructure,
+                                                      targetKind: .class,
+                                                      targetKeyName: "\(parent)Router")
 
-        let initSubStructures = getSubStructures(from: parentRouterStructures, name: "init")
-        let superInitStartPosition = getOuterLeadingPosition(from: initSubStructures, name: "super.init")
+        let initStructures = getSubStructures(from: parentRouterStructures, name: "init")
+        let superInitStartPosition = getOuterLeadingPosition(from: initStructures, name: "super.init")
 
         do {
             var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
@@ -327,39 +297,6 @@ extension DependencyCommand {
         return getSubStructures(from: targetStructures.first!)
     }
 
-    func getOuterLeadingPosition(from structures: [[String: SourceKitRepresentable]], name: String) -> Int {
-        guard let targetStructure = structures.filter({ getKeyName(from: $0) == name }).first else {
-            return 0
-        }
-        // 外側の先頭の位置を確認する 【ここ→self.functionName（）】
-        let targetLeadingPosition = targetStructure["key.nameoffset"] as? Int64 ?? 0
-        return Int(targetLeadingPosition)
-    }
-
-    func getInnerLeadingPosition(from structures: [[String: SourceKitRepresentable]], name: String) -> Int {
-        guard let targetStructure = structures.filter({ getKeyName(from: $0) == name }).first else {
-            return 0
-        }
-        // 内側の先頭の位置を確認する 【self.functionName（←ここ）】
-        let targetLeadingPosition = targetStructure["key.bodyoffset"] as? Int64 ?? 0
-        return Int(targetLeadingPosition)
-    }
-
-    func getInnerTrailingPosition(from structures: [[String: SourceKitRepresentable]], name: String) -> Int {
-        guard let targetStructure = structures.filter({ getKeyName(from: $0) == name }).first else {
-            return 0
-        }
-        // 内側の末尾の位置を確認する 【self.functionName（ここ→）】
-        let targetBodyOffset = targetStructure["key.bodyoffset"] as? Int64 ?? 0
-        let targetBodyLength = targetStructure["key.bodylength"] as? Int64 ?? 0
-        return Int(targetBodyOffset + targetBodyLength)
-    }
-
-    func getOuterTrailingPosition(from structures: [[String: SourceKitRepresentable]], name: String) -> Int {
-        // 外側の末尾の位置を確認する 【self.functionName（）←ここ】
-        return getInnerTrailingPosition(from: structures, name: name) + 1
-    }
-
     func getDeclarationKind(from structure: [String: SourceKitRepresentable]) -> SwiftDeclarationKind? {
         guard let kindValue = structure["key.kind"] as? String else {
             return nil
@@ -373,7 +310,7 @@ extension DependencyCommand {
     }
 
     // class, protocol 限定がよいかも？
-    func getStructures(from structure: Structure, targetKind: SwiftDeclarationKind, targetKeyName: String) -> [[String: SourceKitRepresentable]] {
+    func getSubStructures(from structure: Structure, targetKind: SwiftDeclarationKind, targetKeyName: String) -> [[String: SourceKitRepresentable]] {
         // class, protocol などの一塊の集まり
         let substructures = getSubStructures(from: structure.dictionary)
 
@@ -387,6 +324,45 @@ extension DependencyCommand {
         }
 
         return []
+    }
+}
+
+// MARK: - 位置の計算
+extension DependencyCommand {
+    // TODO: 修飾子を考慮する必要あり
+    func getOuterLeadingPosition(from structures: [[String: SourceKitRepresentable]], name: String) -> Int {
+        guard let targetStructure = structures.filter({ getKeyName(from: $0).contains(name) }).first else {
+            print("return 0")
+            return 0
+        }
+        print("targetStructure", targetStructure)
+        // 外側の先頭の位置を確認する 【ここ→self.functionName（）】
+        let targetLeadingPosition = targetStructure["key.nameoffset"] as? Int64 ?? 0
+        return Int(targetLeadingPosition)
+    }
+
+    func getInnerLeadingPosition(from structures: [[String: SourceKitRepresentable]], name: String) -> Int {
+        guard let targetStructure = structures.filter({ getKeyName(from: $0).contains(name) }).first else {
+            return 0
+        }
+        // 内側の先頭の位置を確認する 【self.functionName（←ここ）】
+        let targetLeadingPosition = targetStructure["key.bodyoffset"] as? Int64 ?? 0
+        return Int(targetLeadingPosition)
+    }
+
+    func getInnerTrailingPosition(from structures: [[String: SourceKitRepresentable]], name: String) -> Int {
+        guard let targetStructure = structures.filter({ getKeyName(from: $0).contains(name) }).first else {
+            return 0
+        }
+        // 内側の末尾の位置を確認する 【self.functionName（ここ→）】
+        let targetBodyOffset = targetStructure["key.bodyoffset"] as? Int64 ?? 0
+        let targetBodyLength = targetStructure["key.bodylength"] as? Int64 ?? 0
+        return Int(targetBodyOffset + targetBodyLength)
+    }
+
+    func getOuterTrailingPosition(from structures: [[String: SourceKitRepresentable]], name: String) -> Int {
+        // 外側の末尾の位置を確認する 【self.functionName（）←ここ】
+        return getInnerTrailingPosition(from: structures, name: name) + 1
     }
 }
 
