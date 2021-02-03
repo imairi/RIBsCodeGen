@@ -90,7 +90,7 @@ struct DependencyCommand: Command {
 //        print(parentRouterStructure)
 
         // key.substructure はソースコードの class, protocol などの一塊の集まり。
-        let substructures = getSubstructures(from: parentRouterStructure.dictionary)
+        let substructures = getSubStructures(from: parentRouterStructure.dictionary)
 
         var isConformsToChild = false
         var insertPosition = 0
@@ -255,7 +255,7 @@ struct DependencyCommand: Command {
             let methodName = getKeyName(from: parentRouterStructure)
             if kind == .functionMethodInstance,
                methodName.contains("init") {
-                let initStructures = getSubstructures(from: parentRouterStructure)
+                let initStructures = getSubStructures(from: parentRouterStructure)
 
                 let initArguments = initStructures.filter { initStructure -> Bool in
                     guard let kindValue = initStructure["key.kind"] as? String,
@@ -271,6 +271,12 @@ struct DependencyCommand: Command {
                     return
                 }
                 initArgumentEndPosition = Int(lastArgumentOffset + lastArgumentLength)
+
+//                let initBodyLength = parentRouterStructure["key.bodylength"] as? Int64 ?? 0
+//                let initBodyOffset = parentRouterStructure["key.bodyoffset"] as? Int64 ?? 0
+//                initArgumentEndPosition = Int(initBodyOffset + initBodyLength)
+//
+//                print("after", initArgumentEndPosition)
             }
         }
 
@@ -297,29 +303,9 @@ struct DependencyCommand: Command {
         let parentRouterStructures = getStructures(from: parentRouterFileStructure,
                                                   targetKind: .class,
                                                   targetKeyName: "\(parent)Router")
-
-        var superInitStartPosition = 0
-
-        for parentRouterStructure in parentRouterStructures {
-            guard let kind = getDeclarationKind(from: parentRouterStructure) else {
-                continue
-            }
-
-            // init の塊を解析する
-            let methodName = getKeyName(from: parentRouterStructure)
-            if kind == .functionMethodInstance,
-               methodName.contains("init") {
-                let initStructures = getSubstructures(from: parentRouterStructure)
-                guard let superInitStructure = initStructures.filter({ getKeyName(from: $0) == "super.init" }).first else {
-                    return
-                }
-                // super.init の先頭の位置を確認する
-                let superInitNameOffset = superInitStructure["key.nameoffset"] as? Int64 ?? 0
-                superInitStartPosition = Int(superInitNameOffset)
-            }
-        }
-
-        print("superInitEndPosition", superInitStartPosition)
+        
+        let initSubStructures = getSubStructures(from: parentRouterStructures, name: "init")
+        let superInitStartPosition = getOuterLeadingPosition(from: initSubStructures, name: "super.init")
 
         do {
             var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
@@ -335,8 +321,49 @@ struct DependencyCommand: Command {
 }
 
 extension DependencyCommand {
-    func getSubstructures(from structure: [String: SourceKitRepresentable]) -> [[String: SourceKitRepresentable]] {
+    func getSubStructures(from structure: [String: SourceKitRepresentable]) -> [[String: SourceKitRepresentable]] {
         return structure["key.substructure"] as? [[String: SourceKitRepresentable]] ?? []
+    }
+
+    func getSubStructures(from structures: [[String: SourceKitRepresentable]], name: String) -> [[String: SourceKitRepresentable]] {
+        let targetStructures = structures.filter { structure -> Bool in
+            let keyName = getKeyName(from: structure)
+            return keyName.contains(name) // test(), test2() などで誤検知あり
+        }
+        return getSubStructures(from: targetStructures.first!)
+    }
+
+    func getOuterLeadingPosition(from structures: [[String: SourceKitRepresentable]], name: String) -> Int {
+        guard let targetStructure = structures.filter({ getKeyName(from: $0) == name }).first else {
+            return 0
+        }
+        // 外側の先頭の位置を確認する 【ここ→self.functionName（）】
+        let targetLeadingPosition = targetStructure["key.nameoffset"] as? Int64 ?? 0
+        return Int(targetLeadingPosition)
+    }
+
+    func getInnerLeadingPosition(from structures: [[String: SourceKitRepresentable]], name: String) -> Int {
+        guard let targetStructure = structures.filter({ getKeyName(from: $0) == name }).first else {
+            return 0
+        }
+        // 内側の先頭の位置を確認する 【self.functionName（←ここ）】
+        let targetLeadingPosition = targetStructure["key.bodyoffset"] as? Int64 ?? 0
+        return Int(targetLeadingPosition)
+    }
+
+    func getInnerTrailingPosition(from structures: [[String: SourceKitRepresentable]], name: String) -> Int {
+        guard let targetStructure = structures.filter({ getKeyName(from: $0) == name }).first else {
+            return 0
+        }
+        // 内側の末尾の位置を確認する 【self.functionName（ここ→）】
+        let targetBodyOffset = targetStructure["key.bodyoffset"] as? Int64 ?? 0
+        let targetBodyLength = targetStructure["key.bodylength"] as? Int64 ?? 0
+        return Int(targetBodyOffset + targetBodyLength)
+    }
+
+    func getOuterTrailingPosition(from structures: [[String: SourceKitRepresentable]], name: String) -> Int {
+        // 外側の末尾の位置を確認する 【self.functionName（）←ここ】
+        return getInnerTrailingPosition(from: structures, name: name) + 1
     }
 
     func getDeclarationKind(from structure: [String: SourceKitRepresentable]) -> SwiftDeclarationKind? {
@@ -351,16 +378,17 @@ extension DependencyCommand {
         structure["key.name"] as? String ?? ""
     }
 
+    // class, protocol 限定がよいかも？
     func getStructures(from structure: Structure, targetKind: SwiftDeclarationKind, targetKeyName: String) -> [[String: SourceKitRepresentable]] {
         // class, protocol などの一塊の集まり
-        let substructures = getSubstructures(from: structure.dictionary)
+        let substructures = getSubStructures(from: structure.dictionary)
 
         for substructure in substructures {
             let kind = getDeclarationKind(from: substructure)
             let keyName = getKeyName(from: substructure)
 
             if kind == targetKind, keyName == targetKeyName {
-                return getSubstructures(from: substructure)
+                return getSubStructures(from: substructure)
             }
         }
 
