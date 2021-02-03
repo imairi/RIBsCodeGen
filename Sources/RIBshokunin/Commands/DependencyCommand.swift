@@ -423,7 +423,7 @@ extension DependencyCommand {
                 print("該当ファイルが見つかりませんでした。", path)
                 return nil
             }
-            formattedText = try parentRouterFile.format(trimmingTrailingWhitespace: true, useTabs: true, indentWidth: 4)
+            formattedText = try parentRouterFile.format(trimmingTrailingWhitespace: true, useTabs: false, indentWidth: 4)
         } catch {
             print("フォーマットエラー", error)
         }
