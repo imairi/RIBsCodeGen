@@ -49,19 +49,37 @@ func makeCommand(commandLineArguments: [String]) -> Command {
         return HelpCommand()
     case "version":
         return VersionCommand(version: version)
-    default:
+    case "単体"://単純にテンプレートからの作成をするだけ。
+        let targetDirectory = "/Users/imairiyousuke/git/RIBsCodeGen/Sample"
+        let paths = allSwiftSourcePaths(directoryPath: targetDirectory)
+        let parent = "ParentDemo"
+        let isOwnsView = true
+        let templateDirectory = isOwnsView ? "/Users/imairiyousuke/git/RIBsCodeGen/Templates/OwnsView" : "/Users/imairiyousuke/git/RIBsCodeGen/Templates/Default"
+        return CreateRIBsCommand(paths: paths,
+                                 targetDirectory: targetDirectory,
+                                 templateDirectory: templateDirectory,
+                                 target: parent,
+                                 isOwnsView: isOwnsView)
+    default://単体 + 依存。単体をテンプレートから作成→ComponentExtensionの追加→依存の解決。
         let targetDirectory = "/Users/imairiyousuke/git/RIBsCodeGen/Sample"
         let paths = allSwiftSourcePaths(directoryPath: targetDirectory)
         let parent = "ParentDemo"
         let child = "ChildDemo"
         let isOwnsView = true
         let templateDirectory = isOwnsView ? "/Users/imairiyousuke/git/RIBsCodeGen/Templates/OwnsView" : "/Users/imairiyousuke/git/RIBsCodeGen/Templates/Default"
+
+        // 単体
         let childRIBCreateCommand = CreateRIBsCommand(paths: paths,
                                                   targetDirectory: targetDirectory,
                                                   templateDirectory: templateDirectory,
                                                   target: child,
                                                   isOwnsView: isOwnsView)
         _ = childRIBCreateCommand.run()
+
+        // ComponentExtension
+        // TODO: 
+
+        // 依存の解決
         let paths2 = allSwiftSourcePaths(directoryPath: targetDirectory)
         return DependencyCommand(paths: paths2, parent: parent, child: child)
     }
