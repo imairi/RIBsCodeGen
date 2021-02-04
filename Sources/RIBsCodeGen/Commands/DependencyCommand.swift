@@ -293,12 +293,10 @@ struct DependencyCommand: Command {
         let parentRouterFileStructure = try! Structure(file: parentRouterFile)
 //        print(parentRouterFileStructure)
 
-        let parentRouterStructures = getSubStructures(from: parentRouterFileStructure,
-                                                      targetKind: .class,
-                                                      targetKeyName: "\(parent)Router")
-
-        let initStructures = getSubStructures(from: parentRouterStructures, name: "init")
-        let superInitStartPosition = getOuterLeadingPosition(from: initStructures, name: "super.init")
+        let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().filterByKeyName("\(parent)Router")
+        let initStructure = parentRouterStructure.getSubStructures().filterByKeyName("init")
+        let superInitStructure = initStructure.getSubStructures().filterByKeyName("super.init")
+        let superInitStartPosition = superInitStructure.getOuterLeadingPosition()
 
         do {
             var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
@@ -313,6 +311,7 @@ struct DependencyCommand: Command {
     }
 }
 
+// MARK: - Extensions
 extension DependencyCommand {
     func getStructure(from structures: [[String: SourceKitRepresentable]], name: String) -> [String: SourceKitRepresentable] {
         let targetStructures = structures.filter { structure -> Bool in
@@ -361,6 +360,62 @@ extension DependencyCommand {
         }
 
         return []
+    }
+}
+
+extension Collection where Iterator.Element == [String: SourceKitRepresentable] {
+
+    func filterByKeyName(_ targetKeyName: String) -> [String: SourceKitRepresentable] {
+        let targetStructures = self.filter { structure -> Bool in
+            let keyName = structure["key.name"] as? String ?? ""
+            return keyName.contains(targetKeyName) // test(), test2() などで誤検知あり
+        }
+        return targetStructures.first ?? [String: SourceKitRepresentable]()
+    }
+
+}
+
+extension Dictionary where Key == String {
+    func getKeyName() -> String {
+        self["key.name"] as? String ?? ""
+    }
+
+    func getDeclarationKind() -> SwiftDeclarationKind? {
+        guard let kindValue = self["key.kind"] as? String else {
+            return nil
+        }
+        return SwiftDeclarationKind(rawValue: kindValue)
+    }
+
+    func getSubStructures() -> [[String: SourceKitRepresentable]] {
+        guard let substructures = self["key.substructure"] as? [[String: SourceKitRepresentable]] else {
+            return [[String: SourceKitRepresentable]]()
+        }
+        return substructures
+    }
+
+    func getOuterLeadingPosition() -> Int {
+        // 外側の先頭の位置を確認する 【ここ→self.functionName（）】
+        let targetLeadingPosition = self["key.nameoffset"] as? Int64 ?? 0
+        return Int(targetLeadingPosition)
+    }
+
+    func getInnerLeadingPosition() -> Int {
+        // 内側の先頭の位置を確認する 【self.functionName（←ここ）】
+        let targetLeadingPosition = self["key.bodyoffset"] as? Int64 ?? 0
+        return Int(targetLeadingPosition)
+    }
+
+    func getInnerTrailingPosition() -> Int {
+        // 内側の末尾の位置を確認する 【self.functionName（ここ→）】
+        let targetBodyOffset = self["key.bodyoffset"] as? Int64 ?? 0
+        let targetBodyLength = self["key.bodylength"] as? Int64 ?? 0
+        return Int(targetBodyOffset + targetBodyLength)
+    }
+
+    func getOuterTrailingPosition() -> Int {
+        // 外側の末尾の位置を確認する 【self.functionName（）←ここ】
+        return getInnerTrailingPosition() + 1
     }
 }
 
