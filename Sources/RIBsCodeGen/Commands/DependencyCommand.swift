@@ -187,8 +187,8 @@ struct DependencyCommand: Command {
         let parentRouterFileStructure = try! Structure(file: parentRouterFile)
 //        print(parentRouterStructure)
 
-        let parentRouterFileSubStructure = getSubStructures(from: parentRouterFileStructure.dictionary)
-        let initLeadingPosition = getInnerLeadingPosition(from: parentRouterFileSubStructure, name: "\(parent)Router")
+        let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().filterByKeyName("\(parent)Router")
+        let initLeadingPosition = parentRouterStructure.getInnerLeadingPosition()
 
         print("initLeadingPosition", initLeadingPosition)
 
