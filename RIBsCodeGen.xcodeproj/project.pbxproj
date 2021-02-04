@@ -10,6 +10,7 @@
 		B947CA9425CB9566008947E7 /* String+Foundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B947CA4325CB94CF008947E7 /* String+Foundation.swift */; };
 		B947CAB325CB956A008947E7 /* Dictionary+SourceKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B947CA5425CB94F0008947E7 /* Dictionary+SourceKit.swift */; };
 		B947CAD225CB956E008947E7 /* Array+SourceKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B947CA6525CB9503008947E7 /* Array+SourceKit.swift */; };
+		B947CB2225CBC02D008947E7 /* SwiftExpressionKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = B947CB2125CBC02D008947E7 /* SwiftExpressionKind.swift */; };
 		OBJ_155 /* api.c in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_105 /* api.c */; };
 		OBJ_156 /* emitter.c in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_106 /* emitter.c */; };
 		OBJ_157 /* parser.c in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_107 /* parser.c */; };
@@ -242,6 +243,7 @@
 		B947CA4325CB94CF008947E7 /* String+Foundation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Foundation.swift"; sourceTree = "<group>"; };
 		B947CA5425CB94F0008947E7 /* Dictionary+SourceKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+SourceKit.swift"; sourceTree = "<group>"; };
 		B947CA6525CB9503008947E7 /* Array+SourceKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+SourceKit.swift"; sourceTree = "<group>"; };
+		B947CB2125CBC02D008947E7 /* SwiftExpressionKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftExpressionKind.swift; sourceTree = "<group>"; };
 		OBJ_10 /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		OBJ_101 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = /Users/imairiyousuke/git/RIBsCodeGen/.build/checkouts/SourceKitten/Package.swift; sourceTree = "<group>"; };
 		OBJ_105 /* api.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = api.c; sourceTree = "<group>"; };
@@ -454,6 +456,7 @@
 				B947CA4325CB94CF008947E7 /* String+Foundation.swift */,
 				B947CA5425CB94F0008947E7 /* Dictionary+SourceKit.swift */,
 				B947CA6525CB9503008947E7 /* Array+SourceKit.swift */,
+				B947CB2125CBC02D008947E7 /* SwiftExpressionKind.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1147,6 +1150,7 @@
 				OBJ_203 /* Error.swift in Sources */,
 				B947CAD225CB956E008947E7 /* Array+SourceKit.swift in Sources */,
 				OBJ_204 /* Result.swift in Sources */,
+				B947CB2225CBC02D008947E7 /* SwiftExpressionKind.swift in Sources */,
 				OBJ_205 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -46,6 +46,17 @@ extension Collection where Iterator.Element == [String: SourceKitRepresentable] 
         return targetStructures
     }
 
+    func filterByKeyKind(_ targetKind: SwiftExpressionKind) -> [[String: SourceKitRepresentable]] {
+        let targetStructures = self.filter { initStructure -> Bool in
+            guard let kindValue = initStructure["key.kind"] as? String else {
+                return false
+            }
+            let kind = SwiftExpressionKind(rawValue: kindValue)
+            return kind == targetKind
+        }
+        return targetStructures
+    }
+
     func filterByKeyTypeName(_ targetTypeName: String) -> [[String: SourceKitRepresentable]] {
         let targetStructures = self.filter { structure -> Bool in
             let keyTypeName = structure["key.typename"] as? String ?? ""

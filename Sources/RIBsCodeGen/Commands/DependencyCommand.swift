@@ -86,6 +86,7 @@ private extension DependencyCommand {
 
     func resolveDependencyForBuilder() {
         addChildDependency(parentBuilderPath: parentBuilderPath)
+        addChildBuilderToRouterInit(parentBuilderPath: parentBuilderPath)
 
         // フォーマットして保存
         if let formattedText = format(path: parentBuilderPath) {
@@ -245,13 +246,12 @@ private extension DependencyCommand {
         let parentBuilderFile = File(path: parentBuilderPath)!
         let parentBuilderFileStructure = try! Structure(file: parentBuilderFile)
 
-        let parentBuilderDependencies = parentBuilderFileStructure.dictionary
+        let parentBuilderProtocols = parentBuilderFileStructure.dictionary
             .getSubStructures()
             .filterByKeyKind(.protocol)
-            .filterByKeyName("\(parent)Dependency")
 
-        guard let parentBuilderDependency = parentBuilderDependencies.first else {
-            print("\(parent)Dependency が見つかりません。")
+        guard let parentBuilderDependency = parentBuilderProtocols.filterByKeyName("\(parent)Dependency").first else {
+            print("protocol \(parent)Dependency が見つかりません。")
             return
         }
 
@@ -272,7 +272,35 @@ private extension DependencyCommand {
         } catch {
             print(error)
         }
+    }
 
+    func addChildBuilderToRouterInit(parentBuilderPath: String) {
+        let parentBuilderFile = File(path: parentBuilderPath)!
+        let parentBuilderFileStructure = try! Structure(file: parentBuilderFile)
+
+        let parentBuilderClasses = parentBuilderFileStructure.dictionary
+            .getSubStructures()
+            .filterByKeyKind(.class)
+
+        guard let parentBuilderClass = parentBuilderClasses.filterByKeyName("\(parent)Builder").first else {
+            print("class \(parent)Builder が見つかりません。")
+            return
+        }
+
+        let initStructure = parentBuilderClass.getSubStructures().extractByKeyName("build")
+        let parentRouter = initStructure.getSubStructures().filterByKeyKind(.call).extractByKeyName("\(parent)Router")
+        print("return 直前を確認する", parentRouter.bridge())
+
+        let insertPosition = parentRouter.getInnerTrailingPosition()
+
+        do {
+            var text = try String.init(contentsOfFile: parentBuilderPath, encoding: .utf8)
+            let dependencyInsertIndex = text.utf8.index(text.startIndex, offsetBy: insertPosition)
+            text.insert(contentsOf: ", \n\(child.lowercasedFirstLetter())Builder: \(child.lowercasedFirstLetter())Builder", at: dependencyInsertIndex)
+            write(text: text, toPath: parentRouterPath)
+        } catch {
+            print(error)
+        }
     }
 }
 
