@@ -1,5 +1,5 @@
 //
-//  CreateCommand.swift
+//  CreateRIBsCommand.swift
 //  RIBsCodeGen
 //
 //  Created by 今入　庸介 on 2021/02/04.
@@ -9,7 +9,7 @@ import Foundation
 import SourceKittenFramework
 import PathKit
 
-struct CreateCommand: Command {
+struct CreateRIBsCommand: Command {
     let needsCreateTargetFile: Bool
     let targetDirectory: String
     let templateDirectory: String
@@ -48,7 +48,7 @@ struct CreateCommand: Command {
 }
 
 // MARK: - Private methods
-private extension CreateCommand {
+private extension CreateRIBsCommand {
     func createDirectory() {
         print("ディレクトリ作成開始")
         let filePath = targetDirectory + "/\(target)"
@@ -88,7 +88,7 @@ private extension CreateCommand {
 }
 
 // MARK: - execute methods
-private extension CreateCommand {
+private extension CreateRIBsCommand {
     func readText(from path: String) -> String {
         do {
             return try String(contentsOf: URL(fileURLWithPath: path), encoding: .utf8)
