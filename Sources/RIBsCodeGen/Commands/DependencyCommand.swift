@@ -86,6 +86,7 @@ private extension DependencyCommand {
 
     func resolveDependencyForBuilder() {
         addChildDependency(parentBuilderPath: parentBuilderPath)
+        addChildBuilderInitialize(parentBuilderPath: parentBuilderPath)
         addChildBuilderToRouterInit(parentBuilderPath: parentBuilderPath)
 
         // フォーマットして保存
@@ -268,7 +269,35 @@ private extension DependencyCommand {
             var text = try String.init(contentsOfFile: parentBuilderPath, encoding: .utf8)
             let dependencyInsertIndex = text.utf8.index(text.startIndex, offsetBy: insertPosition)
             text.insert(contentsOf: ",\n\("\(parent)Dependency\(child)") ", at: dependencyInsertIndex)
-            write(text: text, toPath: parentRouterPath)
+            write(text: text, toPath: parentBuilderPath)
+        } catch {
+            print(error)
+        }
+    }
+
+    func addChildBuilderInitialize(parentBuilderPath: String) {
+        let parentBuilderFile = File(path: parentBuilderPath)!
+        let parentBuilderFileStructure = try! Structure(file: parentBuilderFile)
+
+        let parentBuilderClasses = parentBuilderFileStructure.dictionary
+            .getSubStructures()
+            .filterByKeyKind(.class)
+
+        guard let parentBuilderClass = parentBuilderClasses.filterByKeyName("\(parent)Builder").first else {
+            print("class \(parent)Builder が見つかりません。")
+            return
+        }
+
+        let initStructure = parentBuilderClass.getSubStructures().extractByKeyName("build")
+        let parentRouter = initStructure.getSubStructures().filterByKeyKind(.call).extractByKeyName("\(parent)Router")
+
+        let insertPosition = parentRouter.getOuterLeadingPosition() - "return ".count
+
+        do {
+            var text = try String.init(contentsOfFile: parentBuilderPath, encoding: .utf8)
+            let dependencyInsertIndex = text.utf8.index(text.startIndex, offsetBy: insertPosition)
+            text.insert(contentsOf: "let \(child.lowercasedFirstLetter())Builder = \(child)Builder(component: dependency)\n", at: dependencyInsertIndex)
+            write(text: text, toPath: parentBuilderPath)
         } catch {
             print(error)
         }
@@ -289,7 +318,6 @@ private extension DependencyCommand {
 
         let initStructure = parentBuilderClass.getSubStructures().extractByKeyName("build")
         let parentRouter = initStructure.getSubStructures().filterByKeyKind(.call).extractByKeyName("\(parent)Router")
-        print("return 直前を確認する", parentRouter.bridge())
 
         let insertPosition = parentRouter.getInnerTrailingPosition()
 
@@ -297,7 +325,7 @@ private extension DependencyCommand {
             var text = try String.init(contentsOfFile: parentBuilderPath, encoding: .utf8)
             let dependencyInsertIndex = text.utf8.index(text.startIndex, offsetBy: insertPosition)
             text.insert(contentsOf: ", \n\(child.lowercasedFirstLetter())Builder: \(child.lowercasedFirstLetter())Builder", at: dependencyInsertIndex)
-            write(text: text, toPath: parentRouterPath)
+            write(text: text, toPath: parentBuilderPath)
         } catch {
             print(error)
         }
