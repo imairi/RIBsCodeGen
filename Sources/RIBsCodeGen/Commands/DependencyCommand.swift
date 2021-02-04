@@ -350,7 +350,7 @@ private extension DependencyCommand {
         do {
             print(text)
             print("... 書き込み中 ...")
-//            try text.write(to: URL(fileURLWithPath: path), atomically: true, encoding: .utf8)
+            try text.write(to: URL(fileURLWithPath: path), atomically: true, encoding: .utf8)
             print("... 書き込み完了 ...")
         } catch {
             print("書き込みエラー", error)

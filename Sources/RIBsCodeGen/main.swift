@@ -60,7 +60,8 @@ func makeCommand(commandLineArguments: [String]) -> Command {
                                          parent: parent,
                                          child: child)
         _ = command.run()
-        return DependencyCommand(paths: paths, parent: parent, child: child)
+        let paths2 = allSwiftSourcePaths(directoryPath: targetDirectory)
+        return DependencyCommand(paths: paths2, parent: parent, child: child)
     }
 }
 
