@@ -61,6 +61,7 @@ struct DependencyCommand: Command {
     
     func run() -> Result {
         resolveDependencyForRouter()
+        resolveDependencyForBuilder()
         return .success(message: "dependency completed")
     }
 }
@@ -82,9 +83,18 @@ private extension DependencyCommand {
             write(text: formattedText, toPath: parentRouterPath)
         }
     }
+
+    func resolveDependencyForBuilder() {
+        addChildDependency(parentBuilderPath: parentBuilderPath)
+
+        // フォーマットして保存
+        if let formattedText = format(path: parentBuilderPath) {
+            write(text: formattedText, toPath: parentBuilderPath)
+        }
+    }
 }
 
-// MARK: - Private methods
+// MARK: - Private methods for Router
 private extension DependencyCommand {
     func addChildListenerIfNeeded(parentRouterPath: String) {
         let parentRouterFile = File(path: parentRouterPath)!
@@ -226,6 +236,43 @@ private extension DependencyCommand {
         } catch {
             print(error)
         }
+    }
+}
+
+// MARK: - Private methods for Builder
+private extension DependencyCommand {
+    func addChildDependency(parentBuilderPath: String) {
+        let parentBuilderFile = File(path: parentBuilderPath)!
+        let parentBuilderFileStructure = try! Structure(file: parentBuilderFile)
+
+        let parentBuilderDependencies = parentBuilderFileStructure.dictionary
+            .getSubStructures()
+            .filterByKeyKind(.protocol)
+            .filterByKeyName("\(parent)Dependency")
+
+        guard let parentBuilderDependency = parentBuilderDependencies.first else {
+            print("\(parent)Dependency が見つかりません。")
+            return
+        }
+
+        let shouldAddDependency = parentBuilderDependency.getInheritedTypes().filterByKeyName("\(parent)Dependency\(child)").isEmpty
+
+        guard shouldAddDependency else {
+            print("\(parent)Dependency\(child)は存在する。")
+            return
+        }
+
+        let insertPosition = parentBuilderDependency.getInnerTrailingPosition() - 2
+
+        do {
+            var text = try String.init(contentsOfFile: parentBuilderPath, encoding: .utf8)
+            let dependencyInsertIndex = text.utf8.index(text.startIndex, offsetBy: insertPosition)
+            text.insert(contentsOf: ",\n\("\(parent)Dependency\(child)") ", at: dependencyInsertIndex)
+            write(text: text, toPath: parentRouterPath)
+        } catch {
+            print(error)
+        }
+
     }
 }
 
