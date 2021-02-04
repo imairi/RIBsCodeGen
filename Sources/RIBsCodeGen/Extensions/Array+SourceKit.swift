@@ -60,7 +60,7 @@ extension Collection where Iterator.Element == [String: SourceKitRepresentable] 
     func filterByKeyTypeName(_ targetTypeName: String) -> [[String: SourceKitRepresentable]] {
         let targetStructures = self.filter { structure -> Bool in
             let keyTypeName = structure["key.typename"] as? String ?? ""
-            return keyTypeName.contains(targetTypeName) // test(), test2() などで誤検知あり
+            return keyTypeName.contains(targetTypeName)
         }
         return targetStructures
     }
