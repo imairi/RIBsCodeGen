@@ -147,37 +147,10 @@ struct DependencyCommand: Command {
         let parentRouterFileStructure = try! Structure(file: parentRouterFile)
 //        print(parentRouterStructure)
 
-        let parentRouterStructures = getSubStructures(from: parentRouterFileStructure,
-                                                  targetKind: .class,
-                                                  targetKeyName: "\(parent)Router")
-
-        var hasChildBuilder = false
-
-        for parentRouterStructure in parentRouterStructures {
-            guard let kind = getDeclarationKind(from: parentRouterStructure) else {
-                continue
-            }
-
-            // var instance のみを取り出す
-            guard [.varInstance].contains(kind) else {
-                continue
-            }
-
-            let keyName = getKeyName(from: parentRouterStructure)
-            guard let keyTypeName = parentRouterStructure["key.typename"] as? String else {
-                continue
-            }
-
-            print("Router instance -> ", keyName)
-            print("Router instance type -> ", keyTypeName)
-
-            // 子 RIB の Builder がプロパティとして含まれているかチェックする
-            // private let updateAccountBuilder: UpdateAccountBuildable のようなものが入っているかチェック
-            if keyTypeName == "\(child)Buildable" {
-                hasChildBuilder = true
-            }
-        }
-
+        let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().filterByKeyName("\(parent)Router")
+        let varInstanceArray = parentRouterStructure.getSubStructures().filterByKeyKind(.varInstance)
+        let childBuildableInstanceArray = varInstanceArray.filterByKeyTypeName("\(child)Buildable")
+        let hasChildBuilder = !childBuildableInstanceArray.isEmpty
         print("\(parent)Router は \(child)Builder を保持しているか→", hasChildBuilder)
         return hasChildBuilder
     }
@@ -365,6 +338,14 @@ extension Collection where Iterator.Element == [String: SourceKitRepresentable] 
             }
             let kind = SwiftDeclarationKind(rawValue: kindValue)
             return kind == targetKind
+        }
+        return targetStructures
+    }
+
+    func filterByKeyTypeName(_ targetTypeName: String) -> [[String: SourceKitRepresentable]] {
+        let targetStructures = self.filter { structure -> Bool in
+            let keyTypeName = structure["key.typename"] as? String ?? ""
+            return keyTypeName.contains(targetTypeName) // test(), test2() などで誤検知あり
         }
         return targetStructures
     }
