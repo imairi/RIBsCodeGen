@@ -10,10 +10,15 @@ import SourceKittenFramework
 import Rainbow
 
 struct DependencyCommand: Command {
-
-    private var structures: [Structure]?
     private let parent: String
     private let child: String
+
+    private let parentInteractorPath: String
+    private let parentRouterPath: String
+    private let parentBuilderPath: String
+    private let childInteractorPath: String
+    private let childRouterPath: String
+    private let childBuilderPath: String
 
     init(paths: [String], parent: String, child: String) {
         print("")
@@ -22,73 +27,61 @@ struct DependencyCommand: Command {
         self.parent = parent
         self.child = child
         
-        var parentInteractorPath: String?
-        paths.forEach { string in
-            if string.contains(parent + "Interactor.swift") {
-                parentInteractorPath = string
-            }
-        }
-        var parentRouterPath: String?
-        paths.forEach { string in
-            if string.contains(parent + "Router.swift") {
-                parentRouterPath = string
-            }
-        }
-        var parentBuilderPath: String?
-        paths.forEach { string in
-            if string.contains(parent + "Builder.swift") {
-                parentBuilderPath = string
-            }
-        }
-        var childInteractorPath: String?
-        paths.forEach { string in
-            if string.contains(child + "Interactor.swift") {
-                childInteractorPath = string
-            }
-        }
-        var childRouterPath: String?
-        paths.forEach { string in
-            if string.contains(child + "Router.swift") {
-                childRouterPath = string
-            }
-        }
-        var childBuilderPath: String?
-        paths.forEach { string in
-            if string.contains(child + "Builder.swift") {
-                childBuilderPath = string
-            }
-        }
-        print(parentInteractorPath ?? "nil")
-        print(parentRouterPath ?? "nil")
-        print(parentBuilderPath ?? "nil")
-        print(childInteractorPath ?? "nil")
-        print(childRouterPath ?? "nil")
-        print(childBuilderPath ?? "nil")
-        structures = nil
-
-        addChildListenerIfNeeded(parentRouterPath: parentRouterPath!)
-
-        if !hasChildBuilder(parentRouterPath: parentRouterPath!) {
-            addChildBuilderProperty(parentRouterPath: parentRouterPath!)
-            addChildBuilderArgument(parentRouterPath: parentRouterPath!)
-            addChildBuilderInitialize(parentRouterPath: parentRouterPath!)
-            removeRouterInitializeOverrideAttribute(parentRouterPath: parentRouterPath!)
+        guard let parentInteractorPath = paths.filter({ $0.contains(parent + "Interactor.swift") }).first else {
+            fatalError("\(parent)Interactor.swift が見つかりません。")
         }
 
-        // フォーマットして保存
-        if let formattedText = format(path: parentRouterPath!) {
-            write(text: formattedText, toPath: parentRouterPath!)
+        guard let parentRouterPath = paths.filter({ $0.contains(parent + "Router.swift") }).first else {
+            fatalError("\(parent)Router.swift が見つかりません。")
         }
+
+        guard let parentBuilderPath = paths.filter({ $0.contains(parent + "Builder.swift") }).first else {
+            fatalError("\(parent)Builder.swift が見つかりません。")
+        }
+
+        guard let childInteractorPath = paths.filter({ $0.contains(child + "Interactor.swift") }).first else {
+            fatalError("\(child)Interactor.swift が見つかりません。")
+        }
+
+        guard let childRouterPath = paths.filter({ $0.contains(child + "Router.swift") }).first else {
+            fatalError("\(child)Router.swift が見つかりません。")
+        }
+
+        guard let childBuilderPath = paths.filter({ $0.contains(child + "Builder.swift") }).first else {
+            fatalError("\(child)Builder.swift が見つかりません。")
+        }
+
+        self.parentInteractorPath = parentInteractorPath
+        self.parentRouterPath = parentRouterPath
+        self.parentBuilderPath = parentBuilderPath
+        self.childInteractorPath = childInteractorPath
+        self.childRouterPath = childRouterPath
+        self.childBuilderPath = childBuilderPath
     }
     
     func run() -> Result {
+        addChildListenerIfNeeded(parentRouterPath: parentRouterPath)
+
+        if !hasChildBuilder(parentRouterPath: parentRouterPath) {
+            addChildBuilderProperty(parentRouterPath: parentRouterPath)
+            addChildBuilderArgument(parentRouterPath: parentRouterPath)
+            addChildBuilderInitialize(parentRouterPath: parentRouterPath)
+            removeRouterInitializeOverrideAttribute(parentRouterPath: parentRouterPath)
+        }
+
+        // フォーマットして保存
+        if let formattedText = format(path: parentRouterPath) {
+            write(text: formattedText, toPath: parentRouterPath)
+        }
         return .success(message: "dependency completed")
     }
+}
 
+// MARK: - Private
+private extension DependencyCommand {
     func addChildListenerIfNeeded(parentRouterPath: String) {
         let parentRouterFile = File(path: parentRouterPath)!
         let parentRouterFileStructure = try! Structure(file: parentRouterFile)
-//        print(parentRouterStructure)
 
         let interactables = parentRouterFileStructure.dictionary
             .getSubStructures()
@@ -120,7 +113,6 @@ struct DependencyCommand: Command {
     func hasChildBuilder(parentRouterPath: String) -> Bool {
         let parentRouterFile = File(path: parentRouterPath)!
         let parentRouterFileStructure = try! Structure(file: parentRouterFile)
-//        print(parentRouterStructure)
 
         let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().extractByKeyName("\(parent)Router")
         let varInstanceArray = parentRouterStructure.getSubStructures().filterByKeyKind(.varInstance)
@@ -133,7 +125,6 @@ struct DependencyCommand: Command {
     func addChildBuilderProperty(parentRouterPath: String) {
         let parentRouterFile = File(path: parentRouterPath)!
         let parentRouterFileStructure = try! Structure(file: parentRouterFile)
-//        print(parentRouterStructure)
 
         let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().extractByKeyName("\(parent)Router")
         let initLeadingPosition = parentRouterStructure.getInnerLeadingPosition()
@@ -154,7 +145,6 @@ struct DependencyCommand: Command {
     func addChildBuilderArgument(parentRouterPath: String) {
         let parentRouterFile = File(path: parentRouterPath)!
         let parentRouterFileStructure = try! Structure(file: parentRouterFile)
-        print(parentRouterFileStructure.dictionary.bridge())
 
         let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().extractByKeyName("\(parent)Router")
         let initStructure = parentRouterStructure.getSubStructures().extractByKeyName("init")
@@ -186,7 +176,6 @@ struct DependencyCommand: Command {
     func removeRouterInitializeOverrideAttribute(parentRouterPath: String) {
         let parentRouterFile = File(path: parentRouterPath)!
         let parentRouterFileStructure = try! Structure(file: parentRouterFile)
-        print(parentRouterFileStructure.dictionary.bridge())
 
         let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().extractByKeyName("\(parent)Router")
         let initStructure = parentRouterStructure.getSubStructures().extractByKeyName("init")
@@ -212,10 +201,8 @@ struct DependencyCommand: Command {
     }
 
     func addChildBuilderInitialize(parentRouterPath: String) {
-
         let parentRouterFile = File(path: parentRouterPath)!
         let parentRouterFileStructure = try! Structure(file: parentRouterFile)
-//        print(parentRouterFileStructure)
 
         let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().extractByKeyName("\(parent)Router")
         let initStructure = parentRouterStructure.getSubStructures().extractByKeyName("init")
