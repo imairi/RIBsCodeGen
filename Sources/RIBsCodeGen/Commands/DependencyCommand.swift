@@ -263,12 +263,12 @@ private extension DependencyCommand {
             return
         }
 
-        let insertPosition = parentBuilderDependency.getInnerTrailingPosition() - 2
+        let insertPosition = parentBuilderDependency.getInnerTrailingPosition() - 3
 
         do {
             var text = try String.init(contentsOfFile: parentBuilderPath, encoding: .utf8)
             let dependencyInsertIndex = text.utf8.index(text.startIndex, offsetBy: insertPosition)
-            text.insert(contentsOf: ",\n\("\(parent)Dependency\(child)") ", at: dependencyInsertIndex)
+            text.insert(contentsOf: ",\n\("\(parent)Dependency\(child)")", at: dependencyInsertIndex)
             write(text: text, toPath: parentBuilderPath)
         } catch {
             print(error)
