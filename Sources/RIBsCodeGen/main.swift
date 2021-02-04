@@ -50,7 +50,14 @@ func makeCommand(commandLineArguments: [String]) -> Command {
     case "version":
         return VersionCommand(version: version)
     default:
-        let paths = allSwiftSourcePaths(directoryPath: "/Users/imairiyousuke/git/RIBsCodeGen/Sample")
+        let targetDirectory = "/Users/imairiyousuke/git/RIBsCodeGen/Sample"
+        let paths = allSwiftSourcePaths(directoryPath: targetDirectory)
+        let command = CreateCommand.init(paths: paths,
+                                         targetDirectory: targetDirectory,
+                                         templateDirectory: "/Users/imairiyousuke/git/RIBsCodeGen/Templates",
+                                         parent: "Test",
+                                         child: "TestChild")
+        _ = command.run()
         return DependencyCommand(paths: paths, parent: "SampleParent", child: "SampleChild")
     }
 }
