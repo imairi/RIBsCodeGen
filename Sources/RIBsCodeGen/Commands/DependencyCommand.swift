@@ -87,50 +87,25 @@ struct DependencyCommand: Command {
 
     func addChildListenerIfNeeded(parentRouterPath: String) {
         let parentRouterFile = File(path: parentRouterPath)!
-        let parentRouterStructure = try! Structure(file: parentRouterFile)
+        let parentRouterFileStructure = try! Structure(file: parentRouterFile)
 //        print(parentRouterStructure)
 
-        // key.substructure はソースコードの class, protocol などの一塊の集まり。
-        let substructures = getSubStructures(from: parentRouterStructure.dictionary)
+        let interactables = parentRouterFileStructure.dictionary
+            .getSubStructures()
+            .filterByKeyKind(.protocol)
+            .filterByKeyName("\(parent)Interactable")
 
-        var isConformsToChild = false
-        var insertPosition = 0
-
-        for substructure in substructures {
-            let kind = getDeclarationKind(from: substructure)
-            let keyName = getKeyName(from: substructure)
-
-            // Interactable に ChildListener を付与するかどうかの判定
-            if kind == .some(.protocol) , keyName == "\(parent)Interactable" {
-                print("Interactable 準拠しているものを確認する")
-                if let inheritedTypes = substructure["key.inheritedtypes"] as? [[String: SourceKitRepresentable]] {
-                    for inheritedType in inheritedTypes {
-                        guard let inheritedTypeName = inheritedType["key.name"] as? String else {
-                            continue
-                        }
-                        print("inheritedTypeName: \(inheritedTypeName)") // 準拠している Protocol 一覧
-                        if inheritedTypeName.contains(child + "Listener") {
-                            isConformsToChild = true
-                        }
-                    }
-                }
-                print("\(parent) は \(child) に準拠しているか→", isConformsToChild)
-
-                if let elements = substructure["key.elements"] as? [[String: SourceKitRepresentable]],
-                   let lastElement = elements.last {
-                    guard let keyLength = lastElement["key.length"] as? Int64,
-                          let keyOffset = lastElement["key.offset"] as? Int64 else {
-                        continue
-                    }
-
-                    insertPosition = Int(keyOffset + keyLength) // ファイルの最初からこの数の箇所に挿入する
-                    print("insertPosition:", insertPosition)
-                }
-            }
+        guard let interactable = interactables.first else {
+            print("\(parent)Interactable がありません。")
+            return
         }
 
+        let inheritedTypes = interactable.getInheritedTypes()
+        let isConformsToChildListener = !inheritedTypes.filterByKeyName("\(child)Listener").isEmpty
+        let insertPosition = interactable.getInnerLeadingPosition() - 2
+
         do {
-            if !isConformsToChild { // 親RouterのInteractableを、ChildListener に準拠させる
+            if !isConformsToChildListener { // 親RouterのInteractableを、ChildListener に準拠させる
                 var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
                 let insertIndex = text.utf8.index(text.startIndex, offsetBy: insertPosition)
                 text.insert(contentsOf: ",\n \(child)Listener", at: insertIndex)
@@ -147,7 +122,7 @@ struct DependencyCommand: Command {
         let parentRouterFileStructure = try! Structure(file: parentRouterFile)
 //        print(parentRouterStructure)
 
-        let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().filterByKeyName("\(parent)Router")
+        let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().extractByKeyName("\(parent)Router")
         let varInstanceArray = parentRouterStructure.getSubStructures().filterByKeyKind(.varInstance)
         let childBuildableInstanceArray = varInstanceArray.filterByKeyTypeName("\(child)Buildable")
         let hasChildBuilder = !childBuildableInstanceArray.isEmpty
@@ -160,7 +135,7 @@ struct DependencyCommand: Command {
         let parentRouterFileStructure = try! Structure(file: parentRouterFile)
 //        print(parentRouterStructure)
 
-        let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().filterByKeyName("\(parent)Router")
+        let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().extractByKeyName("\(parent)Router")
         let initLeadingPosition = parentRouterStructure.getInnerLeadingPosition()
 
         print("initLeadingPosition", initLeadingPosition)
@@ -181,8 +156,8 @@ struct DependencyCommand: Command {
         let parentRouterFileStructure = try! Structure(file: parentRouterFile)
         print(parentRouterFileStructure.dictionary.bridge())
 
-        let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().filterByKeyName("\(parent)Router")
-        let initStructure = parentRouterStructure.getSubStructures().filterByKeyName("init")
+        let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().extractByKeyName("\(parent)Router")
+        let initStructure = parentRouterStructure.getSubStructures().extractByKeyName("init")
         let initArguments = initStructure.getSubStructures().filterByKeyKind(.varParameter)
 
         var initArgumentEndPosition = 0
@@ -213,8 +188,8 @@ struct DependencyCommand: Command {
         let parentRouterFileStructure = try! Structure(file: parentRouterFile)
         print(parentRouterFileStructure.dictionary.bridge())
 
-        let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().filterByKeyName("\(parent)Router")
-        let initStructure = parentRouterStructure.getSubStructures().filterByKeyName("init")
+        let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().extractByKeyName("\(parent)Router")
+        let initStructure = parentRouterStructure.getSubStructures().extractByKeyName("init")
         let attributes = initStructure.getAttributes()
         let shouldRemoveOverrideAttribute = !attributes.filterByAttribute(.override).isEmpty
 
@@ -242,9 +217,9 @@ struct DependencyCommand: Command {
         let parentRouterFileStructure = try! Structure(file: parentRouterFile)
 //        print(parentRouterFileStructure)
 
-        let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().filterByKeyName("\(parent)Router")
-        let initStructure = parentRouterStructure.getSubStructures().filterByKeyName("init")
-        let superInitStructure = initStructure.getSubStructures().filterByKeyName("super.init")
+        let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().extractByKeyName("\(parent)Router")
+        let initStructure = parentRouterStructure.getSubStructures().extractByKeyName("init")
+        let superInitStructure = initStructure.getSubStructures().extractByKeyName("super.init")
         let superInitStartPosition = superInitStructure.getOuterLeadingPosition()
 
         do {
@@ -313,12 +288,20 @@ extension DependencyCommand {
 }
 
 extension Collection where Iterator.Element == [String: SourceKitRepresentable] {
-    func filterByKeyName(_ targetKeyName: String) -> [String: SourceKitRepresentable] {
+    func extractByKeyName(_ targetKeyName: String) -> [String: SourceKitRepresentable] {
         let targetStructures = self.filter { structure -> Bool in
             let keyName = structure["key.name"] as? String ?? ""
             return keyName.contains(targetKeyName) // test(), test2() などで誤検知あり
         }
         return targetStructures.first ?? [String: SourceKitRepresentable]()
+    }
+
+    func filterByKeyName(_ targetKeyName: String) -> [[String: SourceKitRepresentable]] {
+        let targetStructures = self.filter { structure -> Bool in
+            let keyName = structure["key.name"] as? String ?? ""
+            return keyName.contains(targetKeyName)
+        }
+        return targetStructures
     }
 
     func filterByAttribute(_ targetKind: SwiftDeclarationAttributeKind) -> [[String: SourceKitRepresentable]] {
@@ -368,6 +351,20 @@ extension Dictionary where Key == String {
             return [[String: SourceKitRepresentable]]()
         }
         return attributes
+    }
+
+    func getInheritedTypes() -> [[String: SourceKitRepresentable]] {
+        guard let inheritedtypes = self["key.inheritedtypes"] as? [[String: SourceKitRepresentable]] else {
+            return [[String: SourceKitRepresentable]]()
+        }
+        return inheritedtypes
+    }
+
+    func getElements() -> [[String: SourceKitRepresentable]] {
+        guard let elements = self["key.elements"] as? [[String: SourceKitRepresentable]] else {
+            return [[String: SourceKitRepresentable]]()
+        }
+        return elements
     }
 
     func getSubStructures() -> [[String: SourceKitRepresentable]] {
