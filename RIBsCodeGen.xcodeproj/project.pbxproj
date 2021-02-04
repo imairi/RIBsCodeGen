@@ -1,3254 +1,2219 @@
 // !$*UTF8*$!
 {
-   archiveVersion = "1";
-   objectVersion = "46";
-   objects = {
-      "OBJ_1" = {
-         isa = "PBXProject";
-         attributes = {
-            LastSwiftMigration = "9999";
-            LastUpgradeCheck = "9999";
-         };
-         buildConfigurationList = "OBJ_2";
-         compatibilityVersion = "Xcode 3.2";
-         developmentRegion = "en";
-         hasScannedForEncodings = "0";
-         knownRegions = (
-            "en"
-         );
-         mainGroup = "OBJ_5";
-         productRefGroup = "OBJ_137";
-         projectDirPath = ".";
-         targets = (
-            "Yams::CYaml",
-            "SourceKitten::Clang_C",
-            "PathKit::PathKit",
-            "PathKit::SwiftPMPackageDescription",
-            "RIBsCodeGen::RIBsCodeGen",
-            "RIBsCodeGen::SwiftPMPackageDescription",
-            "Rainbow::Rainbow",
-            "Rainbow::SwiftPMPackageDescription",
-            "SWXMLHash::SWXMLHash",
-            "SWXMLHash::SwiftPMPackageDescription",
-            "SourceKitten::SourceKit",
-            "SourceKitten::SourceKittenFramework",
-            "SourceKitten::SwiftPMPackageDescription",
-            "Yams::Yams",
-            "Yams::SwiftPMPackageDescription"
-         );
-      };
-      "OBJ_10" = {
-         isa = "PBXFileReference";
-         path = "Command.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_100" = {
-         isa = "PBXGroup";
-         children = (
-         );
-         name = "sourcekitten";
-         path = ".build/checkouts/SourceKitten/Source/sourcekitten";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_101" = {
-         isa = "PBXFileReference";
-         explicitFileType = "sourcecode.swift";
-         name = "Package.swift";
-         path = "/Users/imairiyousuke/git/RIBsCodeGen/.build/checkouts/SourceKitten/Package.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_102" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_103",
-            "OBJ_114",
-            "OBJ_131"
-         );
-         name = "Yams 2.0.0";
-         path = "";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_103" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_104",
-            "OBJ_111"
-         );
-         name = "CYaml";
-         path = ".build/checkouts/Yams/Sources/CYaml";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_104" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_105",
-            "OBJ_106",
-            "OBJ_107",
-            "OBJ_108",
-            "OBJ_109",
-            "OBJ_110"
-         );
-         name = "src";
-         path = "src";
-         sourceTree = "<group>";
-      };
-      "OBJ_105" = {
-         isa = "PBXFileReference";
-         path = "api.c";
-         sourceTree = "<group>";
-      };
-      "OBJ_106" = {
-         isa = "PBXFileReference";
-         path = "emitter.c";
-         sourceTree = "<group>";
-      };
-      "OBJ_107" = {
-         isa = "PBXFileReference";
-         path = "parser.c";
-         sourceTree = "<group>";
-      };
-      "OBJ_108" = {
-         isa = "PBXFileReference";
-         path = "reader.c";
-         sourceTree = "<group>";
-      };
-      "OBJ_109" = {
-         isa = "PBXFileReference";
-         path = "scanner.c";
-         sourceTree = "<group>";
-      };
-      "OBJ_11" = {
-         isa = "PBXFileReference";
-         path = "DependencyCommand.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_110" = {
-         isa = "PBXFileReference";
-         path = "writer.c";
-         sourceTree = "<group>";
-      };
-      "OBJ_111" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_112",
-            "OBJ_113"
-         );
-         name = "include";
-         path = "include";
-         sourceTree = "<group>";
-      };
-      "OBJ_112" = {
-         isa = "PBXFileReference";
-         path = "CYaml.h";
-         sourceTree = "<group>";
-      };
-      "OBJ_113" = {
-         isa = "PBXFileReference";
-         path = "yaml.h";
-         sourceTree = "<group>";
-      };
-      "OBJ_114" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_115",
-            "OBJ_116",
-            "OBJ_117",
-            "OBJ_118",
-            "OBJ_119",
-            "OBJ_120",
-            "OBJ_121",
-            "OBJ_122",
-            "OBJ_123",
-            "OBJ_124",
-            "OBJ_125",
-            "OBJ_126",
-            "OBJ_127",
-            "OBJ_128",
-            "OBJ_129",
-            "OBJ_130"
-         );
-         name = "Yams";
-         path = ".build/checkouts/Yams/Sources/Yams";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_115" = {
-         isa = "PBXFileReference";
-         path = "Constructor.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_116" = {
-         isa = "PBXFileReference";
-         path = "Decoder.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_117" = {
-         isa = "PBXFileReference";
-         path = "Emitter.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_118" = {
-         isa = "PBXFileReference";
-         path = "Encoder.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_119" = {
-         isa = "PBXFileReference";
-         path = "Mark.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_12" = {
-         isa = "PBXFileReference";
-         path = "HelpCommand.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_120" = {
-         isa = "PBXFileReference";
-         path = "Node.Mapping.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_121" = {
-         isa = "PBXFileReference";
-         path = "Node.Scalar.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_122" = {
-         isa = "PBXFileReference";
-         path = "Node.Sequence.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_123" = {
-         isa = "PBXFileReference";
-         path = "Node.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_124" = {
-         isa = "PBXFileReference";
-         path = "Parser.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_125" = {
-         isa = "PBXFileReference";
-         path = "Representer.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_126" = {
-         isa = "PBXFileReference";
-         path = "Resolver.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_127" = {
-         isa = "PBXFileReference";
-         path = "String+Yams.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_128" = {
-         isa = "PBXFileReference";
-         path = "Tag.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_129" = {
-         isa = "PBXFileReference";
-         path = "YamlError.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_13" = {
-         isa = "PBXFileReference";
-         path = "VersionCommand.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_130" = {
-         isa = "PBXFileReference";
-         path = "shim.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_131" = {
-         isa = "PBXFileReference";
-         explicitFileType = "sourcecode.swift";
-         name = "Package.swift";
-         path = "/Users/imairiyousuke/git/RIBsCodeGen/.build/checkouts/Yams/Package.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_132" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_133",
-            "OBJ_134",
-            "OBJ_135",
-            "OBJ_136"
-         );
-         name = "SWXMLHash 5.0.1";
-         path = ".build/checkouts/SWXMLHash/Source";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_133" = {
-         isa = "PBXFileReference";
-         explicitFileType = "sourcecode.swift";
-         name = "Package.swift";
-         path = "/Users/imairiyousuke/git/RIBsCodeGen/.build/checkouts/SWXMLHash/Package.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_134" = {
-         isa = "PBXFileReference";
-         path = "SWXMLHash.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_135" = {
-         isa = "PBXFileReference";
-         path = "XMLIndexer+XMLIndexerDeserializable.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_136" = {
-         isa = "PBXFileReference";
-         path = "shim.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_137" = {
-         isa = "PBXGroup";
-         children = (
-            "SourceKitten::Clang_C::Product",
-            "PathKit::PathKit::Product",
-            "Yams::CYaml::Product",
-            "SourceKitten::SourceKit::Product",
-            "SourceKitten::SourceKittenFramework::Product",
-            "SWXMLHash::SWXMLHash::Product",
-            "Rainbow::Rainbow::Product",
-            "Yams::Yams::Product",
-            "RIBsCodeGen::RIBsCodeGen::Product"
-         );
-         name = "Products";
-         path = "";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "OBJ_14" = {
-         isa = "PBXFileReference";
-         path = "Error.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_147" = {
-         isa = "PBXFileReference";
-         path = "Sample";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_148" = {
-         isa = "PBXFileReference";
-         path = "LICENSE";
-         sourceTree = "<group>";
-      };
-      "OBJ_149" = {
-         isa = "PBXFileReference";
-         path = "README.md";
-         sourceTree = "<group>";
-      };
-      "OBJ_15" = {
-         isa = "PBXFileReference";
-         path = "Result.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_151" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_152",
-            "OBJ_153"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_152" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            CLANG_ENABLE_MODULES = "YES";
-            DEFINES_MODULE = "YES";
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(SRCROOT)/.build/checkouts/Yams/Sources/CYaml/include"
-            );
-            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/CYaml_Info.plist";
-            IPHONEOS_DEPLOYMENT_TARGET = "9.0";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
-            );
-            MACOSX_DEPLOYMENT_TARGET = "10.10";
-            OTHER_CFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)"
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "CYaml";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)"
-            );
-            TARGET_NAME = "CYaml";
-            TVOS_DEPLOYMENT_TARGET = "9.0";
-            WATCHOS_DEPLOYMENT_TARGET = "2.0";
-         };
-         name = "Debug";
-      };
-      "OBJ_153" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            CLANG_ENABLE_MODULES = "YES";
-            DEFINES_MODULE = "YES";
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(SRCROOT)/.build/checkouts/Yams/Sources/CYaml/include"
-            );
-            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/CYaml_Info.plist";
-            IPHONEOS_DEPLOYMENT_TARGET = "9.0";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
-            );
-            MACOSX_DEPLOYMENT_TARGET = "10.10";
-            OTHER_CFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)"
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "CYaml";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)"
-            );
-            TARGET_NAME = "CYaml";
-            TVOS_DEPLOYMENT_TARGET = "9.0";
-            WATCHOS_DEPLOYMENT_TARGET = "2.0";
-         };
-         name = "Release";
-      };
-      "OBJ_154" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_155",
-            "OBJ_156",
-            "OBJ_157",
-            "OBJ_158",
-            "OBJ_159",
-            "OBJ_160"
-         );
-      };
-      "OBJ_155" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_105";
-      };
-      "OBJ_156" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_106";
-      };
-      "OBJ_157" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_107";
-      };
-      "OBJ_158" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_108";
-      };
-      "OBJ_159" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_109";
-      };
-      "OBJ_16" = {
-         isa = "PBXFileReference";
-         path = "main.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_160" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_110";
-      };
-      "OBJ_161" = {
-         isa = "PBXHeadersBuildPhase";
-         files = (
-            "OBJ_162",
-            "OBJ_163"
-         );
-      };
-      "OBJ_162" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_112";
-         settings = {
-            ATTRIBUTES = (
-               "Public"
-            );
-         };
-      };
-      "OBJ_163" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_113";
-         settings = {
-            ATTRIBUTES = (
-               "Public"
-            );
-         };
-      };
-      "OBJ_164" = {
-         isa = "PBXFrameworksBuildPhase";
-         files = (
-         );
-      };
-      "OBJ_166" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_167",
-            "OBJ_168"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_167" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            CLANG_ENABLE_MODULES = "YES";
-            DEFINES_MODULE = "YES";
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(SRCROOT)/.build/checkouts/SourceKitten/Source/Clang_C/include"
-            );
-            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/Clang_C_Info.plist";
-            IPHONEOS_DEPLOYMENT_TARGET = "9.0";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
-            );
-            MACOSX_DEPLOYMENT_TARGET = "10.10";
-            OTHER_CFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)"
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "Clang-C";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)"
-            );
-            TARGET_NAME = "Clang_C";
-            TVOS_DEPLOYMENT_TARGET = "9.0";
-            WATCHOS_DEPLOYMENT_TARGET = "2.0";
-         };
-         name = "Debug";
-      };
-      "OBJ_168" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            CLANG_ENABLE_MODULES = "YES";
-            DEFINES_MODULE = "YES";
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(SRCROOT)/.build/checkouts/SourceKitten/Source/Clang_C/include"
-            );
-            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/Clang_C_Info.plist";
-            IPHONEOS_DEPLOYMENT_TARGET = "9.0";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
-            );
-            MACOSX_DEPLOYMENT_TARGET = "10.10";
-            OTHER_CFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)"
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "Clang-C";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)"
-            );
-            TARGET_NAME = "Clang_C";
-            TVOS_DEPLOYMENT_TARGET = "9.0";
-            WATCHOS_DEPLOYMENT_TARGET = "2.0";
-         };
-         name = "Release";
-      };
-      "OBJ_169" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_170"
-         );
-      };
-      "OBJ_17" = {
-         isa = "PBXGroup";
-         children = (
-         );
-         name = "Tests";
-         path = "";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_170" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_37";
-      };
-      "OBJ_171" = {
-         isa = "PBXHeadersBuildPhase";
-         files = (
-            "OBJ_172",
-            "OBJ_173",
-            "OBJ_174",
-            "OBJ_175",
-            "OBJ_176",
-            "OBJ_177",
-            "OBJ_178",
-            "OBJ_179"
-         );
-      };
-      "OBJ_172" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_39";
-         settings = {
-            ATTRIBUTES = (
-               "Public"
-            );
-         };
-      };
-      "OBJ_173" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_40";
-         settings = {
-            ATTRIBUTES = (
-               "Public"
-            );
-         };
-      };
-      "OBJ_174" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_41";
-         settings = {
-            ATTRIBUTES = (
-               "Public"
-            );
-         };
-      };
-      "OBJ_175" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_42";
-         settings = {
-            ATTRIBUTES = (
-               "Public"
-            );
-         };
-      };
-      "OBJ_176" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_43";
-         settings = {
-            ATTRIBUTES = (
-               "Public"
-            );
-         };
-      };
-      "OBJ_177" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_44";
-         settings = {
-            ATTRIBUTES = (
-               "Public"
-            );
-         };
-      };
-      "OBJ_178" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_45";
-         settings = {
-            ATTRIBUTES = (
-               "Public"
-            );
-         };
-      };
-      "OBJ_179" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_46";
-         settings = {
-            ATTRIBUTES = (
-               "Public"
-            );
-         };
-      };
-      "OBJ_18" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_19",
-            "OBJ_32",
-            "OBJ_35",
-            "OBJ_102",
-            "OBJ_132"
-         );
-         name = "Dependencies";
-         path = "";
-         sourceTree = "<group>";
-      };
-      "OBJ_180" = {
-         isa = "PBXFrameworksBuildPhase";
-         files = (
-         );
-      };
-      "OBJ_182" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_183",
-            "OBJ_184"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_183" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)"
-            );
-            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/PathKit_Info.plist";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
-            );
-            OTHER_CFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)"
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "PathKit";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)"
-            );
-            SWIFT_VERSION = "4.2";
-            TARGET_NAME = "PathKit";
-         };
-         name = "Debug";
-      };
-      "OBJ_184" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)"
-            );
-            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/PathKit_Info.plist";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
-            );
-            OTHER_CFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)"
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "PathKit";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)"
-            );
-            SWIFT_VERSION = "4.2";
-            TARGET_NAME = "PathKit";
-         };
-         name = "Release";
-      };
-      "OBJ_185" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_186"
-         );
-      };
-      "OBJ_186" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_34";
-      };
-      "OBJ_187" = {
-         isa = "PBXFrameworksBuildPhase";
-         files = (
-         );
-      };
-      "OBJ_189" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_190",
-            "OBJ_191"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_19" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_20",
-            "OBJ_21",
-            "OBJ_22",
-            "OBJ_23",
-            "OBJ_24",
-            "OBJ_25",
-            "OBJ_26",
-            "OBJ_27",
-            "OBJ_28",
-            "OBJ_29",
-            "OBJ_30",
-            "OBJ_31"
-         );
-         name = "Rainbow 3.1.5";
-         path = ".build/checkouts/Rainbow/Sources";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_190" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            LD = "/usr/bin/true";
-            OTHER_SWIFT_FLAGS = (
-               "-swift-version",
-               "4.2",
-               "-I",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2",
-               "-sdk",
-               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk",
-               "-package-description-version",
-               "4.2.0"
-            );
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Debug";
-      };
-      "OBJ_191" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            LD = "/usr/bin/true";
-            OTHER_SWIFT_FLAGS = (
-               "-swift-version",
-               "4.2",
-               "-I",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2",
-               "-sdk",
-               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk",
-               "-package-description-version",
-               "4.2.0"
-            );
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Release";
-      };
-      "OBJ_192" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_193"
-         );
-      };
-      "OBJ_193" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_33";
-      };
-      "OBJ_195" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_196",
-            "OBJ_197"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_196" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(SRCROOT)/.build/checkouts/Yams/Sources/CYaml/include",
-               "$(SRCROOT)/.build/checkouts/SourceKitten/Source/SourceKit/include",
-               "$(SRCROOT)/.build/checkouts/SourceKitten/Source/Clang_C/include"
-            );
-            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/RIBsCodeGen_Info.plist";
-            IPHONEOS_DEPLOYMENT_TARGET = "9.0";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
-               "@executable_path"
-            );
-            MACOSX_DEPLOYMENT_TARGET = "10.10";
-            OTHER_CFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)"
-            );
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)"
-            );
-            SWIFT_FORCE_DYNAMIC_LINK_STDLIB = "YES";
-            SWIFT_FORCE_STATIC_LINK_STDLIB = "NO";
-            SWIFT_VERSION = "5.0";
-            TARGET_NAME = "RIBsCodeGen";
-            TVOS_DEPLOYMENT_TARGET = "9.0";
-            WATCHOS_DEPLOYMENT_TARGET = "2.0";
-         };
-         name = "Debug";
-      };
-      "OBJ_197" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(SRCROOT)/.build/checkouts/Yams/Sources/CYaml/include",
-               "$(SRCROOT)/.build/checkouts/SourceKitten/Source/SourceKit/include",
-               "$(SRCROOT)/.build/checkouts/SourceKitten/Source/Clang_C/include"
-            );
-            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/RIBsCodeGen_Info.plist";
-            IPHONEOS_DEPLOYMENT_TARGET = "9.0";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
-               "@executable_path"
-            );
-            MACOSX_DEPLOYMENT_TARGET = "10.10";
-            OTHER_CFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)"
-            );
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)"
-            );
-            SWIFT_FORCE_DYNAMIC_LINK_STDLIB = "YES";
-            SWIFT_FORCE_STATIC_LINK_STDLIB = "NO";
-            SWIFT_VERSION = "5.0";
-            TARGET_NAME = "RIBsCodeGen";
-            TVOS_DEPLOYMENT_TARGET = "9.0";
-            WATCHOS_DEPLOYMENT_TARGET = "2.0";
-         };
-         name = "Release";
-      };
-      "OBJ_198" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_199",
-            "OBJ_200",
-            "OBJ_201",
-            "OBJ_202",
-            "OBJ_203",
-            "OBJ_204",
-            "OBJ_205"
-         );
-      };
-      "OBJ_199" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_10";
-      };
-      "OBJ_2" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_3",
-            "OBJ_4"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_20" = {
-         isa = "PBXFileReference";
-         explicitFileType = "sourcecode.swift";
-         name = "Package.swift";
-         path = "/Users/imairiyousuke/git/RIBsCodeGen/.build/checkouts/Rainbow/Package.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_200" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_11";
-      };
-      "OBJ_201" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_12";
-      };
-      "OBJ_202" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_13";
-      };
-      "OBJ_203" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_14";
-      };
-      "OBJ_204" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_15";
-      };
-      "OBJ_205" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_16";
-      };
-      "OBJ_206" = {
-         isa = "PBXFrameworksBuildPhase";
-         files = (
-            "OBJ_207",
-            "OBJ_208",
-            "OBJ_209",
-            "OBJ_210",
-            "OBJ_211",
-            "OBJ_212",
-            "OBJ_213",
-            "OBJ_214"
-         );
-      };
-      "OBJ_207" = {
-         isa = "PBXBuildFile";
-         fileRef = "Rainbow::Rainbow::Product";
-      };
-      "OBJ_208" = {
-         isa = "PBXBuildFile";
-         fileRef = "PathKit::PathKit::Product";
-      };
-      "OBJ_209" = {
-         isa = "PBXBuildFile";
-         fileRef = "SourceKitten::SourceKittenFramework::Product";
-      };
-      "OBJ_21" = {
-         isa = "PBXFileReference";
-         path = "BackgroundColor.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_210" = {
-         isa = "PBXBuildFile";
-         fileRef = "Yams::Yams::Product";
-      };
-      "OBJ_211" = {
-         isa = "PBXBuildFile";
-         fileRef = "Yams::CYaml::Product";
-      };
-      "OBJ_212" = {
-         isa = "PBXBuildFile";
-         fileRef = "SWXMLHash::SWXMLHash::Product";
-      };
-      "OBJ_213" = {
-         isa = "PBXBuildFile";
-         fileRef = "SourceKitten::SourceKit::Product";
-      };
-      "OBJ_214" = {
-         isa = "PBXBuildFile";
-         fileRef = "SourceKitten::Clang_C::Product";
-      };
-      "OBJ_215" = {
-         isa = "PBXTargetDependency";
-         target = "Rainbow::Rainbow";
-      };
-      "OBJ_217" = {
-         isa = "PBXTargetDependency";
-         target = "PathKit::PathKit";
-      };
-      "OBJ_218" = {
-         isa = "PBXTargetDependency";
-         target = "SourceKitten::SourceKittenFramework";
-      };
-      "OBJ_22" = {
-         isa = "PBXFileReference";
-         path = "CodesParser.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_220" = {
-         isa = "PBXTargetDependency";
-         target = "Yams::Yams";
-      };
-      "OBJ_222" = {
-         isa = "PBXTargetDependency";
-         target = "Yams::CYaml";
-      };
-      "OBJ_223" = {
-         isa = "PBXTargetDependency";
-         target = "SWXMLHash::SWXMLHash";
-      };
-      "OBJ_225" = {
-         isa = "PBXTargetDependency";
-         target = "SourceKitten::SourceKit";
-      };
-      "OBJ_227" = {
-         isa = "PBXTargetDependency";
-         target = "SourceKitten::Clang_C";
-      };
-      "OBJ_229" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_230",
-            "OBJ_231"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_23" = {
-         isa = "PBXFileReference";
-         path = "Color.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_230" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            LD = "/usr/bin/true";
-            OTHER_SWIFT_FLAGS = (
-               "-swift-version",
-               "5",
-               "-I",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2",
-               "-sdk",
-               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk",
-               "-package-description-version",
-               "5.1.0"
-            );
-            SWIFT_VERSION = "5.0";
-         };
-         name = "Debug";
-      };
-      "OBJ_231" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            LD = "/usr/bin/true";
-            OTHER_SWIFT_FLAGS = (
-               "-swift-version",
-               "5",
-               "-I",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2",
-               "-sdk",
-               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk",
-               "-package-description-version",
-               "5.1.0"
-            );
-            SWIFT_VERSION = "5.0";
-         };
-         name = "Release";
-      };
-      "OBJ_232" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_233"
-         );
-      };
-      "OBJ_233" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_6";
-      };
-      "OBJ_234" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_235",
-            "OBJ_236"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_235" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)"
-            );
-            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/Rainbow_Info.plist";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
-            );
-            OTHER_CFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)"
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "Rainbow";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)"
-            );
-            SWIFT_VERSION = "4.0";
-            TARGET_NAME = "Rainbow";
-         };
-         name = "Debug";
-      };
-      "OBJ_236" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)"
-            );
-            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/Rainbow_Info.plist";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
-            );
-            OTHER_CFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)"
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "Rainbow";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)"
-            );
-            SWIFT_VERSION = "4.0";
-            TARGET_NAME = "Rainbow";
-         };
-         name = "Release";
-      };
-      "OBJ_237" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_238",
-            "OBJ_239",
-            "OBJ_240",
-            "OBJ_241",
-            "OBJ_242",
-            "OBJ_243",
-            "OBJ_244",
-            "OBJ_245",
-            "OBJ_246",
-            "OBJ_247",
-            "OBJ_248"
-         );
-      };
-      "OBJ_238" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_21";
-      };
-      "OBJ_239" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_22";
-      };
-      "OBJ_24" = {
-         isa = "PBXFileReference";
-         path = "ControlCode.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_240" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_23";
-      };
-      "OBJ_241" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_24";
-      };
-      "OBJ_242" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_25";
-      };
-      "OBJ_243" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_26";
-      };
-      "OBJ_244" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_27";
-      };
-      "OBJ_245" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_28";
-      };
-      "OBJ_246" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_29";
-      };
-      "OBJ_247" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_30";
-      };
-      "OBJ_248" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_31";
-      };
-      "OBJ_249" = {
-         isa = "PBXFrameworksBuildPhase";
-         files = (
-         );
-      };
-      "OBJ_25" = {
-         isa = "PBXFileReference";
-         path = "ModesExtractor.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_251" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_252",
-            "OBJ_253"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_252" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            LD = "/usr/bin/true";
-            OTHER_SWIFT_FLAGS = (
-               "-swift-version",
-               "4",
-               "-I",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4",
-               "-sdk",
-               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk",
-               "-package-description-version",
-               "4.0.0"
-            );
-            SWIFT_VERSION = "4.0";
-         };
-         name = "Debug";
-      };
-      "OBJ_253" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            LD = "/usr/bin/true";
-            OTHER_SWIFT_FLAGS = (
-               "-swift-version",
-               "4",
-               "-I",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4",
-               "-sdk",
-               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk",
-               "-package-description-version",
-               "4.0.0"
-            );
-            SWIFT_VERSION = "4.0";
-         };
-         name = "Release";
-      };
-      "OBJ_254" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_255"
-         );
-      };
-      "OBJ_255" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_20";
-      };
-      "OBJ_256" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_257",
-            "OBJ_258"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_257" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)"
-            );
-            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/SWXMLHash_Info.plist";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
-            );
-            OTHER_CFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)"
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "SWXMLHash";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)"
-            );
-            SWIFT_VERSION = "4.0";
-            TARGET_NAME = "SWXMLHash";
-         };
-         name = "Debug";
-      };
-      "OBJ_258" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)"
-            );
-            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/SWXMLHash_Info.plist";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
-            );
-            OTHER_CFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)"
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "SWXMLHash";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)"
-            );
-            SWIFT_VERSION = "4.0";
-            TARGET_NAME = "SWXMLHash";
-         };
-         name = "Release";
-      };
-      "OBJ_259" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_260",
-            "OBJ_261",
-            "OBJ_262"
-         );
-      };
-      "OBJ_26" = {
-         isa = "PBXFileReference";
-         path = "OutputTarget.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_260" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_134";
-      };
-      "OBJ_261" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_135";
-      };
-      "OBJ_262" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_136";
-      };
-      "OBJ_263" = {
-         isa = "PBXFrameworksBuildPhase";
-         files = (
-         );
-      };
-      "OBJ_265" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_266",
-            "OBJ_267"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_266" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            LD = "/usr/bin/true";
-            OTHER_SWIFT_FLAGS = (
-               "-swift-version",
-               "4",
-               "-I",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4",
-               "-sdk",
-               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk",
-               "-package-description-version",
-               "4.0.0"
-            );
-            SWIFT_VERSION = "4.0";
-         };
-         name = "Debug";
-      };
-      "OBJ_267" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            LD = "/usr/bin/true";
-            OTHER_SWIFT_FLAGS = (
-               "-swift-version",
-               "4",
-               "-I",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4",
-               "-sdk",
-               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk",
-               "-package-description-version",
-               "4.0.0"
-            );
-            SWIFT_VERSION = "4.0";
-         };
-         name = "Release";
-      };
-      "OBJ_268" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_269"
-         );
-      };
-      "OBJ_269" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_133";
-      };
-      "OBJ_27" = {
-         isa = "PBXFileReference";
-         path = "Rainbow.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_270" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_271",
-            "OBJ_272"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_271" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            CLANG_ENABLE_MODULES = "YES";
-            DEFINES_MODULE = "YES";
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(SRCROOT)/.build/checkouts/SourceKitten/Source/SourceKit/include"
-            );
-            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/SourceKit_Info.plist";
-            IPHONEOS_DEPLOYMENT_TARGET = "9.0";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
-            );
-            MACOSX_DEPLOYMENT_TARGET = "10.10";
-            OTHER_CFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)"
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "SourceKit";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)"
-            );
-            TARGET_NAME = "SourceKit";
-            TVOS_DEPLOYMENT_TARGET = "9.0";
-            WATCHOS_DEPLOYMENT_TARGET = "2.0";
-         };
-         name = "Debug";
-      };
-      "OBJ_272" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            CLANG_ENABLE_MODULES = "YES";
-            DEFINES_MODULE = "YES";
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(SRCROOT)/.build/checkouts/SourceKitten/Source/SourceKit/include"
-            );
-            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/SourceKit_Info.plist";
-            IPHONEOS_DEPLOYMENT_TARGET = "9.0";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
-            );
-            MACOSX_DEPLOYMENT_TARGET = "10.10";
-            OTHER_CFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)"
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "SourceKit";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)"
-            );
-            TARGET_NAME = "SourceKit";
-            TVOS_DEPLOYMENT_TARGET = "9.0";
-            WATCHOS_DEPLOYMENT_TARGET = "2.0";
-         };
-         name = "Release";
-      };
-      "OBJ_273" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_274"
-         );
-      };
-      "OBJ_274" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_48";
-      };
-      "OBJ_275" = {
-         isa = "PBXHeadersBuildPhase";
-         files = (
-            "OBJ_276",
-            "OBJ_277"
-         );
-      };
-      "OBJ_276" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_50";
-         settings = {
-            ATTRIBUTES = (
-               "Public"
-            );
-         };
-      };
-      "OBJ_277" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_51";
-         settings = {
-            ATTRIBUTES = (
-               "Public"
-            );
-         };
-      };
-      "OBJ_278" = {
-         isa = "PBXFrameworksBuildPhase";
-         files = (
-         );
-      };
-      "OBJ_279" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_280",
-            "OBJ_281"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_28" = {
-         isa = "PBXFileReference";
-         path = "String+Rainbow.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_280" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(SRCROOT)/.build/checkouts/Yams/Sources/CYaml/include",
-               "$(SRCROOT)/.build/checkouts/SourceKitten/Source/SourceKit/include",
-               "$(SRCROOT)/.build/checkouts/SourceKitten/Source/Clang_C/include"
-            );
-            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/SourceKittenFramework_Info.plist";
-            IPHONEOS_DEPLOYMENT_TARGET = "9.0";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
-            );
-            MACOSX_DEPLOYMENT_TARGET = "10.10";
-            OTHER_CFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)"
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "SourceKittenFramework";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)"
-            );
-            SWIFT_VERSION = "5.0";
-            TARGET_NAME = "SourceKittenFramework";
-            TVOS_DEPLOYMENT_TARGET = "9.0";
-            WATCHOS_DEPLOYMENT_TARGET = "2.0";
-         };
-         name = "Debug";
-      };
-      "OBJ_281" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(SRCROOT)/.build/checkouts/Yams/Sources/CYaml/include",
-               "$(SRCROOT)/.build/checkouts/SourceKitten/Source/SourceKit/include",
-               "$(SRCROOT)/.build/checkouts/SourceKitten/Source/Clang_C/include"
-            );
-            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/SourceKittenFramework_Info.plist";
-            IPHONEOS_DEPLOYMENT_TARGET = "9.0";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
-            );
-            MACOSX_DEPLOYMENT_TARGET = "10.10";
-            OTHER_CFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)"
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "SourceKittenFramework";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)"
-            );
-            SWIFT_VERSION = "5.0";
-            TARGET_NAME = "SourceKittenFramework";
-            TVOS_DEPLOYMENT_TARGET = "9.0";
-            WATCHOS_DEPLOYMENT_TARGET = "2.0";
-         };
-         name = "Release";
-      };
-      "OBJ_282" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_283",
-            "OBJ_284",
-            "OBJ_285",
-            "OBJ_286",
-            "OBJ_287",
-            "OBJ_288",
-            "OBJ_289",
-            "OBJ_290",
-            "OBJ_291",
-            "OBJ_292",
-            "OBJ_293",
-            "OBJ_294",
-            "OBJ_295",
-            "OBJ_296",
-            "OBJ_297",
-            "OBJ_298",
-            "OBJ_299",
-            "OBJ_300",
-            "OBJ_301",
-            "OBJ_302",
-            "OBJ_303",
-            "OBJ_304",
-            "OBJ_305",
-            "OBJ_306",
-            "OBJ_307",
-            "OBJ_308",
-            "OBJ_309",
-            "OBJ_310",
-            "OBJ_311",
-            "OBJ_312",
-            "OBJ_313",
-            "OBJ_314",
-            "OBJ_315",
-            "OBJ_316",
-            "OBJ_317",
-            "OBJ_318",
-            "OBJ_319",
-            "OBJ_320",
-            "OBJ_321",
-            "OBJ_322",
-            "OBJ_323",
-            "OBJ_324",
-            "OBJ_325",
-            "OBJ_326",
-            "OBJ_327",
-            "OBJ_328",
-            "OBJ_329"
-         );
-      };
-      "OBJ_283" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_53";
-      };
-      "OBJ_284" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_54";
-      };
-      "OBJ_285" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_55";
-      };
-      "OBJ_286" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_56";
-      };
-      "OBJ_287" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_57";
-      };
-      "OBJ_288" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_58";
-      };
-      "OBJ_289" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_59";
-      };
-      "OBJ_29" = {
-         isa = "PBXFileReference";
-         path = "StringGenerator.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_290" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_60";
-      };
-      "OBJ_291" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_61";
-      };
-      "OBJ_292" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_62";
-      };
-      "OBJ_293" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_63";
-      };
-      "OBJ_294" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_64";
-      };
-      "OBJ_295" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_65";
-      };
-      "OBJ_296" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_66";
-      };
-      "OBJ_297" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_67";
-      };
-      "OBJ_298" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_68";
-      };
-      "OBJ_299" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_69";
-      };
-      "OBJ_3" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            CLANG_ENABLE_OBJC_ARC = "YES";
-            COMBINE_HIDPI_IMAGES = "YES";
-            COPY_PHASE_STRIP = "NO";
-            DEBUG_INFORMATION_FORMAT = "dwarf";
-            DYLIB_INSTALL_NAME_BASE = "@rpath";
-            ENABLE_NS_ASSERTIONS = "YES";
-            GCC_OPTIMIZATION_LEVEL = "0";
-            GCC_PREPROCESSOR_DEFINITIONS = (
-               "$(inherited)",
-               "SWIFT_PACKAGE=1",
-               "DEBUG=1"
-            );
-            MACOSX_DEPLOYMENT_TARGET = "10.10";
-            ONLY_ACTIVE_ARCH = "YES";
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)",
-               "-DXcode"
-            );
-            PRODUCT_NAME = "$(TARGET_NAME)";
-            SDKROOT = "macosx";
-            SUPPORTED_PLATFORMS = (
-               "macosx",
-               "iphoneos",
-               "iphonesimulator",
-               "appletvos",
-               "appletvsimulator",
-               "watchos",
-               "watchsimulator"
-            );
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)",
-               "SWIFT_PACKAGE",
-               "DEBUG"
-            );
-            SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-            USE_HEADERMAP = "NO";
-         };
-         name = "Debug";
-      };
-      "OBJ_30" = {
-         isa = "PBXFileReference";
-         path = "Style.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_300" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_70";
-      };
-      "OBJ_301" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_71";
-      };
-      "OBJ_302" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_72";
-      };
-      "OBJ_303" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_73";
-      };
-      "OBJ_304" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_74";
-      };
-      "OBJ_305" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_75";
-      };
-      "OBJ_306" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_76";
-      };
-      "OBJ_307" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_77";
-      };
-      "OBJ_308" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_78";
-      };
-      "OBJ_309" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_79";
-      };
-      "OBJ_31" = {
-         isa = "PBXFileReference";
-         path = "XcodeColorsSupport.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_310" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_80";
-      };
-      "OBJ_311" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_81";
-      };
-      "OBJ_312" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_82";
-      };
-      "OBJ_313" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_83";
-      };
-      "OBJ_314" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_84";
-      };
-      "OBJ_315" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_85";
-      };
-      "OBJ_316" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_86";
-      };
-      "OBJ_317" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_87";
-      };
-      "OBJ_318" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_88";
-      };
-      "OBJ_319" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_89";
-      };
-      "OBJ_32" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_33",
-            "OBJ_34"
-         );
-         name = "PathKit 0.9.2";
-         path = ".build/checkouts/PathKit/Sources";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_320" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_90";
-      };
-      "OBJ_321" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_91";
-      };
-      "OBJ_322" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_92";
-      };
-      "OBJ_323" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_93";
-      };
-      "OBJ_324" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_94";
-      };
-      "OBJ_325" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_95";
-      };
-      "OBJ_326" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_96";
-      };
-      "OBJ_327" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_97";
-      };
-      "OBJ_328" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_98";
-      };
-      "OBJ_329" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_99";
-      };
-      "OBJ_33" = {
-         isa = "PBXFileReference";
-         explicitFileType = "sourcecode.swift";
-         name = "Package.swift";
-         path = "/Users/imairiyousuke/git/RIBsCodeGen/.build/checkouts/PathKit/Package.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_330" = {
-         isa = "PBXFrameworksBuildPhase";
-         files = (
-            "OBJ_331",
-            "OBJ_332",
-            "OBJ_333",
-            "OBJ_334",
-            "OBJ_335"
-         );
-      };
-      "OBJ_331" = {
-         isa = "PBXBuildFile";
-         fileRef = "Yams::Yams::Product";
-      };
-      "OBJ_332" = {
-         isa = "PBXBuildFile";
-         fileRef = "Yams::CYaml::Product";
-      };
-      "OBJ_333" = {
-         isa = "PBXBuildFile";
-         fileRef = "SWXMLHash::SWXMLHash::Product";
-      };
-      "OBJ_334" = {
-         isa = "PBXBuildFile";
-         fileRef = "SourceKitten::SourceKit::Product";
-      };
-      "OBJ_335" = {
-         isa = "PBXBuildFile";
-         fileRef = "SourceKitten::Clang_C::Product";
-      };
-      "OBJ_336" = {
-         isa = "PBXTargetDependency";
-         target = "Yams::Yams";
-      };
-      "OBJ_337" = {
-         isa = "PBXTargetDependency";
-         target = "Yams::CYaml";
-      };
-      "OBJ_338" = {
-         isa = "PBXTargetDependency";
-         target = "SWXMLHash::SWXMLHash";
-      };
-      "OBJ_339" = {
-         isa = "PBXTargetDependency";
-         target = "SourceKitten::SourceKit";
-      };
-      "OBJ_34" = {
-         isa = "PBXFileReference";
-         path = "PathKit.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_340" = {
-         isa = "PBXTargetDependency";
-         target = "SourceKitten::Clang_C";
-      };
-      "OBJ_342" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_343",
-            "OBJ_344"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_343" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            LD = "/usr/bin/true";
-            OTHER_SWIFT_FLAGS = (
-               "-swift-version",
-               "5",
-               "-I",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2",
-               "-sdk",
-               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk",
-               "-package-description-version",
-               "5.0.0"
-            );
-            SWIFT_VERSION = "5.0";
-         };
-         name = "Debug";
-      };
-      "OBJ_344" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            LD = "/usr/bin/true";
-            OTHER_SWIFT_FLAGS = (
-               "-swift-version",
-               "5",
-               "-I",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2",
-               "-sdk",
-               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk",
-               "-package-description-version",
-               "5.0.0"
-            );
-            SWIFT_VERSION = "5.0";
-         };
-         name = "Release";
-      };
-      "OBJ_345" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_346"
-         );
-      };
-      "OBJ_346" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_101";
-      };
-      "OBJ_347" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_348",
-            "OBJ_349"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_348" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(SRCROOT)/.build/checkouts/Yams/Sources/CYaml/include"
-            );
-            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/Yams_Info.plist";
-            IPHONEOS_DEPLOYMENT_TARGET = "9.0";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
-            );
-            MACOSX_DEPLOYMENT_TARGET = "10.10";
-            OTHER_CFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)"
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "Yams";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)"
-            );
-            SWIFT_VERSION = "5.0";
-            TARGET_NAME = "Yams";
-            TVOS_DEPLOYMENT_TARGET = "9.0";
-            WATCHOS_DEPLOYMENT_TARGET = "2.0";
-         };
-         name = "Debug";
-      };
-      "OBJ_349" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(SRCROOT)/.build/checkouts/Yams/Sources/CYaml/include"
-            );
-            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/Yams_Info.plist";
-            IPHONEOS_DEPLOYMENT_TARGET = "9.0";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
-            );
-            MACOSX_DEPLOYMENT_TARGET = "10.10";
-            OTHER_CFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)"
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "Yams";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)"
-            );
-            SWIFT_VERSION = "5.0";
-            TARGET_NAME = "Yams";
-            TVOS_DEPLOYMENT_TARGET = "9.0";
-            WATCHOS_DEPLOYMENT_TARGET = "2.0";
-         };
-         name = "Release";
-      };
-      "OBJ_35" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_36",
-            "OBJ_47",
-            "OBJ_52",
-            "OBJ_100",
-            "OBJ_101"
-         );
-         name = "SourceKitten 0.29.0";
-         path = "";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_350" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_351",
-            "OBJ_352",
-            "OBJ_353",
-            "OBJ_354",
-            "OBJ_355",
-            "OBJ_356",
-            "OBJ_357",
-            "OBJ_358",
-            "OBJ_359",
-            "OBJ_360",
-            "OBJ_361",
-            "OBJ_362",
-            "OBJ_363",
-            "OBJ_364",
-            "OBJ_365",
-            "OBJ_366"
-         );
-      };
-      "OBJ_351" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_115";
-      };
-      "OBJ_352" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_116";
-      };
-      "OBJ_353" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_117";
-      };
-      "OBJ_354" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_118";
-      };
-      "OBJ_355" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_119";
-      };
-      "OBJ_356" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_120";
-      };
-      "OBJ_357" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_121";
-      };
-      "OBJ_358" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_122";
-      };
-      "OBJ_359" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_123";
-      };
-      "OBJ_36" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_37",
-            "OBJ_38"
-         );
-         name = "Clang_C";
-         path = ".build/checkouts/SourceKitten/Source/Clang_C";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_360" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_124";
-      };
-      "OBJ_361" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_125";
-      };
-      "OBJ_362" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_126";
-      };
-      "OBJ_363" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_127";
-      };
-      "OBJ_364" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_128";
-      };
-      "OBJ_365" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_129";
-      };
-      "OBJ_366" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_130";
-      };
-      "OBJ_367" = {
-         isa = "PBXFrameworksBuildPhase";
-         files = (
-            "OBJ_368"
-         );
-      };
-      "OBJ_368" = {
-         isa = "PBXBuildFile";
-         fileRef = "Yams::CYaml::Product";
-      };
-      "OBJ_369" = {
-         isa = "PBXTargetDependency";
-         target = "Yams::CYaml";
-      };
-      "OBJ_37" = {
-         isa = "PBXFileReference";
-         path = "Clang_C.m";
-         sourceTree = "<group>";
-      };
-      "OBJ_371" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_372",
-            "OBJ_373"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_372" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            LD = "/usr/bin/true";
-            OTHER_SWIFT_FLAGS = (
-               "-swift-version",
-               "5",
-               "-I",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2",
-               "-sdk",
-               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk",
-               "-package-description-version",
-               "5.0.0"
-            );
-            SWIFT_VERSION = "5.0";
-         };
-         name = "Debug";
-      };
-      "OBJ_373" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            LD = "/usr/bin/true";
-            OTHER_SWIFT_FLAGS = (
-               "-swift-version",
-               "5",
-               "-I",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2",
-               "-sdk",
-               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk",
-               "-package-description-version",
-               "5.0.0"
-            );
-            SWIFT_VERSION = "5.0";
-         };
-         name = "Release";
-      };
-      "OBJ_374" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_375"
-         );
-      };
-      "OBJ_375" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_131";
-      };
-      "OBJ_38" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_39",
-            "OBJ_40",
-            "OBJ_41",
-            "OBJ_42",
-            "OBJ_43",
-            "OBJ_44",
-            "OBJ_45",
-            "OBJ_46"
-         );
-         name = "include";
-         path = "include";
-         sourceTree = "<group>";
-      };
-      "OBJ_39" = {
-         isa = "PBXFileReference";
-         path = "Index.h";
-         sourceTree = "<group>";
-      };
-      "OBJ_4" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            CLANG_ENABLE_OBJC_ARC = "YES";
-            COMBINE_HIDPI_IMAGES = "YES";
-            COPY_PHASE_STRIP = "YES";
-            DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-            DYLIB_INSTALL_NAME_BASE = "@rpath";
-            GCC_OPTIMIZATION_LEVEL = "s";
-            GCC_PREPROCESSOR_DEFINITIONS = (
-               "$(inherited)",
-               "SWIFT_PACKAGE=1"
-            );
-            MACOSX_DEPLOYMENT_TARGET = "10.10";
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)",
-               "-DXcode"
-            );
-            PRODUCT_NAME = "$(TARGET_NAME)";
-            SDKROOT = "macosx";
-            SUPPORTED_PLATFORMS = (
-               "macosx",
-               "iphoneos",
-               "iphonesimulator",
-               "appletvos",
-               "appletvsimulator",
-               "watchos",
-               "watchsimulator"
-            );
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)",
-               "SWIFT_PACKAGE"
-            );
-            SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-            USE_HEADERMAP = "NO";
-         };
-         name = "Release";
-      };
-      "OBJ_40" = {
-         isa = "PBXFileReference";
-         path = "BuildSystem.h";
-         sourceTree = "<group>";
-      };
-      "OBJ_41" = {
-         isa = "PBXFileReference";
-         path = "Documentation.h";
-         sourceTree = "<group>";
-      };
-      "OBJ_42" = {
-         isa = "PBXFileReference";
-         path = "CXCompilationDatabase.h";
-         sourceTree = "<group>";
-      };
-      "OBJ_43" = {
-         isa = "PBXFileReference";
-         path = "Clang_C.h";
-         sourceTree = "<group>";
-      };
-      "OBJ_44" = {
-         isa = "PBXFileReference";
-         path = "CXErrorCode.h";
-         sourceTree = "<group>";
-      };
-      "OBJ_45" = {
-         isa = "PBXFileReference";
-         path = "CXString.h";
-         sourceTree = "<group>";
-      };
-      "OBJ_46" = {
-         isa = "PBXFileReference";
-         path = "Platform.h";
-         sourceTree = "<group>";
-      };
-      "OBJ_47" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_48",
-            "OBJ_49"
-         );
-         name = "SourceKit";
-         path = ".build/checkouts/SourceKitten/Source/SourceKit";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_48" = {
-         isa = "PBXFileReference";
-         path = "SourceKit.m";
-         sourceTree = "<group>";
-      };
-      "OBJ_49" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_50",
-            "OBJ_51"
-         );
-         name = "include";
-         path = "include";
-         sourceTree = "<group>";
-      };
-      "OBJ_5" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_6",
-            "OBJ_7",
-            "OBJ_17",
-            "OBJ_18",
-            "OBJ_137",
-            "OBJ_147",
-            "OBJ_148",
-            "OBJ_149"
-         );
-         path = "";
-         sourceTree = "<group>";
-      };
-      "OBJ_50" = {
-         isa = "PBXFileReference";
-         path = "SourceKit.h";
-         sourceTree = "<group>";
-      };
-      "OBJ_51" = {
-         isa = "PBXFileReference";
-         path = "sourcekitd.h";
-         sourceTree = "<group>";
-      };
-      "OBJ_52" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_53",
-            "OBJ_54",
-            "OBJ_55",
-            "OBJ_56",
-            "OBJ_57",
-            "OBJ_58",
-            "OBJ_59",
-            "OBJ_60",
-            "OBJ_61",
-            "OBJ_62",
-            "OBJ_63",
-            "OBJ_64",
-            "OBJ_65",
-            "OBJ_66",
-            "OBJ_67",
-            "OBJ_68",
-            "OBJ_69",
-            "OBJ_70",
-            "OBJ_71",
-            "OBJ_72",
-            "OBJ_73",
-            "OBJ_74",
-            "OBJ_75",
-            "OBJ_76",
-            "OBJ_77",
-            "OBJ_78",
-            "OBJ_79",
-            "OBJ_80",
-            "OBJ_81",
-            "OBJ_82",
-            "OBJ_83",
-            "OBJ_84",
-            "OBJ_85",
-            "OBJ_86",
-            "OBJ_87",
-            "OBJ_88",
-            "OBJ_89",
-            "OBJ_90",
-            "OBJ_91",
-            "OBJ_92",
-            "OBJ_93",
-            "OBJ_94",
-            "OBJ_95",
-            "OBJ_96",
-            "OBJ_97",
-            "OBJ_98",
-            "OBJ_99"
-         );
-         name = "SourceKittenFramework";
-         path = ".build/checkouts/SourceKitten/Source/SourceKittenFramework";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_53" = {
-         isa = "PBXFileReference";
-         path = "ByteCount.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_54" = {
-         isa = "PBXFileReference";
-         path = "ByteRange.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_55" = {
-         isa = "PBXFileReference";
-         path = "Clang+SourceKitten.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_56" = {
-         isa = "PBXFileReference";
-         path = "ClangTranslationUnit.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_57" = {
-         isa = "PBXFileReference";
-         path = "CodeCompletionItem.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_58" = {
-         isa = "PBXFileReference";
-         path = "CursorInfo+Parsing.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_59" = {
-         isa = "PBXFileReference";
-         path = "Dictionary+Merge.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_6" = {
-         isa = "PBXFileReference";
-         explicitFileType = "sourcecode.swift";
-         path = "Package.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_60" = {
-         isa = "PBXFileReference";
-         path = "Documentation.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_61" = {
-         isa = "PBXFileReference";
-         path = "Exec.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_62" = {
-         isa = "PBXFileReference";
-         path = "File+Hashable.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_63" = {
-         isa = "PBXFileReference";
-         path = "File.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_64" = {
-         isa = "PBXFileReference";
-         path = "JSONOutput.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_65" = {
-         isa = "PBXFileReference";
-         path = "Language.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_66" = {
-         isa = "PBXFileReference";
-         path = "Line.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_67" = {
-         isa = "PBXFileReference";
-         path = "LinuxCompatibility.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_68" = {
-         isa = "PBXFileReference";
-         path = "Module.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_69" = {
-         isa = "PBXFileReference";
-         path = "ObjCDeclarationKind.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_7" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_8"
-         );
-         name = "Sources";
-         path = "";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_70" = {
-         isa = "PBXFileReference";
-         path = "OffsetMap.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_71" = {
-         isa = "PBXFileReference";
-         path = "Parameter.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_72" = {
-         isa = "PBXFileReference";
-         path = "Request.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_73" = {
-         isa = "PBXFileReference";
-         path = "SourceDeclaration.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_74" = {
-         isa = "PBXFileReference";
-         path = "SourceKitObject.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_75" = {
-         isa = "PBXFileReference";
-         path = "SourceLocation.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_76" = {
-         isa = "PBXFileReference";
-         path = "StatementKind.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_77" = {
-         isa = "PBXFileReference";
-         path = "String+SourceKitten.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_78" = {
-         isa = "PBXFileReference";
-         path = "StringView+SourceKitten.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_79" = {
-         isa = "PBXFileReference";
-         path = "StringView.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_8" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_9",
-            "OBJ_14",
-            "OBJ_15",
-            "OBJ_16"
-         );
-         name = "RIBsCodeGen";
-         path = "Sources/RIBsCodeGen";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_80" = {
-         isa = "PBXFileReference";
-         path = "Structure.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_81" = {
-         isa = "PBXFileReference";
-         path = "SwiftDeclarationAttributeKind.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_82" = {
-         isa = "PBXFileReference";
-         path = "SwiftDeclarationKind.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_83" = {
-         isa = "PBXFileReference";
-         path = "SwiftDocKey.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_84" = {
-         isa = "PBXFileReference";
-         path = "SwiftDocs.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_85" = {
-         isa = "PBXFileReference";
-         path = "SwiftVersion.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_86" = {
-         isa = "PBXFileReference";
-         path = "SyntaxKind.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_87" = {
-         isa = "PBXFileReference";
-         path = "SyntaxMap.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_88" = {
-         isa = "PBXFileReference";
-         path = "SyntaxToken.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_89" = {
-         isa = "PBXFileReference";
-         path = "Text.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_9" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_10",
-            "OBJ_11",
-            "OBJ_12",
-            "OBJ_13"
-         );
-         name = "Commands";
-         path = "Commands";
-         sourceTree = "<group>";
-      };
-      "OBJ_90" = {
-         isa = "PBXFileReference";
-         path = "UID.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_91" = {
-         isa = "PBXFileReference";
-         path = "UIDRepresentable.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_92" = {
-         isa = "PBXFileReference";
-         path = "Version.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_93" = {
-         isa = "PBXFileReference";
-         path = "Xcode.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_94" = {
-         isa = "PBXFileReference";
-         path = "XcodeBuildSetting.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_95" = {
-         isa = "PBXFileReference";
-         path = "library_wrapper.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_96" = {
-         isa = "PBXFileReference";
-         path = "library_wrapper_CXString.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_97" = {
-         isa = "PBXFileReference";
-         path = "library_wrapper_Documentation.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_98" = {
-         isa = "PBXFileReference";
-         path = "library_wrapper_Index.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_99" = {
-         isa = "PBXFileReference";
-         path = "library_wrapper_sourcekitd.swift";
-         sourceTree = "<group>";
-      };
-      "PathKit::PathKit" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_182";
-         buildPhases = (
-            "OBJ_185",
-            "OBJ_187"
-         );
-         dependencies = (
-         );
-         name = "PathKit";
-         productName = "PathKit";
-         productReference = "PathKit::PathKit::Product";
-         productType = "com.apple.product-type.framework";
-      };
-      "PathKit::PathKit::Product" = {
-         isa = "PBXFileReference";
-         path = "PathKit.framework";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "PathKit::SwiftPMPackageDescription" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_189";
-         buildPhases = (
-            "OBJ_192"
-         );
-         dependencies = (
-         );
-         name = "PathKitPackageDescription";
-         productName = "PathKitPackageDescription";
-         productType = "com.apple.product-type.framework";
-      };
-      "RIBsCodeGen::RIBsCodeGen" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_195";
-         buildPhases = (
-            "OBJ_198",
-            "OBJ_206"
-         );
-         dependencies = (
-            "OBJ_215",
-            "OBJ_217",
-            "OBJ_218",
-            "OBJ_220",
-            "OBJ_222",
-            "OBJ_223",
-            "OBJ_225",
-            "OBJ_227"
-         );
-         name = "RIBsCodeGen";
-         productName = "RIBsCodeGen";
-         productReference = "RIBsCodeGen::RIBsCodeGen::Product";
-         productType = "com.apple.product-type.tool";
-      };
-      "RIBsCodeGen::RIBsCodeGen::Product" = {
-         isa = "PBXFileReference";
-         path = "RIBsCodeGen";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "RIBsCodeGen::SwiftPMPackageDescription" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_229";
-         buildPhases = (
-            "OBJ_232"
-         );
-         dependencies = (
-         );
-         name = "RIBsCodeGenPackageDescription";
-         productName = "RIBsCodeGenPackageDescription";
-         productType = "com.apple.product-type.framework";
-      };
-      "Rainbow::Rainbow" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_234";
-         buildPhases = (
-            "OBJ_237",
-            "OBJ_249"
-         );
-         dependencies = (
-         );
-         name = "Rainbow";
-         productName = "Rainbow";
-         productReference = "Rainbow::Rainbow::Product";
-         productType = "com.apple.product-type.framework";
-      };
-      "Rainbow::Rainbow::Product" = {
-         isa = "PBXFileReference";
-         path = "Rainbow.framework";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "Rainbow::SwiftPMPackageDescription" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_251";
-         buildPhases = (
-            "OBJ_254"
-         );
-         dependencies = (
-         );
-         name = "RainbowPackageDescription";
-         productName = "RainbowPackageDescription";
-         productType = "com.apple.product-type.framework";
-      };
-      "SWXMLHash::SWXMLHash" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_256";
-         buildPhases = (
-            "OBJ_259",
-            "OBJ_263"
-         );
-         dependencies = (
-         );
-         name = "SWXMLHash";
-         productName = "SWXMLHash";
-         productReference = "SWXMLHash::SWXMLHash::Product";
-         productType = "com.apple.product-type.framework";
-      };
-      "SWXMLHash::SWXMLHash::Product" = {
-         isa = "PBXFileReference";
-         path = "SWXMLHash.framework";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "SWXMLHash::SwiftPMPackageDescription" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_265";
-         buildPhases = (
-            "OBJ_268"
-         );
-         dependencies = (
-         );
-         name = "SWXMLHashPackageDescription";
-         productName = "SWXMLHashPackageDescription";
-         productType = "com.apple.product-type.framework";
-      };
-      "SourceKitten::Clang_C" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_166";
-         buildPhases = (
-            "OBJ_169",
-            "OBJ_171",
-            "OBJ_180"
-         );
-         dependencies = (
-         );
-         name = "Clang_C";
-         productName = "Clang_C";
-         productReference = "SourceKitten::Clang_C::Product";
-         productType = "com.apple.product-type.framework";
-      };
-      "SourceKitten::Clang_C::Product" = {
-         isa = "PBXFileReference";
-         path = "Clang_C.framework";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "SourceKitten::SourceKit" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_270";
-         buildPhases = (
-            "OBJ_273",
-            "OBJ_275",
-            "OBJ_278"
-         );
-         dependencies = (
-         );
-         name = "SourceKit";
-         productName = "SourceKit";
-         productReference = "SourceKitten::SourceKit::Product";
-         productType = "com.apple.product-type.framework";
-      };
-      "SourceKitten::SourceKit::Product" = {
-         isa = "PBXFileReference";
-         path = "SourceKit.framework";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "SourceKitten::SourceKittenFramework" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_279";
-         buildPhases = (
-            "OBJ_282",
-            "OBJ_330"
-         );
-         dependencies = (
-            "OBJ_336",
-            "OBJ_337",
-            "OBJ_338",
-            "OBJ_339",
-            "OBJ_340"
-         );
-         name = "SourceKittenFramework";
-         productName = "SourceKittenFramework";
-         productReference = "SourceKitten::SourceKittenFramework::Product";
-         productType = "com.apple.product-type.framework";
-      };
-      "SourceKitten::SourceKittenFramework::Product" = {
-         isa = "PBXFileReference";
-         path = "SourceKittenFramework.framework";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "SourceKitten::SwiftPMPackageDescription" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_342";
-         buildPhases = (
-            "OBJ_345"
-         );
-         dependencies = (
-         );
-         name = "SourceKittenPackageDescription";
-         productName = "SourceKittenPackageDescription";
-         productType = "com.apple.product-type.framework";
-      };
-      "Yams::CYaml" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_151";
-         buildPhases = (
-            "OBJ_154",
-            "OBJ_161",
-            "OBJ_164"
-         );
-         dependencies = (
-         );
-         name = "CYaml";
-         productName = "CYaml";
-         productReference = "Yams::CYaml::Product";
-         productType = "com.apple.product-type.framework";
-      };
-      "Yams::CYaml::Product" = {
-         isa = "PBXFileReference";
-         path = "CYaml.framework";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "Yams::SwiftPMPackageDescription" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_371";
-         buildPhases = (
-            "OBJ_374"
-         );
-         dependencies = (
-         );
-         name = "YamsPackageDescription";
-         productName = "YamsPackageDescription";
-         productType = "com.apple.product-type.framework";
-      };
-      "Yams::Yams" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_347";
-         buildPhases = (
-            "OBJ_350",
-            "OBJ_367"
-         );
-         dependencies = (
-            "OBJ_369"
-         );
-         name = "Yams";
-         productName = "Yams";
-         productReference = "Yams::Yams::Product";
-         productType = "com.apple.product-type.framework";
-      };
-      "Yams::Yams::Product" = {
-         isa = "PBXFileReference";
-         path = "Yams.framework";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-   };
-   rootObject = "OBJ_1";
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B947CA9425CB9566008947E7 /* String+Foundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B947CA4325CB94CF008947E7 /* String+Foundation.swift */; };
+		B947CAB325CB956A008947E7 /* Dictionary+SourceKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B947CA5425CB94F0008947E7 /* Dictionary+SourceKit.swift */; };
+		B947CAD225CB956E008947E7 /* Array+SourceKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B947CA6525CB9503008947E7 /* Array+SourceKit.swift */; };
+		OBJ_155 /* api.c in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_105 /* api.c */; };
+		OBJ_156 /* emitter.c in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_106 /* emitter.c */; };
+		OBJ_157 /* parser.c in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_107 /* parser.c */; };
+		OBJ_158 /* reader.c in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_108 /* reader.c */; };
+		OBJ_159 /* scanner.c in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_109 /* scanner.c */; };
+		OBJ_160 /* writer.c in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_110 /* writer.c */; };
+		OBJ_162 /* CYaml.h in Headers */ = {isa = PBXBuildFile; fileRef = OBJ_112 /* CYaml.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		OBJ_163 /* yaml.h in Headers */ = {isa = PBXBuildFile; fileRef = OBJ_113 /* yaml.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		OBJ_170 /* Clang_C.m in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_37 /* Clang_C.m */; };
+		OBJ_172 /* Index.h in Headers */ = {isa = PBXBuildFile; fileRef = OBJ_39 /* Index.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		OBJ_173 /* BuildSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = OBJ_40 /* BuildSystem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		OBJ_174 /* Documentation.h in Headers */ = {isa = PBXBuildFile; fileRef = OBJ_41 /* Documentation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		OBJ_175 /* CXCompilationDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = OBJ_42 /* CXCompilationDatabase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		OBJ_176 /* Clang_C.h in Headers */ = {isa = PBXBuildFile; fileRef = OBJ_43 /* Clang_C.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		OBJ_177 /* CXErrorCode.h in Headers */ = {isa = PBXBuildFile; fileRef = OBJ_44 /* CXErrorCode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		OBJ_178 /* CXString.h in Headers */ = {isa = PBXBuildFile; fileRef = OBJ_45 /* CXString.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		OBJ_179 /* Platform.h in Headers */ = {isa = PBXBuildFile; fileRef = OBJ_46 /* Platform.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		OBJ_186 /* PathKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_34 /* PathKit.swift */; };
+		OBJ_193 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_33 /* Package.swift */; };
+		OBJ_199 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* Command.swift */; };
+		OBJ_200 /* DependencyCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* DependencyCommand.swift */; };
+		OBJ_201 /* HelpCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* HelpCommand.swift */; };
+		OBJ_202 /* VersionCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* VersionCommand.swift */; };
+		OBJ_203 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* Error.swift */; };
+		OBJ_204 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* Result.swift */; };
+		OBJ_205 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* main.swift */; };
+		OBJ_207 /* Rainbow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Rainbow::Rainbow::Product" /* Rainbow.framework */; };
+		OBJ_208 /* PathKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "PathKit::PathKit::Product" /* PathKit.framework */; };
+		OBJ_209 /* SourceKittenFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SourceKitten::SourceKittenFramework::Product" /* SourceKittenFramework.framework */; };
+		OBJ_210 /* Yams.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Yams::Yams::Product" /* Yams.framework */; };
+		OBJ_211 /* CYaml.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Yams::CYaml::Product" /* CYaml.framework */; };
+		OBJ_212 /* SWXMLHash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SWXMLHash::SWXMLHash::Product" /* SWXMLHash.framework */; };
+		OBJ_213 /* SourceKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SourceKitten::SourceKit::Product" /* SourceKit.framework */; };
+		OBJ_214 /* Clang_C.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SourceKitten::Clang_C::Product" /* Clang_C.framework */; };
+		OBJ_233 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
+		OBJ_238 /* BackgroundColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* BackgroundColor.swift */; };
+		OBJ_239 /* CodesParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* CodesParser.swift */; };
+		OBJ_240 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* Color.swift */; };
+		OBJ_241 /* ControlCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* ControlCode.swift */; };
+		OBJ_242 /* ModesExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* ModesExtractor.swift */; };
+		OBJ_243 /* OutputTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_26 /* OutputTarget.swift */; };
+		OBJ_244 /* Rainbow.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_27 /* Rainbow.swift */; };
+		OBJ_245 /* String+Rainbow.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_28 /* String+Rainbow.swift */; };
+		OBJ_246 /* StringGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_29 /* StringGenerator.swift */; };
+		OBJ_247 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* Style.swift */; };
+		OBJ_248 /* XcodeColorsSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_31 /* XcodeColorsSupport.swift */; };
+		OBJ_255 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* Package.swift */; };
+		OBJ_260 /* SWXMLHash.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_134 /* SWXMLHash.swift */; };
+		OBJ_261 /* XMLIndexer+XMLIndexerDeserializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_135 /* XMLIndexer+XMLIndexerDeserializable.swift */; };
+		OBJ_262 /* shim.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_136 /* shim.swift */; };
+		OBJ_269 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_133 /* Package.swift */; };
+		OBJ_274 /* SourceKit.m in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_48 /* SourceKit.m */; };
+		OBJ_276 /* SourceKit.h in Headers */ = {isa = PBXBuildFile; fileRef = OBJ_50 /* SourceKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		OBJ_277 /* sourcekitd.h in Headers */ = {isa = PBXBuildFile; fileRef = OBJ_51 /* sourcekitd.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		OBJ_283 /* ByteCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_53 /* ByteCount.swift */; };
+		OBJ_284 /* ByteRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_54 /* ByteRange.swift */; };
+		OBJ_285 /* Clang+SourceKitten.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_55 /* Clang+SourceKitten.swift */; };
+		OBJ_286 /* ClangTranslationUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_56 /* ClangTranslationUnit.swift */; };
+		OBJ_287 /* CodeCompletionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_57 /* CodeCompletionItem.swift */; };
+		OBJ_288 /* CursorInfo+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_58 /* CursorInfo+Parsing.swift */; };
+		OBJ_289 /* Dictionary+Merge.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_59 /* Dictionary+Merge.swift */; };
+		OBJ_290 /* Documentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_60 /* Documentation.swift */; };
+		OBJ_291 /* Exec.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_61 /* Exec.swift */; };
+		OBJ_292 /* File+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_62 /* File+Hashable.swift */; };
+		OBJ_293 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_63 /* File.swift */; };
+		OBJ_294 /* JSONOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_64 /* JSONOutput.swift */; };
+		OBJ_295 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_65 /* Language.swift */; };
+		OBJ_296 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_66 /* Line.swift */; };
+		OBJ_297 /* LinuxCompatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_67 /* LinuxCompatibility.swift */; };
+		OBJ_298 /* Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_68 /* Module.swift */; };
+		OBJ_299 /* ObjCDeclarationKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_69 /* ObjCDeclarationKind.swift */; };
+		OBJ_300 /* OffsetMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_70 /* OffsetMap.swift */; };
+		OBJ_301 /* Parameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_71 /* Parameter.swift */; };
+		OBJ_302 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_72 /* Request.swift */; };
+		OBJ_303 /* SourceDeclaration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_73 /* SourceDeclaration.swift */; };
+		OBJ_304 /* SourceKitObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_74 /* SourceKitObject.swift */; };
+		OBJ_305 /* SourceLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_75 /* SourceLocation.swift */; };
+		OBJ_306 /* StatementKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_76 /* StatementKind.swift */; };
+		OBJ_307 /* String+SourceKitten.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_77 /* String+SourceKitten.swift */; };
+		OBJ_308 /* StringView+SourceKitten.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_78 /* StringView+SourceKitten.swift */; };
+		OBJ_309 /* StringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_79 /* StringView.swift */; };
+		OBJ_310 /* Structure.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_80 /* Structure.swift */; };
+		OBJ_311 /* SwiftDeclarationAttributeKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_81 /* SwiftDeclarationAttributeKind.swift */; };
+		OBJ_312 /* SwiftDeclarationKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_82 /* SwiftDeclarationKind.swift */; };
+		OBJ_313 /* SwiftDocKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_83 /* SwiftDocKey.swift */; };
+		OBJ_314 /* SwiftDocs.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_84 /* SwiftDocs.swift */; };
+		OBJ_315 /* SwiftVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_85 /* SwiftVersion.swift */; };
+		OBJ_316 /* SyntaxKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_86 /* SyntaxKind.swift */; };
+		OBJ_317 /* SyntaxMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_87 /* SyntaxMap.swift */; };
+		OBJ_318 /* SyntaxToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_88 /* SyntaxToken.swift */; };
+		OBJ_319 /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_89 /* Text.swift */; };
+		OBJ_320 /* UID.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_90 /* UID.swift */; };
+		OBJ_321 /* UIDRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_91 /* UIDRepresentable.swift */; };
+		OBJ_322 /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_92 /* Version.swift */; };
+		OBJ_323 /* Xcode.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_93 /* Xcode.swift */; };
+		OBJ_324 /* XcodeBuildSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_94 /* XcodeBuildSetting.swift */; };
+		OBJ_325 /* library_wrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_95 /* library_wrapper.swift */; };
+		OBJ_326 /* library_wrapper_CXString.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_96 /* library_wrapper_CXString.swift */; };
+		OBJ_327 /* library_wrapper_Documentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_97 /* library_wrapper_Documentation.swift */; };
+		OBJ_328 /* library_wrapper_Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_98 /* library_wrapper_Index.swift */; };
+		OBJ_329 /* library_wrapper_sourcekitd.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_99 /* library_wrapper_sourcekitd.swift */; };
+		OBJ_331 /* Yams.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Yams::Yams::Product" /* Yams.framework */; };
+		OBJ_332 /* CYaml.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Yams::CYaml::Product" /* CYaml.framework */; };
+		OBJ_333 /* SWXMLHash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SWXMLHash::SWXMLHash::Product" /* SWXMLHash.framework */; };
+		OBJ_334 /* SourceKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SourceKitten::SourceKit::Product" /* SourceKit.framework */; };
+		OBJ_335 /* Clang_C.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SourceKitten::Clang_C::Product" /* Clang_C.framework */; };
+		OBJ_346 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_101 /* Package.swift */; };
+		OBJ_351 /* Constructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_115 /* Constructor.swift */; };
+		OBJ_352 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_116 /* Decoder.swift */; };
+		OBJ_353 /* Emitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_117 /* Emitter.swift */; };
+		OBJ_354 /* Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_118 /* Encoder.swift */; };
+		OBJ_355 /* Mark.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_119 /* Mark.swift */; };
+		OBJ_356 /* Node.Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_120 /* Node.Mapping.swift */; };
+		OBJ_357 /* Node.Scalar.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_121 /* Node.Scalar.swift */; };
+		OBJ_358 /* Node.Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_122 /* Node.Sequence.swift */; };
+		OBJ_359 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_123 /* Node.swift */; };
+		OBJ_360 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_124 /* Parser.swift */; };
+		OBJ_361 /* Representer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_125 /* Representer.swift */; };
+		OBJ_362 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_126 /* Resolver.swift */; };
+		OBJ_363 /* String+Yams.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_127 /* String+Yams.swift */; };
+		OBJ_364 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_128 /* Tag.swift */; };
+		OBJ_365 /* YamlError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_129 /* YamlError.swift */; };
+		OBJ_366 /* shim.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_130 /* shim.swift */; };
+		OBJ_368 /* CYaml.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Yams::CYaml::Product" /* CYaml.framework */; };
+		OBJ_375 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_131 /* Package.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B947CA2525CB764F008947E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "Rainbow::Rainbow";
+			remoteInfo = Rainbow;
+		};
+		B947CA2625CB764F008947E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "PathKit::PathKit";
+			remoteInfo = PathKit;
+		};
+		B947CA2725CB764F008947E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "SourceKitten::SourceKittenFramework";
+			remoteInfo = SourceKittenFramework;
+		};
+		B947CA2825CB764F008947E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "Yams::Yams";
+			remoteInfo = Yams;
+		};
+		B947CA2925CB764F008947E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "Yams::CYaml";
+			remoteInfo = CYaml;
+		};
+		B947CA2A25CB764F008947E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "Yams::CYaml";
+			remoteInfo = CYaml;
+		};
+		B947CA2B25CB764F008947E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "SWXMLHash::SWXMLHash";
+			remoteInfo = SWXMLHash;
+		};
+		B947CA2C25CB764F008947E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "SourceKitten::SourceKit";
+			remoteInfo = SourceKit;
+		};
+		B947CA2D25CB764F008947E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "SourceKitten::Clang_C";
+			remoteInfo = Clang_C;
+		};
+		B947CA2E25CB764F008947E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "Yams::Yams";
+			remoteInfo = Yams;
+		};
+		B947CA2F25CB764F008947E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "Yams::CYaml";
+			remoteInfo = CYaml;
+		};
+		B947CA3025CB764F008947E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "SWXMLHash::SWXMLHash";
+			remoteInfo = SWXMLHash;
+		};
+		B947CA3125CB764F008947E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "SourceKitten::SourceKit";
+			remoteInfo = SourceKit;
+		};
+		B947CA3225CB764F008947E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "SourceKitten::Clang_C";
+			remoteInfo = Clang_C;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		B947CA4325CB94CF008947E7 /* String+Foundation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Foundation.swift"; sourceTree = "<group>"; };
+		B947CA5425CB94F0008947E7 /* Dictionary+SourceKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+SourceKit.swift"; sourceTree = "<group>"; };
+		B947CA6525CB9503008947E7 /* Array+SourceKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+SourceKit.swift"; sourceTree = "<group>"; };
+		OBJ_10 /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
+		OBJ_101 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = /Users/imairiyousuke/git/RIBsCodeGen/.build/checkouts/SourceKitten/Package.swift; sourceTree = "<group>"; };
+		OBJ_105 /* api.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = api.c; sourceTree = "<group>"; };
+		OBJ_106 /* emitter.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = emitter.c; sourceTree = "<group>"; };
+		OBJ_107 /* parser.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = parser.c; sourceTree = "<group>"; };
+		OBJ_108 /* reader.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = reader.c; sourceTree = "<group>"; };
+		OBJ_109 /* scanner.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = scanner.c; sourceTree = "<group>"; };
+		OBJ_11 /* DependencyCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyCommand.swift; sourceTree = "<group>"; };
+		OBJ_110 /* writer.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = writer.c; sourceTree = "<group>"; };
+		OBJ_112 /* CYaml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CYaml.h; sourceTree = "<group>"; };
+		OBJ_113 /* yaml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = yaml.h; sourceTree = "<group>"; };
+		OBJ_115 /* Constructor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constructor.swift; sourceTree = "<group>"; };
+		OBJ_116 /* Decoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decoder.swift; sourceTree = "<group>"; };
+		OBJ_117 /* Emitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Emitter.swift; sourceTree = "<group>"; };
+		OBJ_118 /* Encoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encoder.swift; sourceTree = "<group>"; };
+		OBJ_119 /* Mark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mark.swift; sourceTree = "<group>"; };
+		OBJ_12 /* HelpCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpCommand.swift; sourceTree = "<group>"; };
+		OBJ_120 /* Node.Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.Mapping.swift; sourceTree = "<group>"; };
+		OBJ_121 /* Node.Scalar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.Scalar.swift; sourceTree = "<group>"; };
+		OBJ_122 /* Node.Sequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.Sequence.swift; sourceTree = "<group>"; };
+		OBJ_123 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
+		OBJ_124 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		OBJ_125 /* Representer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Representer.swift; sourceTree = "<group>"; };
+		OBJ_126 /* Resolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resolver.swift; sourceTree = "<group>"; };
+		OBJ_127 /* String+Yams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Yams.swift"; sourceTree = "<group>"; };
+		OBJ_128 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		OBJ_129 /* YamlError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YamlError.swift; sourceTree = "<group>"; };
+		OBJ_13 /* VersionCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionCommand.swift; sourceTree = "<group>"; };
+		OBJ_130 /* shim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shim.swift; sourceTree = "<group>"; };
+		OBJ_131 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = /Users/imairiyousuke/git/RIBsCodeGen/.build/checkouts/Yams/Package.swift; sourceTree = "<group>"; };
+		OBJ_133 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = /Users/imairiyousuke/git/RIBsCodeGen/.build/checkouts/SWXMLHash/Package.swift; sourceTree = "<group>"; };
+		OBJ_134 /* SWXMLHash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SWXMLHash.swift; sourceTree = "<group>"; };
+		OBJ_135 /* XMLIndexer+XMLIndexerDeserializable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XMLIndexer+XMLIndexerDeserializable.swift"; sourceTree = "<group>"; };
+		OBJ_136 /* shim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shim.swift; sourceTree = "<group>"; };
+		OBJ_14 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		OBJ_147 /* Sample */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sample; sourceTree = SOURCE_ROOT; };
+		OBJ_148 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		OBJ_149 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		OBJ_15 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		OBJ_16 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		OBJ_20 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = /Users/imairiyousuke/git/RIBsCodeGen/.build/checkouts/Rainbow/Package.swift; sourceTree = "<group>"; };
+		OBJ_21 /* BackgroundColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundColor.swift; sourceTree = "<group>"; };
+		OBJ_22 /* CodesParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodesParser.swift; sourceTree = "<group>"; };
+		OBJ_23 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		OBJ_24 /* ControlCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlCode.swift; sourceTree = "<group>"; };
+		OBJ_25 /* ModesExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModesExtractor.swift; sourceTree = "<group>"; };
+		OBJ_26 /* OutputTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputTarget.swift; sourceTree = "<group>"; };
+		OBJ_27 /* Rainbow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rainbow.swift; sourceTree = "<group>"; };
+		OBJ_28 /* String+Rainbow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Rainbow.swift"; sourceTree = "<group>"; };
+		OBJ_29 /* StringGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringGenerator.swift; sourceTree = "<group>"; };
+		OBJ_30 /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
+		OBJ_31 /* XcodeColorsSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XcodeColorsSupport.swift; sourceTree = "<group>"; };
+		OBJ_33 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = /Users/imairiyousuke/git/RIBsCodeGen/.build/checkouts/PathKit/Package.swift; sourceTree = "<group>"; };
+		OBJ_34 /* PathKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathKit.swift; sourceTree = "<group>"; };
+		OBJ_37 /* Clang_C.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Clang_C.m; sourceTree = "<group>"; };
+		OBJ_39 /* Index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Index.h; sourceTree = "<group>"; };
+		OBJ_40 /* BuildSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BuildSystem.h; sourceTree = "<group>"; };
+		OBJ_41 /* Documentation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Documentation.h; sourceTree = "<group>"; };
+		OBJ_42 /* CXCompilationDatabase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CXCompilationDatabase.h; sourceTree = "<group>"; };
+		OBJ_43 /* Clang_C.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Clang_C.h; sourceTree = "<group>"; };
+		OBJ_44 /* CXErrorCode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CXErrorCode.h; sourceTree = "<group>"; };
+		OBJ_45 /* CXString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CXString.h; sourceTree = "<group>"; };
+		OBJ_46 /* Platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
+		OBJ_48 /* SourceKit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SourceKit.m; sourceTree = "<group>"; };
+		OBJ_50 /* SourceKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SourceKit.h; sourceTree = "<group>"; };
+		OBJ_51 /* sourcekitd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sourcekitd.h; sourceTree = "<group>"; };
+		OBJ_53 /* ByteCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByteCount.swift; sourceTree = "<group>"; };
+		OBJ_54 /* ByteRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByteRange.swift; sourceTree = "<group>"; };
+		OBJ_55 /* Clang+SourceKitten.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Clang+SourceKitten.swift"; sourceTree = "<group>"; };
+		OBJ_56 /* ClangTranslationUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClangTranslationUnit.swift; sourceTree = "<group>"; };
+		OBJ_57 /* CodeCompletionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeCompletionItem.swift; sourceTree = "<group>"; };
+		OBJ_58 /* CursorInfo+Parsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CursorInfo+Parsing.swift"; sourceTree = "<group>"; };
+		OBJ_59 /* Dictionary+Merge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Merge.swift"; sourceTree = "<group>"; };
+		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		OBJ_60 /* Documentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Documentation.swift; sourceTree = "<group>"; };
+		OBJ_61 /* Exec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exec.swift; sourceTree = "<group>"; };
+		OBJ_62 /* File+Hashable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "File+Hashable.swift"; sourceTree = "<group>"; };
+		OBJ_63 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		OBJ_64 /* JSONOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONOutput.swift; sourceTree = "<group>"; };
+		OBJ_65 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
+		OBJ_66 /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
+		OBJ_67 /* LinuxCompatibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinuxCompatibility.swift; sourceTree = "<group>"; };
+		OBJ_68 /* Module.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Module.swift; sourceTree = "<group>"; };
+		OBJ_69 /* ObjCDeclarationKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjCDeclarationKind.swift; sourceTree = "<group>"; };
+		OBJ_70 /* OffsetMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsetMap.swift; sourceTree = "<group>"; };
+		OBJ_71 /* Parameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameter.swift; sourceTree = "<group>"; };
+		OBJ_72 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		OBJ_73 /* SourceDeclaration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceDeclaration.swift; sourceTree = "<group>"; };
+		OBJ_74 /* SourceKitObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceKitObject.swift; sourceTree = "<group>"; };
+		OBJ_75 /* SourceLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceLocation.swift; sourceTree = "<group>"; };
+		OBJ_76 /* StatementKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatementKind.swift; sourceTree = "<group>"; };
+		OBJ_77 /* String+SourceKitten.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SourceKitten.swift"; sourceTree = "<group>"; };
+		OBJ_78 /* StringView+SourceKitten.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringView+SourceKitten.swift"; sourceTree = "<group>"; };
+		OBJ_79 /* StringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringView.swift; sourceTree = "<group>"; };
+		OBJ_80 /* Structure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Structure.swift; sourceTree = "<group>"; };
+		OBJ_81 /* SwiftDeclarationAttributeKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDeclarationAttributeKind.swift; sourceTree = "<group>"; };
+		OBJ_82 /* SwiftDeclarationKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDeclarationKind.swift; sourceTree = "<group>"; };
+		OBJ_83 /* SwiftDocKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDocKey.swift; sourceTree = "<group>"; };
+		OBJ_84 /* SwiftDocs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDocs.swift; sourceTree = "<group>"; };
+		OBJ_85 /* SwiftVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftVersion.swift; sourceTree = "<group>"; };
+		OBJ_86 /* SyntaxKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyntaxKind.swift; sourceTree = "<group>"; };
+		OBJ_87 /* SyntaxMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyntaxMap.swift; sourceTree = "<group>"; };
+		OBJ_88 /* SyntaxToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyntaxToken.swift; sourceTree = "<group>"; };
+		OBJ_89 /* Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
+		OBJ_90 /* UID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UID.swift; sourceTree = "<group>"; };
+		OBJ_91 /* UIDRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDRepresentable.swift; sourceTree = "<group>"; };
+		OBJ_92 /* Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
+		OBJ_93 /* Xcode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Xcode.swift; sourceTree = "<group>"; };
+		OBJ_94 /* XcodeBuildSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XcodeBuildSetting.swift; sourceTree = "<group>"; };
+		OBJ_95 /* library_wrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = library_wrapper.swift; sourceTree = "<group>"; };
+		OBJ_96 /* library_wrapper_CXString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = library_wrapper_CXString.swift; sourceTree = "<group>"; };
+		OBJ_97 /* library_wrapper_Documentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = library_wrapper_Documentation.swift; sourceTree = "<group>"; };
+		OBJ_98 /* library_wrapper_Index.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = library_wrapper_Index.swift; sourceTree = "<group>"; };
+		OBJ_99 /* library_wrapper_sourcekitd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = library_wrapper_sourcekitd.swift; sourceTree = "<group>"; };
+		"PathKit::PathKit::Product" /* PathKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PathKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"RIBsCodeGen::RIBsCodeGen::Product" /* RIBsCodeGen */ = {isa = PBXFileReference; lastKnownFileType = text; path = RIBsCodeGen; sourceTree = BUILT_PRODUCTS_DIR; };
+		"Rainbow::Rainbow::Product" /* Rainbow.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Rainbow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"SWXMLHash::SWXMLHash::Product" /* SWXMLHash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SWXMLHash.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"SourceKitten::Clang_C::Product" /* Clang_C.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Clang_C.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"SourceKitten::SourceKit::Product" /* SourceKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SourceKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"SourceKitten::SourceKittenFramework::Product" /* SourceKittenFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SourceKittenFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"Yams::CYaml::Product" /* CYaml.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CYaml.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"Yams::Yams::Product" /* Yams.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Yams.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		OBJ_164 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_180 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_187 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_206 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_207 /* Rainbow.framework in Frameworks */,
+				OBJ_208 /* PathKit.framework in Frameworks */,
+				OBJ_209 /* SourceKittenFramework.framework in Frameworks */,
+				OBJ_210 /* Yams.framework in Frameworks */,
+				OBJ_211 /* CYaml.framework in Frameworks */,
+				OBJ_212 /* SWXMLHash.framework in Frameworks */,
+				OBJ_213 /* SourceKit.framework in Frameworks */,
+				OBJ_214 /* Clang_C.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_249 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_263 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_278 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_330 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_331 /* Yams.framework in Frameworks */,
+				OBJ_332 /* CYaml.framework in Frameworks */,
+				OBJ_333 /* SWXMLHash.framework in Frameworks */,
+				OBJ_334 /* SourceKit.framework in Frameworks */,
+				OBJ_335 /* Clang_C.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_367 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_368 /* CYaml.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B947CA4225CB94BE008947E7 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B947CA4325CB94CF008947E7 /* String+Foundation.swift */,
+				B947CA5425CB94F0008947E7 /* Dictionary+SourceKit.swift */,
+				B947CA6525CB9503008947E7 /* Array+SourceKit.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		OBJ_100 /* sourcekitten */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = sourcekitten;
+			path = .build/checkouts/SourceKitten/Source/sourcekitten;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_102 /* Yams 2.0.0 */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_103 /* CYaml */,
+				OBJ_114 /* Yams */,
+				OBJ_131 /* Package.swift */,
+			);
+			name = "Yams 2.0.0";
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_103 /* CYaml */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_104 /* src */,
+				OBJ_111 /* include */,
+			);
+			name = CYaml;
+			path = .build/checkouts/Yams/Sources/CYaml;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_104 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_105 /* api.c */,
+				OBJ_106 /* emitter.c */,
+				OBJ_107 /* parser.c */,
+				OBJ_108 /* reader.c */,
+				OBJ_109 /* scanner.c */,
+				OBJ_110 /* writer.c */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		OBJ_111 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_112 /* CYaml.h */,
+				OBJ_113 /* yaml.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		OBJ_114 /* Yams */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_115 /* Constructor.swift */,
+				OBJ_116 /* Decoder.swift */,
+				OBJ_117 /* Emitter.swift */,
+				OBJ_118 /* Encoder.swift */,
+				OBJ_119 /* Mark.swift */,
+				OBJ_120 /* Node.Mapping.swift */,
+				OBJ_121 /* Node.Scalar.swift */,
+				OBJ_122 /* Node.Sequence.swift */,
+				OBJ_123 /* Node.swift */,
+				OBJ_124 /* Parser.swift */,
+				OBJ_125 /* Representer.swift */,
+				OBJ_126 /* Resolver.swift */,
+				OBJ_127 /* String+Yams.swift */,
+				OBJ_128 /* Tag.swift */,
+				OBJ_129 /* YamlError.swift */,
+				OBJ_130 /* shim.swift */,
+			);
+			name = Yams;
+			path = .build/checkouts/Yams/Sources/Yams;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_132 /* SWXMLHash 5.0.1 */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_133 /* Package.swift */,
+				OBJ_134 /* SWXMLHash.swift */,
+				OBJ_135 /* XMLIndexer+XMLIndexerDeserializable.swift */,
+				OBJ_136 /* shim.swift */,
+			);
+			name = "SWXMLHash 5.0.1";
+			path = .build/checkouts/SWXMLHash/Source;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_137 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				"SourceKitten::Clang_C::Product" /* Clang_C.framework */,
+				"PathKit::PathKit::Product" /* PathKit.framework */,
+				"Yams::CYaml::Product" /* CYaml.framework */,
+				"SourceKitten::SourceKit::Product" /* SourceKit.framework */,
+				"SourceKitten::SourceKittenFramework::Product" /* SourceKittenFramework.framework */,
+				"SWXMLHash::SWXMLHash::Product" /* SWXMLHash.framework */,
+				"Rainbow::Rainbow::Product" /* Rainbow.framework */,
+				"Yams::Yams::Product" /* Yams.framework */,
+				"RIBsCodeGen::RIBsCodeGen::Product" /* RIBsCodeGen */,
+			);
+			name = Products;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		OBJ_17 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Tests;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_18 /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_19 /* Rainbow 3.1.5 */,
+				OBJ_32 /* PathKit 0.9.2 */,
+				OBJ_35 /* SourceKitten 0.29.0 */,
+				OBJ_102 /* Yams 2.0.0 */,
+				OBJ_132 /* SWXMLHash 5.0.1 */,
+			);
+			name = Dependencies;
+			sourceTree = "<group>";
+		};
+		OBJ_19 /* Rainbow 3.1.5 */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_20 /* Package.swift */,
+				OBJ_21 /* BackgroundColor.swift */,
+				OBJ_22 /* CodesParser.swift */,
+				OBJ_23 /* Color.swift */,
+				OBJ_24 /* ControlCode.swift */,
+				OBJ_25 /* ModesExtractor.swift */,
+				OBJ_26 /* OutputTarget.swift */,
+				OBJ_27 /* Rainbow.swift */,
+				OBJ_28 /* String+Rainbow.swift */,
+				OBJ_29 /* StringGenerator.swift */,
+				OBJ_30 /* Style.swift */,
+				OBJ_31 /* XcodeColorsSupport.swift */,
+			);
+			name = "Rainbow 3.1.5";
+			path = .build/checkouts/Rainbow/Sources;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_32 /* PathKit 0.9.2 */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_33 /* Package.swift */,
+				OBJ_34 /* PathKit.swift */,
+			);
+			name = "PathKit 0.9.2";
+			path = .build/checkouts/PathKit/Sources;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_35 /* SourceKitten 0.29.0 */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_36 /* Clang_C */,
+				OBJ_47 /* SourceKit */,
+				OBJ_52 /* SourceKittenFramework */,
+				OBJ_100 /* sourcekitten */,
+				OBJ_101 /* Package.swift */,
+			);
+			name = "SourceKitten 0.29.0";
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_36 /* Clang_C */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_37 /* Clang_C.m */,
+				OBJ_38 /* include */,
+			);
+			name = Clang_C;
+			path = .build/checkouts/SourceKitten/Source/Clang_C;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_38 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_39 /* Index.h */,
+				OBJ_40 /* BuildSystem.h */,
+				OBJ_41 /* Documentation.h */,
+				OBJ_42 /* CXCompilationDatabase.h */,
+				OBJ_43 /* Clang_C.h */,
+				OBJ_44 /* CXErrorCode.h */,
+				OBJ_45 /* CXString.h */,
+				OBJ_46 /* Platform.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		OBJ_47 /* SourceKit */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_48 /* SourceKit.m */,
+				OBJ_49 /* include */,
+			);
+			name = SourceKit;
+			path = .build/checkouts/SourceKitten/Source/SourceKit;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_49 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_50 /* SourceKit.h */,
+				OBJ_51 /* sourcekitd.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		OBJ_5 /*  */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_6 /* Package.swift */,
+				OBJ_7 /* Sources */,
+				OBJ_17 /* Tests */,
+				OBJ_18 /* Dependencies */,
+				OBJ_137 /* Products */,
+				OBJ_147 /* Sample */,
+				OBJ_148 /* LICENSE */,
+				OBJ_149 /* README.md */,
+			);
+			name = "";
+			sourceTree = "<group>";
+		};
+		OBJ_52 /* SourceKittenFramework */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_53 /* ByteCount.swift */,
+				OBJ_54 /* ByteRange.swift */,
+				OBJ_55 /* Clang+SourceKitten.swift */,
+				OBJ_56 /* ClangTranslationUnit.swift */,
+				OBJ_57 /* CodeCompletionItem.swift */,
+				OBJ_58 /* CursorInfo+Parsing.swift */,
+				OBJ_59 /* Dictionary+Merge.swift */,
+				OBJ_60 /* Documentation.swift */,
+				OBJ_61 /* Exec.swift */,
+				OBJ_62 /* File+Hashable.swift */,
+				OBJ_63 /* File.swift */,
+				OBJ_64 /* JSONOutput.swift */,
+				OBJ_65 /* Language.swift */,
+				OBJ_66 /* Line.swift */,
+				OBJ_67 /* LinuxCompatibility.swift */,
+				OBJ_68 /* Module.swift */,
+				OBJ_69 /* ObjCDeclarationKind.swift */,
+				OBJ_70 /* OffsetMap.swift */,
+				OBJ_71 /* Parameter.swift */,
+				OBJ_72 /* Request.swift */,
+				OBJ_73 /* SourceDeclaration.swift */,
+				OBJ_74 /* SourceKitObject.swift */,
+				OBJ_75 /* SourceLocation.swift */,
+				OBJ_76 /* StatementKind.swift */,
+				OBJ_77 /* String+SourceKitten.swift */,
+				OBJ_78 /* StringView+SourceKitten.swift */,
+				OBJ_79 /* StringView.swift */,
+				OBJ_80 /* Structure.swift */,
+				OBJ_81 /* SwiftDeclarationAttributeKind.swift */,
+				OBJ_82 /* SwiftDeclarationKind.swift */,
+				OBJ_83 /* SwiftDocKey.swift */,
+				OBJ_84 /* SwiftDocs.swift */,
+				OBJ_85 /* SwiftVersion.swift */,
+				OBJ_86 /* SyntaxKind.swift */,
+				OBJ_87 /* SyntaxMap.swift */,
+				OBJ_88 /* SyntaxToken.swift */,
+				OBJ_89 /* Text.swift */,
+				OBJ_90 /* UID.swift */,
+				OBJ_91 /* UIDRepresentable.swift */,
+				OBJ_92 /* Version.swift */,
+				OBJ_93 /* Xcode.swift */,
+				OBJ_94 /* XcodeBuildSetting.swift */,
+				OBJ_95 /* library_wrapper.swift */,
+				OBJ_96 /* library_wrapper_CXString.swift */,
+				OBJ_97 /* library_wrapper_Documentation.swift */,
+				OBJ_98 /* library_wrapper_Index.swift */,
+				OBJ_99 /* library_wrapper_sourcekitd.swift */,
+			);
+			name = SourceKittenFramework;
+			path = .build/checkouts/SourceKitten/Source/SourceKittenFramework;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_7 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_8 /* RIBsCodeGen */,
+			);
+			name = Sources;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_8 /* RIBsCodeGen */ = {
+			isa = PBXGroup;
+			children = (
+				B947CA4225CB94BE008947E7 /* Extensions */,
+				OBJ_9 /* Commands */,
+				OBJ_14 /* Error.swift */,
+				OBJ_15 /* Result.swift */,
+				OBJ_16 /* main.swift */,
+			);
+			name = RIBsCodeGen;
+			path = Sources/RIBsCodeGen;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_9 /* Commands */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_10 /* Command.swift */,
+				OBJ_11 /* DependencyCommand.swift */,
+				OBJ_12 /* HelpCommand.swift */,
+				OBJ_13 /* VersionCommand.swift */,
+			);
+			path = Commands;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		OBJ_161 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_162 /* CYaml.h in Headers */,
+				OBJ_163 /* yaml.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_171 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_172 /* Index.h in Headers */,
+				OBJ_173 /* BuildSystem.h in Headers */,
+				OBJ_174 /* Documentation.h in Headers */,
+				OBJ_175 /* CXCompilationDatabase.h in Headers */,
+				OBJ_176 /* Clang_C.h in Headers */,
+				OBJ_177 /* CXErrorCode.h in Headers */,
+				OBJ_178 /* CXString.h in Headers */,
+				OBJ_179 /* Platform.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_275 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_276 /* SourceKit.h in Headers */,
+				OBJ_277 /* sourcekitd.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		"PathKit::PathKit" /* PathKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_182 /* Build configuration list for PBXNativeTarget "PathKit" */;
+			buildPhases = (
+				OBJ_185 /* Sources */,
+				OBJ_187 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PathKit;
+			productName = PathKit;
+			productReference = "PathKit::PathKit::Product" /* PathKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"PathKit::SwiftPMPackageDescription" /* PathKitPackageDescription */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_189 /* Build configuration list for PBXNativeTarget "PathKitPackageDescription" */;
+			buildPhases = (
+				OBJ_192 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PathKitPackageDescription;
+			productName = PathKitPackageDescription;
+			productType = "com.apple.product-type.framework";
+		};
+		"RIBsCodeGen::RIBsCodeGen" /* RIBsCodeGen */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_195 /* Build configuration list for PBXNativeTarget "RIBsCodeGen" */;
+			buildPhases = (
+				OBJ_198 /* Sources */,
+				OBJ_206 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_215 /* PBXTargetDependency */,
+				OBJ_217 /* PBXTargetDependency */,
+				OBJ_218 /* PBXTargetDependency */,
+				OBJ_220 /* PBXTargetDependency */,
+				OBJ_222 /* PBXTargetDependency */,
+				OBJ_223 /* PBXTargetDependency */,
+				OBJ_225 /* PBXTargetDependency */,
+				OBJ_227 /* PBXTargetDependency */,
+			);
+			name = RIBsCodeGen;
+			productName = RIBsCodeGen;
+			productReference = "RIBsCodeGen::RIBsCodeGen::Product" /* RIBsCodeGen */;
+			productType = "com.apple.product-type.tool";
+		};
+		"RIBsCodeGen::SwiftPMPackageDescription" /* RIBsCodeGenPackageDescription */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_229 /* Build configuration list for PBXNativeTarget "RIBsCodeGenPackageDescription" */;
+			buildPhases = (
+				OBJ_232 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RIBsCodeGenPackageDescription;
+			productName = RIBsCodeGenPackageDescription;
+			productType = "com.apple.product-type.framework";
+		};
+		"Rainbow::Rainbow" /* Rainbow */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_234 /* Build configuration list for PBXNativeTarget "Rainbow" */;
+			buildPhases = (
+				OBJ_237 /* Sources */,
+				OBJ_249 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Rainbow;
+			productName = Rainbow;
+			productReference = "Rainbow::Rainbow::Product" /* Rainbow.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"Rainbow::SwiftPMPackageDescription" /* RainbowPackageDescription */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_251 /* Build configuration list for PBXNativeTarget "RainbowPackageDescription" */;
+			buildPhases = (
+				OBJ_254 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RainbowPackageDescription;
+			productName = RainbowPackageDescription;
+			productType = "com.apple.product-type.framework";
+		};
+		"SWXMLHash::SWXMLHash" /* SWXMLHash */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_256 /* Build configuration list for PBXNativeTarget "SWXMLHash" */;
+			buildPhases = (
+				OBJ_259 /* Sources */,
+				OBJ_263 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SWXMLHash;
+			productName = SWXMLHash;
+			productReference = "SWXMLHash::SWXMLHash::Product" /* SWXMLHash.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"SWXMLHash::SwiftPMPackageDescription" /* SWXMLHashPackageDescription */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_265 /* Build configuration list for PBXNativeTarget "SWXMLHashPackageDescription" */;
+			buildPhases = (
+				OBJ_268 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SWXMLHashPackageDescription;
+			productName = SWXMLHashPackageDescription;
+			productType = "com.apple.product-type.framework";
+		};
+		"SourceKitten::Clang_C" /* Clang_C */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_166 /* Build configuration list for PBXNativeTarget "Clang_C" */;
+			buildPhases = (
+				OBJ_169 /* Sources */,
+				OBJ_171 /* Headers */,
+				OBJ_180 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Clang_C;
+			productName = Clang_C;
+			productReference = "SourceKitten::Clang_C::Product" /* Clang_C.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"SourceKitten::SourceKit" /* SourceKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_270 /* Build configuration list for PBXNativeTarget "SourceKit" */;
+			buildPhases = (
+				OBJ_273 /* Sources */,
+				OBJ_275 /* Headers */,
+				OBJ_278 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SourceKit;
+			productName = SourceKit;
+			productReference = "SourceKitten::SourceKit::Product" /* SourceKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"SourceKitten::SourceKittenFramework" /* SourceKittenFramework */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_279 /* Build configuration list for PBXNativeTarget "SourceKittenFramework" */;
+			buildPhases = (
+				OBJ_282 /* Sources */,
+				OBJ_330 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_336 /* PBXTargetDependency */,
+				OBJ_337 /* PBXTargetDependency */,
+				OBJ_338 /* PBXTargetDependency */,
+				OBJ_339 /* PBXTargetDependency */,
+				OBJ_340 /* PBXTargetDependency */,
+			);
+			name = SourceKittenFramework;
+			productName = SourceKittenFramework;
+			productReference = "SourceKitten::SourceKittenFramework::Product" /* SourceKittenFramework.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"SourceKitten::SwiftPMPackageDescription" /* SourceKittenPackageDescription */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_342 /* Build configuration list for PBXNativeTarget "SourceKittenPackageDescription" */;
+			buildPhases = (
+				OBJ_345 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SourceKittenPackageDescription;
+			productName = SourceKittenPackageDescription;
+			productType = "com.apple.product-type.framework";
+		};
+		"Yams::CYaml" /* CYaml */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_151 /* Build configuration list for PBXNativeTarget "CYaml" */;
+			buildPhases = (
+				OBJ_154 /* Sources */,
+				OBJ_161 /* Headers */,
+				OBJ_164 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CYaml;
+			productName = CYaml;
+			productReference = "Yams::CYaml::Product" /* CYaml.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"Yams::SwiftPMPackageDescription" /* YamsPackageDescription */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_371 /* Build configuration list for PBXNativeTarget "YamsPackageDescription" */;
+			buildPhases = (
+				OBJ_374 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = YamsPackageDescription;
+			productName = YamsPackageDescription;
+			productType = "com.apple.product-type.framework";
+		};
+		"Yams::Yams" /* Yams */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_347 /* Build configuration list for PBXNativeTarget "Yams" */;
+			buildPhases = (
+				OBJ_350 /* Sources */,
+				OBJ_367 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_369 /* PBXTargetDependency */,
+			);
+			name = Yams;
+			productName = Yams;
+			productReference = "Yams::Yams::Product" /* Yams.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		OBJ_1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftMigration = 9999;
+				LastUpgradeCheck = 9999;
+				TargetAttributes = {
+					"Yams::CYaml" = {
+						LastSwiftMigration = 1200;
+					};
+				};
+			};
+			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "RIBsCodeGen" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = OBJ_5 /*  */;
+			productRefGroup = OBJ_137 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				"Yams::CYaml" /* CYaml */,
+				"SourceKitten::Clang_C" /* Clang_C */,
+				"PathKit::PathKit" /* PathKit */,
+				"PathKit::SwiftPMPackageDescription" /* PathKitPackageDescription */,
+				"RIBsCodeGen::RIBsCodeGen" /* RIBsCodeGen */,
+				"RIBsCodeGen::SwiftPMPackageDescription" /* RIBsCodeGenPackageDescription */,
+				"Rainbow::Rainbow" /* Rainbow */,
+				"Rainbow::SwiftPMPackageDescription" /* RainbowPackageDescription */,
+				"SWXMLHash::SWXMLHash" /* SWXMLHash */,
+				"SWXMLHash::SwiftPMPackageDescription" /* SWXMLHashPackageDescription */,
+				"SourceKitten::SourceKit" /* SourceKit */,
+				"SourceKitten::SourceKittenFramework" /* SourceKittenFramework */,
+				"SourceKitten::SwiftPMPackageDescription" /* SourceKittenPackageDescription */,
+				"Yams::Yams" /* Yams */,
+				"Yams::SwiftPMPackageDescription" /* YamsPackageDescription */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		OBJ_154 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_155 /* api.c in Sources */,
+				OBJ_156 /* emitter.c in Sources */,
+				OBJ_157 /* parser.c in Sources */,
+				OBJ_158 /* reader.c in Sources */,
+				OBJ_159 /* scanner.c in Sources */,
+				OBJ_160 /* writer.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_169 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_170 /* Clang_C.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_185 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_186 /* PathKit.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_192 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_193 /* Package.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_198 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_199 /* Command.swift in Sources */,
+				OBJ_200 /* DependencyCommand.swift in Sources */,
+				B947CAB325CB956A008947E7 /* Dictionary+SourceKit.swift in Sources */,
+				OBJ_201 /* HelpCommand.swift in Sources */,
+				B947CA9425CB9566008947E7 /* String+Foundation.swift in Sources */,
+				OBJ_202 /* VersionCommand.swift in Sources */,
+				OBJ_203 /* Error.swift in Sources */,
+				B947CAD225CB956E008947E7 /* Array+SourceKit.swift in Sources */,
+				OBJ_204 /* Result.swift in Sources */,
+				OBJ_205 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_232 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_233 /* Package.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_237 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_238 /* BackgroundColor.swift in Sources */,
+				OBJ_239 /* CodesParser.swift in Sources */,
+				OBJ_240 /* Color.swift in Sources */,
+				OBJ_241 /* ControlCode.swift in Sources */,
+				OBJ_242 /* ModesExtractor.swift in Sources */,
+				OBJ_243 /* OutputTarget.swift in Sources */,
+				OBJ_244 /* Rainbow.swift in Sources */,
+				OBJ_245 /* String+Rainbow.swift in Sources */,
+				OBJ_246 /* StringGenerator.swift in Sources */,
+				OBJ_247 /* Style.swift in Sources */,
+				OBJ_248 /* XcodeColorsSupport.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_254 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_255 /* Package.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_259 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_260 /* SWXMLHash.swift in Sources */,
+				OBJ_261 /* XMLIndexer+XMLIndexerDeserializable.swift in Sources */,
+				OBJ_262 /* shim.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_268 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_269 /* Package.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_273 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_274 /* SourceKit.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_282 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_283 /* ByteCount.swift in Sources */,
+				OBJ_284 /* ByteRange.swift in Sources */,
+				OBJ_285 /* Clang+SourceKitten.swift in Sources */,
+				OBJ_286 /* ClangTranslationUnit.swift in Sources */,
+				OBJ_287 /* CodeCompletionItem.swift in Sources */,
+				OBJ_288 /* CursorInfo+Parsing.swift in Sources */,
+				OBJ_289 /* Dictionary+Merge.swift in Sources */,
+				OBJ_290 /* Documentation.swift in Sources */,
+				OBJ_291 /* Exec.swift in Sources */,
+				OBJ_292 /* File+Hashable.swift in Sources */,
+				OBJ_293 /* File.swift in Sources */,
+				OBJ_294 /* JSONOutput.swift in Sources */,
+				OBJ_295 /* Language.swift in Sources */,
+				OBJ_296 /* Line.swift in Sources */,
+				OBJ_297 /* LinuxCompatibility.swift in Sources */,
+				OBJ_298 /* Module.swift in Sources */,
+				OBJ_299 /* ObjCDeclarationKind.swift in Sources */,
+				OBJ_300 /* OffsetMap.swift in Sources */,
+				OBJ_301 /* Parameter.swift in Sources */,
+				OBJ_302 /* Request.swift in Sources */,
+				OBJ_303 /* SourceDeclaration.swift in Sources */,
+				OBJ_304 /* SourceKitObject.swift in Sources */,
+				OBJ_305 /* SourceLocation.swift in Sources */,
+				OBJ_306 /* StatementKind.swift in Sources */,
+				OBJ_307 /* String+SourceKitten.swift in Sources */,
+				OBJ_308 /* StringView+SourceKitten.swift in Sources */,
+				OBJ_309 /* StringView.swift in Sources */,
+				OBJ_310 /* Structure.swift in Sources */,
+				OBJ_311 /* SwiftDeclarationAttributeKind.swift in Sources */,
+				OBJ_312 /* SwiftDeclarationKind.swift in Sources */,
+				OBJ_313 /* SwiftDocKey.swift in Sources */,
+				OBJ_314 /* SwiftDocs.swift in Sources */,
+				OBJ_315 /* SwiftVersion.swift in Sources */,
+				OBJ_316 /* SyntaxKind.swift in Sources */,
+				OBJ_317 /* SyntaxMap.swift in Sources */,
+				OBJ_318 /* SyntaxToken.swift in Sources */,
+				OBJ_319 /* Text.swift in Sources */,
+				OBJ_320 /* UID.swift in Sources */,
+				OBJ_321 /* UIDRepresentable.swift in Sources */,
+				OBJ_322 /* Version.swift in Sources */,
+				OBJ_323 /* Xcode.swift in Sources */,
+				OBJ_324 /* XcodeBuildSetting.swift in Sources */,
+				OBJ_325 /* library_wrapper.swift in Sources */,
+				OBJ_326 /* library_wrapper_CXString.swift in Sources */,
+				OBJ_327 /* library_wrapper_Documentation.swift in Sources */,
+				OBJ_328 /* library_wrapper_Index.swift in Sources */,
+				OBJ_329 /* library_wrapper_sourcekitd.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_345 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_346 /* Package.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_350 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_351 /* Constructor.swift in Sources */,
+				OBJ_352 /* Decoder.swift in Sources */,
+				OBJ_353 /* Emitter.swift in Sources */,
+				OBJ_354 /* Encoder.swift in Sources */,
+				OBJ_355 /* Mark.swift in Sources */,
+				OBJ_356 /* Node.Mapping.swift in Sources */,
+				OBJ_357 /* Node.Scalar.swift in Sources */,
+				OBJ_358 /* Node.Sequence.swift in Sources */,
+				OBJ_359 /* Node.swift in Sources */,
+				OBJ_360 /* Parser.swift in Sources */,
+				OBJ_361 /* Representer.swift in Sources */,
+				OBJ_362 /* Resolver.swift in Sources */,
+				OBJ_363 /* String+Yams.swift in Sources */,
+				OBJ_364 /* Tag.swift in Sources */,
+				OBJ_365 /* YamlError.swift in Sources */,
+				OBJ_366 /* shim.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_374 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_375 /* Package.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		OBJ_215 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "Rainbow::Rainbow" /* Rainbow */;
+			targetProxy = B947CA2525CB764F008947E7 /* PBXContainerItemProxy */;
+		};
+		OBJ_217 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "PathKit::PathKit" /* PathKit */;
+			targetProxy = B947CA2625CB764F008947E7 /* PBXContainerItemProxy */;
+		};
+		OBJ_218 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "SourceKitten::SourceKittenFramework" /* SourceKittenFramework */;
+			targetProxy = B947CA2725CB764F008947E7 /* PBXContainerItemProxy */;
+		};
+		OBJ_220 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "Yams::Yams" /* Yams */;
+			targetProxy = B947CA2E25CB764F008947E7 /* PBXContainerItemProxy */;
+		};
+		OBJ_222 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "Yams::CYaml" /* CYaml */;
+			targetProxy = B947CA2F25CB764F008947E7 /* PBXContainerItemProxy */;
+		};
+		OBJ_223 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "SWXMLHash::SWXMLHash" /* SWXMLHash */;
+			targetProxy = B947CA3025CB764F008947E7 /* PBXContainerItemProxy */;
+		};
+		OBJ_225 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "SourceKitten::SourceKit" /* SourceKit */;
+			targetProxy = B947CA3125CB764F008947E7 /* PBXContainerItemProxy */;
+		};
+		OBJ_227 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "SourceKitten::Clang_C" /* Clang_C */;
+			targetProxy = B947CA3225CB764F008947E7 /* PBXContainerItemProxy */;
+		};
+		OBJ_336 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "Yams::Yams" /* Yams */;
+			targetProxy = B947CA2825CB764F008947E7 /* PBXContainerItemProxy */;
+		};
+		OBJ_337 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "Yams::CYaml" /* CYaml */;
+			targetProxy = B947CA2A25CB764F008947E7 /* PBXContainerItemProxy */;
+		};
+		OBJ_338 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "SWXMLHash::SWXMLHash" /* SWXMLHash */;
+			targetProxy = B947CA2B25CB764F008947E7 /* PBXContainerItemProxy */;
+		};
+		OBJ_339 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "SourceKitten::SourceKit" /* SourceKit */;
+			targetProxy = B947CA2C25CB764F008947E7 /* PBXContainerItemProxy */;
+		};
+		OBJ_340 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "SourceKitten::Clang_C" /* Clang_C */;
+			targetProxy = B947CA2D25CB764F008947E7 /* PBXContainerItemProxy */;
+		};
+		OBJ_369 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "Yams::CYaml" /* CYaml */;
+			targetProxy = B947CA2925CB764F008947E7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		OBJ_152 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.build/checkouts/Yams/Sources/CYaml/include",
+				);
+				INFOPLIST_FILE = RIBsCodeGen.xcodeproj/CYaml_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = CYaml;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGET_NAME = CYaml;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		OBJ_153 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.build/checkouts/Yams/Sources/CYaml/include",
+				);
+				INFOPLIST_FILE = RIBsCodeGen.xcodeproj/CYaml_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = CYaml;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 5.0;
+				TARGET_NAME = CYaml;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		OBJ_167 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.build/checkouts/SourceKitten/Source/Clang_C/include",
+				);
+				INFOPLIST_FILE = RIBsCodeGen.xcodeproj/Clang_C_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "Clang-C";
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				TARGET_NAME = Clang_C;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		OBJ_168 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.build/checkouts/SourceKitten/Source/Clang_C/include",
+				);
+				INFOPLIST_FILE = RIBsCodeGen.xcodeproj/Clang_C_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "Clang-C";
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				TARGET_NAME = Clang_C;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		OBJ_183 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = RIBsCodeGen.xcodeproj/PathKit_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = PathKit;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.2;
+				TARGET_NAME = PathKit;
+			};
+			name = Debug;
+		};
+		OBJ_184 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = RIBsCodeGen.xcodeproj/PathKit_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = PathKit;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.2;
+				TARGET_NAME = PathKit;
+			};
+			name = Release;
+		};
+		OBJ_190 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 4.2 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -package-description-version 4.2.0";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		OBJ_191 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 4.2 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -package-description-version 4.2.0";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+		OBJ_196 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.build/checkouts/Yams/Sources/CYaml/include",
+					"$(SRCROOT)/.build/checkouts/SourceKitten/Source/SourceKit/include",
+					"$(SRCROOT)/.build/checkouts/SourceKitten/Source/Clang_C/include",
+				);
+				INFOPLIST_FILE = RIBsCodeGen.xcodeproj/RIBsCodeGen_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx @executable_path";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
+				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
+				SWIFT_VERSION = 5.0;
+				TARGET_NAME = RIBsCodeGen;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		OBJ_197 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.build/checkouts/Yams/Sources/CYaml/include",
+					"$(SRCROOT)/.build/checkouts/SourceKitten/Source/SourceKit/include",
+					"$(SRCROOT)/.build/checkouts/SourceKitten/Source/Clang_C/include",
+				);
+				INFOPLIST_FILE = RIBsCodeGen.xcodeproj/RIBsCodeGen_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx @executable_path";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
+				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
+				SWIFT_VERSION = 5.0;
+				TARGET_NAME = RIBsCodeGen;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		OBJ_230 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 5 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -package-description-version 5.1.0";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		OBJ_231 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 5 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -package-description-version 5.1.0";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		OBJ_235 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = RIBsCodeGen.xcodeproj/Rainbow_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = Rainbow;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = Rainbow;
+			};
+			name = Debug;
+		};
+		OBJ_236 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = RIBsCodeGen.xcodeproj/Rainbow_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = Rainbow;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = Rainbow;
+			};
+			name = Release;
+		};
+		OBJ_252 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 4 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -package-description-version 4.0.0";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		OBJ_253 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 4 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -package-description-version 4.0.0";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		OBJ_257 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = RIBsCodeGen.xcodeproj/SWXMLHash_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = SWXMLHash;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = SWXMLHash;
+			};
+			name = Debug;
+		};
+		OBJ_258 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = RIBsCodeGen.xcodeproj/SWXMLHash_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = SWXMLHash;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = SWXMLHash;
+			};
+			name = Release;
+		};
+		OBJ_266 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 4 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -package-description-version 4.0.0";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		OBJ_267 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 4 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -package-description-version 4.0.0";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		OBJ_271 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.build/checkouts/SourceKitten/Source/SourceKit/include",
+				);
+				INFOPLIST_FILE = RIBsCodeGen.xcodeproj/SourceKit_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = SourceKit;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				TARGET_NAME = SourceKit;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		OBJ_272 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.build/checkouts/SourceKitten/Source/SourceKit/include",
+				);
+				INFOPLIST_FILE = RIBsCodeGen.xcodeproj/SourceKit_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = SourceKit;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				TARGET_NAME = SourceKit;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		OBJ_280 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.build/checkouts/Yams/Sources/CYaml/include",
+					"$(SRCROOT)/.build/checkouts/SourceKitten/Source/SourceKit/include",
+					"$(SRCROOT)/.build/checkouts/SourceKitten/Source/Clang_C/include",
+				);
+				INFOPLIST_FILE = RIBsCodeGen.xcodeproj/SourceKittenFramework_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = SourceKittenFramework;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 5.0;
+				TARGET_NAME = SourceKittenFramework;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		OBJ_281 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.build/checkouts/Yams/Sources/CYaml/include",
+					"$(SRCROOT)/.build/checkouts/SourceKitten/Source/SourceKit/include",
+					"$(SRCROOT)/.build/checkouts/SourceKitten/Source/Clang_C/include",
+				);
+				INFOPLIST_FILE = RIBsCodeGen.xcodeproj/SourceKittenFramework_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = SourceKittenFramework;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 5.0;
+				TARGET_NAME = SourceKittenFramework;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		OBJ_3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"SWIFT_PACKAGE=1",
+					"DEBUG=1",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "$(inherited) -DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE DEBUG";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				USE_HEADERMAP = NO;
+			};
+			name = Debug;
+		};
+		OBJ_343 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 5 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -package-description-version 5.0.0";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		OBJ_344 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 5 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -package-description-version 5.0.0";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		OBJ_348 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.build/checkouts/Yams/Sources/CYaml/include",
+				);
+				INFOPLIST_FILE = RIBsCodeGen.xcodeproj/Yams_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = Yams;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 5.0;
+				TARGET_NAME = Yams;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		OBJ_349 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/.build/checkouts/Yams/Sources/CYaml/include",
+				);
+				INFOPLIST_FILE = RIBsCodeGen.xcodeproj/Yams_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = Yams;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 5.0;
+				TARGET_NAME = Yams;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		OBJ_372 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 5 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -package-description-version 5.0.0";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		OBJ_373 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 5 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -package-description-version 5.0.0";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		OBJ_4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"SWIFT_PACKAGE=1",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_SWIFT_FLAGS = "$(inherited) -DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				USE_HEADERMAP = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		OBJ_151 /* Build configuration list for PBXNativeTarget "CYaml" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_152 /* Debug */,
+				OBJ_153 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_166 /* Build configuration list for PBXNativeTarget "Clang_C" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_167 /* Debug */,
+				OBJ_168 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_182 /* Build configuration list for PBXNativeTarget "PathKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_183 /* Debug */,
+				OBJ_184 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_189 /* Build configuration list for PBXNativeTarget "PathKitPackageDescription" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_190 /* Debug */,
+				OBJ_191 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_195 /* Build configuration list for PBXNativeTarget "RIBsCodeGen" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_196 /* Debug */,
+				OBJ_197 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_2 /* Build configuration list for PBXProject "RIBsCodeGen" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_3 /* Debug */,
+				OBJ_4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_229 /* Build configuration list for PBXNativeTarget "RIBsCodeGenPackageDescription" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_230 /* Debug */,
+				OBJ_231 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_234 /* Build configuration list for PBXNativeTarget "Rainbow" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_235 /* Debug */,
+				OBJ_236 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_251 /* Build configuration list for PBXNativeTarget "RainbowPackageDescription" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_252 /* Debug */,
+				OBJ_253 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_256 /* Build configuration list for PBXNativeTarget "SWXMLHash" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_257 /* Debug */,
+				OBJ_258 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_265 /* Build configuration list for PBXNativeTarget "SWXMLHashPackageDescription" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_266 /* Debug */,
+				OBJ_267 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_270 /* Build configuration list for PBXNativeTarget "SourceKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_271 /* Debug */,
+				OBJ_272 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_279 /* Build configuration list for PBXNativeTarget "SourceKittenFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_280 /* Debug */,
+				OBJ_281 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_342 /* Build configuration list for PBXNativeTarget "SourceKittenPackageDescription" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_343 /* Debug */,
+				OBJ_344 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_347 /* Build configuration list for PBXNativeTarget "Yams" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_348 /* Debug */,
+				OBJ_349 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_371 /* Build configuration list for PBXNativeTarget "YamsPackageDescription" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_372 /* Debug */,
+				OBJ_373 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = OBJ_1 /* Project object */;
 }
