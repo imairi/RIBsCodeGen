@@ -208,22 +208,12 @@ struct DependencyCommand: Command {
         let parentRouterFileStructure = try! Structure(file: parentRouterFile)
         print(parentRouterFileStructure.dictionary.bridge())
 
-        let parentRouterStructures = getSubStructures(from: parentRouterFileStructure,
-                                                      targetKind: .class,
-                                                      targetKeyName: "\(parent)Router")
+        let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().filterByKeyName("\(parent)Router")
+        let initStructure = parentRouterStructure.getSubStructures().filterByKeyName("init")
+        let initArguments = initStructure.getSubStructures().filterByKeyKind(.varParameter)
 
         var initArgumentEndPosition = 0
 
-        let initSubStructures = getSubStructures(from: parentRouterStructures, name: "init")
-
-        let initArguments = initSubStructures.filter { initStructure -> Bool in
-            guard let kindValue = initStructure["key.kind"] as? String,
-                  let kind = SwiftDeclarationKind(rawValue: kindValue),
-                  kind == .varParameter else {
-                return false
-            }
-            return true
-        }
         print("Router 初期化メソッドの最後の引数", initArguments.last ?? "nil")
         guard let lastArgumentLength = initArguments.last?["key.length"] as? Int64,
               let lastArgumentOffset = initArguments.last?["key.offset"] as? Int64 else {
@@ -358,14 +348,25 @@ extension Collection where Iterator.Element == [String: SourceKitRepresentable] 
         return targetStructures.first ?? [String: SourceKitRepresentable]()
     }
 
-    func filterByAttribute(_ targetKind: SwiftDeclarationAttributeKind) -> [String: SourceKitRepresentable] {
+    func filterByAttribute(_ targetKind: SwiftDeclarationAttributeKind) -> [[String: SourceKitRepresentable]] {
         let targetStructures = self.filter { structure -> Bool in
             let keyAttributes = structure["key.attribute"] as? String ?? ""
             let attributeKind = SwiftDeclarationAttributeKind(rawValue: keyAttributes)
 
             return attributeKind == targetKind
         }
-        return targetStructures.first ?? [String: SourceKitRepresentable]()
+        return targetStructures
+    }
+
+    func filterByKeyKind(_ targetKind: SwiftDeclarationKind) -> [[String: SourceKitRepresentable]] {
+        let targetStructures = self.filter { initStructure -> Bool in
+            guard let kindValue = initStructure["key.kind"] as? String else {
+                return false
+            }
+            let kind = SwiftDeclarationKind(rawValue: kindValue)
+            return kind == targetKind
+        }
+        return targetStructures
     }
 }
 
