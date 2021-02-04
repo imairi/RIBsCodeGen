@@ -52,13 +52,15 @@ func makeCommand(commandLineArguments: [String]) -> Command {
     default:
         let targetDirectory = "/Users/imairiyousuke/git/RIBsCodeGen/Sample"
         let paths = allSwiftSourcePaths(directoryPath: targetDirectory)
+        let parent = "ParentDemo"
+        let child = "ChildDemo"
         let command = CreateCommand.init(paths: paths,
                                          targetDirectory: targetDirectory,
                                          templateDirectory: "/Users/imairiyousuke/git/RIBsCodeGen/Templates",
-                                         parent: "Test",
-                                         child: "TestChild")
+                                         parent: parent,
+                                         child: child)
         _ = command.run()
-        return DependencyCommand(paths: paths, parent: "SampleParent", child: "SampleChild")
+        return DependencyCommand(paths: paths, parent: parent, child: child)
     }
 }
 
