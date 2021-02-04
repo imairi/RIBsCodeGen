@@ -60,6 +60,14 @@ struct DependencyCommand: Command {
     }
     
     func run() -> Result {
+        resolveDependencyForRouter()
+        return .success(message: "dependency completed")
+    }
+}
+
+// MARK: - Run
+private extension DependencyCommand {
+    func resolveDependencyForRouter() {
         addChildListenerIfNeeded(parentRouterPath: parentRouterPath)
 
         if !hasChildBuilder(parentRouterPath: parentRouterPath) {
@@ -73,11 +81,10 @@ struct DependencyCommand: Command {
         if let formattedText = format(path: parentRouterPath) {
             write(text: formattedText, toPath: parentRouterPath)
         }
-        return .success(message: "dependency completed")
     }
 }
 
-// MARK: - Private
+// MARK: - Private methods
 private extension DependencyCommand {
     func addChildListenerIfNeeded(parentRouterPath: String) {
         let parentRouterFile = File(path: parentRouterPath)!
@@ -222,8 +229,8 @@ private extension DependencyCommand {
     }
 }
 
-// MARK: - execute
-extension DependencyCommand {
+// MARK: - execute methods
+private extension DependencyCommand {
     func write(text: String, toPath path: String) {
         do {
             print(text)
