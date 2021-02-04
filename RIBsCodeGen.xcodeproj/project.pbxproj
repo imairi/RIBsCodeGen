@@ -24,8 +24,8 @@
             "SourceKitten::Clang_C",
             "PathKit::PathKit",
             "PathKit::SwiftPMPackageDescription",
-            "RIBshokunin::RIBshokunin",
-            "RIBshokunin::SwiftPMPackageDescription",
+            "RIBsCodeGen::RIBsCodeGen",
+            "RIBsCodeGen::SwiftPMPackageDescription",
             "Rainbow::Rainbow",
             "Rainbow::SwiftPMPackageDescription",
             "SWXMLHash::SWXMLHash",
@@ -54,7 +54,7 @@
          isa = "PBXFileReference";
          explicitFileType = "sourcecode.swift";
          name = "Package.swift";
-         path = "/Users/imairiyousuke/git/RIBshokunin/.build/checkouts/SourceKitten/Package.swift";
+         path = "/Users/imairiyousuke/git/RIBsCodeGen/.build/checkouts/SourceKitten/Package.swift";
          sourceTree = "<group>";
       };
       "OBJ_102" = {
@@ -265,7 +265,7 @@
          isa = "PBXFileReference";
          explicitFileType = "sourcecode.swift";
          name = "Package.swift";
-         path = "/Users/imairiyousuke/git/RIBshokunin/.build/checkouts/Yams/Package.swift";
+         path = "/Users/imairiyousuke/git/RIBsCodeGen/.build/checkouts/Yams/Package.swift";
          sourceTree = "<group>";
       };
       "OBJ_132" = {
@@ -284,7 +284,7 @@
          isa = "PBXFileReference";
          explicitFileType = "sourcecode.swift";
          name = "Package.swift";
-         path = "/Users/imairiyousuke/git/RIBshokunin/.build/checkouts/SWXMLHash/Package.swift";
+         path = "/Users/imairiyousuke/git/RIBsCodeGen/.build/checkouts/SWXMLHash/Package.swift";
          sourceTree = "<group>";
       };
       "OBJ_134" = {
@@ -305,15 +305,15 @@
       "OBJ_137" = {
          isa = "PBXGroup";
          children = (
-            "PathKit::PathKit::Product",
-            "RIBshokunin::RIBshokunin::Product",
             "SourceKitten::Clang_C::Product",
+            "PathKit::PathKit::Product",
             "Yams::CYaml::Product",
             "SourceKitten::SourceKit::Product",
-            "Yams::Yams::Product",
             "SourceKitten::SourceKittenFramework::Product",
             "SWXMLHash::SWXMLHash::Product",
-            "Rainbow::Rainbow::Product"
+            "Rainbow::Rainbow::Product",
+            "Yams::Yams::Product",
+            "RIBsCodeGen::RIBsCodeGen::Product"
          );
          name = "Products";
          path = "";
@@ -367,7 +367,7 @@
                "$(inherited)",
                "$(SRCROOT)/.build/checkouts/Yams/Sources/CYaml/include"
             );
-            INFOPLIST_FILE = "RIBshokunin.xcodeproj/CYaml_Info.plist";
+            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/CYaml_Info.plist";
             IPHONEOS_DEPLOYMENT_TARGET = "9.0";
             LD_RUNPATH_SEARCH_PATHS = (
                "$(inherited)",
@@ -410,7 +410,7 @@
                "$(inherited)",
                "$(SRCROOT)/.build/checkouts/Yams/Sources/CYaml/include"
             );
-            INFOPLIST_FILE = "RIBshokunin.xcodeproj/CYaml_Info.plist";
+            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/CYaml_Info.plist";
             IPHONEOS_DEPLOYMENT_TARGET = "9.0";
             LD_RUNPATH_SEARCH_PATHS = (
                "$(inherited)",
@@ -532,7 +532,7 @@
                "$(inherited)",
                "$(SRCROOT)/.build/checkouts/SourceKitten/Source/Clang_C/include"
             );
-            INFOPLIST_FILE = "RIBshokunin.xcodeproj/Clang_C_Info.plist";
+            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/Clang_C_Info.plist";
             IPHONEOS_DEPLOYMENT_TARGET = "9.0";
             LD_RUNPATH_SEARCH_PATHS = (
                "$(inherited)",
@@ -575,7 +575,7 @@
                "$(inherited)",
                "$(SRCROOT)/.build/checkouts/SourceKitten/Source/Clang_C/include"
             );
-            INFOPLIST_FILE = "RIBshokunin.xcodeproj/Clang_C_Info.plist";
+            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/Clang_C_Info.plist";
             IPHONEOS_DEPLOYMENT_TARGET = "9.0";
             LD_RUNPATH_SEARCH_PATHS = (
                "$(inherited)",
@@ -745,7 +745,7 @@
             HEADER_SEARCH_PATHS = (
                "$(inherited)"
             );
-            INFOPLIST_FILE = "RIBshokunin.xcodeproj/PathKit_Info.plist";
+            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/PathKit_Info.plist";
             LD_RUNPATH_SEARCH_PATHS = (
                "$(inherited)",
                "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
@@ -782,7 +782,7 @@
             HEADER_SEARCH_PATHS = (
                "$(inherited)"
             );
-            INFOPLIST_FILE = "RIBshokunin.xcodeproj/PathKit_Info.plist";
+            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/PathKit_Info.plist";
             LD_RUNPATH_SEARCH_PATHS = (
                "$(inherited)",
                "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
@@ -920,7 +920,7 @@
                "$(SRCROOT)/.build/checkouts/SourceKitten/Source/SourceKit/include",
                "$(SRCROOT)/.build/checkouts/SourceKitten/Source/Clang_C/include"
             );
-            INFOPLIST_FILE = "RIBshokunin.xcodeproj/RIBshokunin_Info.plist";
+            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/RIBsCodeGen_Info.plist";
             IPHONEOS_DEPLOYMENT_TARGET = "9.0";
             LD_RUNPATH_SEARCH_PATHS = (
                "$(inherited)",
@@ -943,7 +943,7 @@
             SWIFT_FORCE_DYNAMIC_LINK_STDLIB = "YES";
             SWIFT_FORCE_STATIC_LINK_STDLIB = "NO";
             SWIFT_VERSION = "5.0";
-            TARGET_NAME = "RIBshokunin";
+            TARGET_NAME = "RIBsCodeGen";
             TVOS_DEPLOYMENT_TARGET = "9.0";
             WATCHOS_DEPLOYMENT_TARGET = "2.0";
          };
@@ -962,7 +962,7 @@
                "$(SRCROOT)/.build/checkouts/SourceKitten/Source/SourceKit/include",
                "$(SRCROOT)/.build/checkouts/SourceKitten/Source/Clang_C/include"
             );
-            INFOPLIST_FILE = "RIBshokunin.xcodeproj/RIBshokunin_Info.plist";
+            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/RIBsCodeGen_Info.plist";
             IPHONEOS_DEPLOYMENT_TARGET = "9.0";
             LD_RUNPATH_SEARCH_PATHS = (
                "$(inherited)",
@@ -985,7 +985,7 @@
             SWIFT_FORCE_DYNAMIC_LINK_STDLIB = "YES";
             SWIFT_FORCE_STATIC_LINK_STDLIB = "NO";
             SWIFT_VERSION = "5.0";
-            TARGET_NAME = "RIBshokunin";
+            TARGET_NAME = "RIBsCodeGen";
             TVOS_DEPLOYMENT_TARGET = "9.0";
             WATCHOS_DEPLOYMENT_TARGET = "2.0";
          };
@@ -1020,7 +1020,7 @@
          isa = "PBXFileReference";
          explicitFileType = "sourcecode.swift";
          name = "Package.swift";
-         path = "/Users/imairiyousuke/git/RIBshokunin/.build/checkouts/Rainbow/Package.swift";
+         path = "/Users/imairiyousuke/git/RIBsCodeGen/.build/checkouts/Rainbow/Package.swift";
          sourceTree = "<group>";
       };
       "OBJ_200" = {
@@ -1214,7 +1214,7 @@
             HEADER_SEARCH_PATHS = (
                "$(inherited)"
             );
-            INFOPLIST_FILE = "RIBshokunin.xcodeproj/Rainbow_Info.plist";
+            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/Rainbow_Info.plist";
             LD_RUNPATH_SEARCH_PATHS = (
                "$(inherited)",
                "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
@@ -1251,7 +1251,7 @@
             HEADER_SEARCH_PATHS = (
                "$(inherited)"
             );
-            INFOPLIST_FILE = "RIBshokunin.xcodeproj/Rainbow_Info.plist";
+            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/Rainbow_Info.plist";
             LD_RUNPATH_SEARCH_PATHS = (
                "$(inherited)",
                "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
@@ -1427,7 +1427,7 @@
             HEADER_SEARCH_PATHS = (
                "$(inherited)"
             );
-            INFOPLIST_FILE = "RIBshokunin.xcodeproj/SWXMLHash_Info.plist";
+            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/SWXMLHash_Info.plist";
             LD_RUNPATH_SEARCH_PATHS = (
                "$(inherited)",
                "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
@@ -1464,7 +1464,7 @@
             HEADER_SEARCH_PATHS = (
                "$(inherited)"
             );
-            INFOPLIST_FILE = "RIBshokunin.xcodeproj/SWXMLHash_Info.plist";
+            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/SWXMLHash_Info.plist";
             LD_RUNPATH_SEARCH_PATHS = (
                "$(inherited)",
                "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
@@ -1603,7 +1603,7 @@
                "$(inherited)",
                "$(SRCROOT)/.build/checkouts/SourceKitten/Source/SourceKit/include"
             );
-            INFOPLIST_FILE = "RIBshokunin.xcodeproj/SourceKit_Info.plist";
+            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/SourceKit_Info.plist";
             IPHONEOS_DEPLOYMENT_TARGET = "9.0";
             LD_RUNPATH_SEARCH_PATHS = (
                "$(inherited)",
@@ -1646,7 +1646,7 @@
                "$(inherited)",
                "$(SRCROOT)/.build/checkouts/SourceKitten/Source/SourceKit/include"
             );
-            INFOPLIST_FILE = "RIBshokunin.xcodeproj/SourceKit_Info.plist";
+            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/SourceKit_Info.plist";
             IPHONEOS_DEPLOYMENT_TARGET = "9.0";
             LD_RUNPATH_SEARCH_PATHS = (
                "$(inherited)",
@@ -1743,7 +1743,7 @@
                "$(SRCROOT)/.build/checkouts/SourceKitten/Source/SourceKit/include",
                "$(SRCROOT)/.build/checkouts/SourceKitten/Source/Clang_C/include"
             );
-            INFOPLIST_FILE = "RIBshokunin.xcodeproj/SourceKittenFramework_Info.plist";
+            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/SourceKittenFramework_Info.plist";
             IPHONEOS_DEPLOYMENT_TARGET = "9.0";
             LD_RUNPATH_SEARCH_PATHS = (
                "$(inherited)",
@@ -1787,7 +1787,7 @@
                "$(SRCROOT)/.build/checkouts/SourceKitten/Source/SourceKit/include",
                "$(SRCROOT)/.build/checkouts/SourceKitten/Source/Clang_C/include"
             );
-            INFOPLIST_FILE = "RIBshokunin.xcodeproj/SourceKittenFramework_Info.plist";
+            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/SourceKittenFramework_Info.plist";
             IPHONEOS_DEPLOYMENT_TARGET = "9.0";
             LD_RUNPATH_SEARCH_PATHS = (
                "$(inherited)",
@@ -2128,7 +2128,7 @@
          isa = "PBXFileReference";
          explicitFileType = "sourcecode.swift";
          name = "Package.swift";
-         path = "/Users/imairiyousuke/git/RIBshokunin/.build/checkouts/PathKit/Package.swift";
+         path = "/Users/imairiyousuke/git/RIBsCodeGen/.build/checkouts/PathKit/Package.swift";
          sourceTree = "<group>";
       };
       "OBJ_330" = {
@@ -2262,7 +2262,7 @@
                "$(inherited)",
                "$(SRCROOT)/.build/checkouts/Yams/Sources/CYaml/include"
             );
-            INFOPLIST_FILE = "RIBshokunin.xcodeproj/Yams_Info.plist";
+            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/Yams_Info.plist";
             IPHONEOS_DEPLOYMENT_TARGET = "9.0";
             LD_RUNPATH_SEARCH_PATHS = (
                "$(inherited)",
@@ -2304,7 +2304,7 @@
                "$(inherited)",
                "$(SRCROOT)/.build/checkouts/Yams/Sources/CYaml/include"
             );
-            INFOPLIST_FILE = "RIBshokunin.xcodeproj/Yams_Info.plist";
+            INFOPLIST_FILE = "RIBsCodeGen.xcodeproj/Yams_Info.plist";
             IPHONEOS_DEPLOYMENT_TARGET = "9.0";
             LD_RUNPATH_SEARCH_PATHS = (
                "$(inherited)",
@@ -2873,8 +2873,8 @@
             "OBJ_15",
             "OBJ_16"
          );
-         name = "RIBshokunin";
-         path = "Sources/RIBshokunin";
+         name = "RIBsCodeGen";
+         path = "Sources/RIBsCodeGen";
          sourceTree = "SOURCE_ROOT";
       };
       "OBJ_80" = {
@@ -3020,7 +3020,7 @@
          productName = "PathKitPackageDescription";
          productType = "com.apple.product-type.framework";
       };
-      "RIBshokunin::RIBshokunin" = {
+      "RIBsCodeGen::RIBsCodeGen" = {
          isa = "PBXNativeTarget";
          buildConfigurationList = "OBJ_195";
          buildPhases = (
@@ -3037,17 +3037,17 @@
             "OBJ_225",
             "OBJ_227"
          );
-         name = "RIBshokunin";
-         productName = "RIBshokunin";
-         productReference = "RIBshokunin::RIBshokunin::Product";
+         name = "RIBsCodeGen";
+         productName = "RIBsCodeGen";
+         productReference = "RIBsCodeGen::RIBsCodeGen::Product";
          productType = "com.apple.product-type.tool";
       };
-      "RIBshokunin::RIBshokunin::Product" = {
+      "RIBsCodeGen::RIBsCodeGen::Product" = {
          isa = "PBXFileReference";
-         path = "RIBshokunin";
+         path = "RIBsCodeGen";
          sourceTree = "BUILT_PRODUCTS_DIR";
       };
-      "RIBshokunin::SwiftPMPackageDescription" = {
+      "RIBsCodeGen::SwiftPMPackageDescription" = {
          isa = "PBXNativeTarget";
          buildConfigurationList = "OBJ_229";
          buildPhases = (
@@ -3055,8 +3055,8 @@
          );
          dependencies = (
          );
-         name = "RIBshokuninPackageDescription";
-         productName = "RIBshokuninPackageDescription";
+         name = "RIBsCodeGenPackageDescription";
+         productName = "RIBsCodeGenPackageDescription";
          productType = "com.apple.product-type.framework";
       };
       "Rainbow::Rainbow" = {

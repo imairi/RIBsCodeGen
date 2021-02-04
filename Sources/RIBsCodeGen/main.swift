@@ -1,6 +1,6 @@
 //
 //  main.swift
-//  RIBshokunin
+//  RIBsCodeGen
 //
 //  Created by 今入　庸介 on 2021/02/03.
 //
@@ -50,7 +50,7 @@ func makeCommand(commandLineArguments: [String]) -> Command {
     case "version":
         return VersionCommand(version: version)
     default:
-        let paths = allSwiftSourcePaths(directoryPath: "/Users/imairiyousuke/git/RIBshokunin/Sample")
+        let paths = allSwiftSourcePaths(directoryPath: "/Users/imairiyousuke/git/RIBsCodeGen/Sample")
         return DependencyCommand(paths: paths, parent: "SampleParent", child: "SampleChild")
     }
 }

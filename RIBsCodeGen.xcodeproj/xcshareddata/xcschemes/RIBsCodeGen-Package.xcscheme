@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "RIBshokunin::RIBshokunin"
-               BuildableName = "RIBshokunin"
-               BlueprintName = "RIBshokunin"
-               ReferencedContainer = "container:RIBshokunin.xcodeproj">
+               BlueprintIdentifier = "RIBsCodeGen::RIBsCodeGen"
+               BuildableName = "RIBsCodeGen"
+               BlueprintName = "RIBsCodeGen"
+               ReferencedContainer = "container:RIBsCodeGen.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -44,10 +44,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "RIBshokunin::RIBshokunin"
-            BuildableName = "RIBshokunin"
-            BlueprintName = "RIBshokunin"
-            ReferencedContainer = "container:RIBshokunin.xcodeproj">
+            BlueprintIdentifier = "RIBsCodeGen::RIBsCodeGen"
+            BuildableName = "RIBsCodeGen"
+            BlueprintName = "RIBsCodeGen"
+            ReferencedContainer = "container:RIBsCodeGen.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>

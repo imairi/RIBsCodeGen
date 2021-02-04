@@ -2,9 +2,9 @@
 import PackageDescription
 
 let package = Package(
-    name: "RIBshokunin",
+    name: "RIBsCodeGen",
     products: [
-        .executable(name: "RIBshokunin", targets: ["RIBshokunin"])
+        .executable(name: "RIBsCodeGen", targets: ["RIBsCodeGen"])
     ],
     dependencies: [
         .package(url: "https://github.com/jpsim/SourceKitten", from: "0.22.0"),
@@ -13,7 +13,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "RIBshokunin", 
+            name: "RIBsCodeGen", 
             dependencies: ["SourceKittenFramework", "PathKit", "Rainbow"]
         )
     ]

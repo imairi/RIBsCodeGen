@@ -1,2 +1,2 @@
-# RIBshokunin
+# RIBsCodeGen
 Generate RIBs boilerplate
