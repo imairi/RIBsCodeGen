@@ -289,6 +289,12 @@ private extension DependencyCommand {
         }
 
         let initStructure = parentBuilderClass.getSubStructures().extractByKeyName("build")
+        let childBuilderInitializers = initStructure.getSubStructures().filterByKeyKind(.call).filterByKeyName("\(child)Builder")
+        guard childBuilderInitializers.isEmpty else {
+            print("すでに \(child)Builder の初期化処理があります。")
+            return
+        }
+
         let parentRouter = initStructure.getSubStructures().filterByKeyKind(.call).extractByKeyName("\(parent)Router")
 
         let insertPosition = parentRouter.getOuterLeadingPosition() - "return ".count
@@ -318,6 +324,12 @@ private extension DependencyCommand {
 
         let initStructure = parentBuilderClass.getSubStructures().extractByKeyName("build")
         let parentRouter = initStructure.getSubStructures().filterByKeyKind(.call).extractByKeyName("\(parent)Router")
+
+        let childBuilderArguments = parentRouter.getSubStructures().filterByKeyKind(.argument).filterByKeyName("\(child.lowercasedFirstLetter())Builder")
+        guard childBuilderArguments.isEmpty else {
+            print("すでに \(child)Builder が引数として存在しています。")
+            return
+        }
 
         let insertPosition = parentRouter.getInnerTrailingPosition()
 
