@@ -250,24 +250,10 @@ struct DependencyCommand: Command {
         let parentRouterFileStructure = try! Structure(file: parentRouterFile)
         print(parentRouterFileStructure.dictionary.bridge())
 
-        let parentRouterStructures = getSubStructures(from: parentRouterFileStructure,
-                                                      targetKind: .class,
-                                                      targetKeyName: "\(parent)Router")
-
-        var shouldRemoveOverrideAttribute = false
-
-        let initStructure = getStructure(from: parentRouterStructures, name: "init")
-
-        if let attributes = initStructure["key.attributes"] as? [[String: SourceKitRepresentable]] {
-            for attribute in attributes {
-                guard let key = attribute["key.attribute"] as? String,
-                      let attributeKind = SwiftDeclarationAttributeKind(rawValue: key),
-                      attributeKind == .override else {
-                    return
-                }
-                shouldRemoveOverrideAttribute = true
-            }
-        }
+        let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().filterByKeyName("\(parent)Router")
+        let initStructure = parentRouterStructure.getSubStructures().filterByKeyName("init")
+        let attributes = initStructure.getAttributes()
+        let shouldRemoveOverrideAttribute = !attributes.filterByAttribute(.override).isEmpty
 
         print("shouldRemoveOverrideAttribute★", shouldRemoveOverrideAttribute)
 
@@ -364,7 +350,6 @@ extension DependencyCommand {
 }
 
 extension Collection where Iterator.Element == [String: SourceKitRepresentable] {
-
     func filterByKeyName(_ targetKeyName: String) -> [String: SourceKitRepresentable] {
         let targetStructures = self.filter { structure -> Bool in
             let keyName = structure["key.name"] as? String ?? ""
@@ -373,6 +358,15 @@ extension Collection where Iterator.Element == [String: SourceKitRepresentable] 
         return targetStructures.first ?? [String: SourceKitRepresentable]()
     }
 
+    func filterByAttribute(_ targetKind: SwiftDeclarationAttributeKind) -> [String: SourceKitRepresentable] {
+        let targetStructures = self.filter { structure -> Bool in
+            let keyAttributes = structure["key.attribute"] as? String ?? ""
+            let attributeKind = SwiftDeclarationAttributeKind(rawValue: keyAttributes)
+
+            return attributeKind == targetKind
+        }
+        return targetStructures.first ?? [String: SourceKitRepresentable]()
+    }
 }
 
 extension Dictionary where Key == String {
@@ -385,6 +379,13 @@ extension Dictionary where Key == String {
             return nil
         }
         return SwiftDeclarationKind(rawValue: kindValue)
+    }
+
+    func getAttributes() -> [[String: SourceKitRepresentable]] {
+        guard let attributes = self["key.attributes"] as? [[String: SourceKitRepresentable]] else {
+            return [[String: SourceKitRepresentable]]()
+        }
+        return attributes
     }
 
     func getSubStructures() -> [[String: SourceKitRepresentable]] {
