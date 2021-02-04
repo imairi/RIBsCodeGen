@@ -54,12 +54,13 @@ func makeCommand(commandLineArguments: [String]) -> Command {
         let paths = allSwiftSourcePaths(directoryPath: targetDirectory)
         let parent = "ParentDemo"
         let child = "ChildDemo"
-        let command = CreateCommand.init(paths: paths,
-                                         targetDirectory: targetDirectory,
-                                         templateDirectory: "/Users/imairiyousuke/git/RIBsCodeGen/Templates",
-                                         parent: parent,
-                                         child: child)
-        _ = command.run()
+        let isOwnsView = false
+        let childRIBCreateCommand = CreateCommand(paths: paths,
+                                                  targetDirectory: targetDirectory,
+                                                  templateDirectory: "/Users/imairiyousuke/git/RIBsCodeGen/Templates",
+                                                  target: child,
+                                                  isOwnsView: isOwnsView)
+        _ = childRIBCreateCommand.run()
         let paths2 = allSwiftSourcePaths(directoryPath: targetDirectory)
         return DependencyCommand(paths: paths2, parent: parent, child: child)
     }

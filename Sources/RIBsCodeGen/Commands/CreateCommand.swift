@@ -10,54 +10,46 @@ import SourceKittenFramework
 import PathKit
 
 struct CreateCommand: Command {
-    let needsCreateParentFile: Bool
-    let needsCreateChildFile: Bool
+    let needsCreateTargetFile: Bool
     let targetDirectory: String
     let templateDirectory: String
-    let parent: String
-    let child: String
+    let target: String
+    let isOwnsView: Bool
 
-    init(paths: [String], targetDirectory: String, templateDirectory: String, parent: String, child: String) {
+    init(paths: [String],
+         targetDirectory: String,
+         templateDirectory: String,
+         target: String,
+         isOwnsView: Bool) {
         print("")
         print("Analyze \(paths.count) swift files.".applyingStyle(.bold))
         print("")
 
         self.targetDirectory = targetDirectory
         self.templateDirectory = templateDirectory
-        self.parent = parent
-        self.child = child
+        self.target = target
+        self.isOwnsView = isOwnsView
 
-        let parentRouterPath = paths.filter({ $0.contains(parent + "Router.swift") }).first
-        let parentInteractorPath = paths.filter({ $0.contains(parent + "Interactor.swift") }).first
-        let parentBuilderPath = paths.filter({ $0.contains(parent + "Builder.swift") }).first
+        let parentRouterPath = paths.filter({ $0.contains(target + "Router.swift") }).first
+        let parentInteractorPath = paths.filter({ $0.contains(target + "Interactor.swift") }).first
+        let parentBuilderPath = paths.filter({ $0.contains(target + "Builder.swift") }).first
 
-        needsCreateParentFile = [parentRouterPath, parentInteractorPath, parentBuilderPath].contains(nil)
-
-        let childRouterPath = paths.filter({ $0.contains(child + "Router.swift") }).first
-        let childInteractorPath = paths.filter({ $0.contains(child + "Interactor.swift") }).first
-        let childBuilderPath = paths.filter({ $0.contains(child + "Builder.swift") }).first
-
-        needsCreateChildFile = [childRouterPath, childInteractorPath, childBuilderPath].contains(nil)
+        needsCreateTargetFile = [parentRouterPath, parentInteractorPath, parentBuilderPath].contains(nil)
     }
 
     func run() -> Result {
-        if needsCreateChildFile {
-            createDirectory(for: parent)
-            createFiles(for: parent)
+        guard needsCreateTargetFile else {
+            return .success(message: "")
         }
-
-        if needsCreateChildFile {
-            createDirectory(for: child)
-            createFiles(for: child)
-        }
-
-        return .success(message: "helpMessage")
+        createDirectory()
+        createFiles()
+        return .success(message: "")
     }
 }
 
 // MARK: - Private methods
 private extension CreateCommand {
-    func createDirectory(for target: String) {
+    func createDirectory() {
         print("ディレクトリ作成開始")
         let filePath = targetDirectory + "/\(target)"
 
@@ -70,9 +62,17 @@ private extension CreateCommand {
         }
     }
 
-    func createFiles(for target: String) {
+    func createFiles() {
         print("ファイル作成開始")
-        ["Router", "Interactor", "Builder"].forEach { fileType in
+
+        let fileTypes: [String]
+        if isOwnsView {
+            fileTypes = ["Router", "Interactor", "Builder", "ViewController"]
+        } else {
+            fileTypes = ["Router", "Interactor", "Builder"]
+        }
+
+        fileTypes.forEach { fileType in
             let filePath = targetDirectory + "/\(target)/\(target)\(fileType).swift"
             print(filePath)
             if FileManager.default.createFile(atPath: filePath, contents: nil, attributes: nil) {
