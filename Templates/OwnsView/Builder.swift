@@ -21,7 +21,7 @@ final class ___VARIABLE_productName___Builder: Builder<___VARIABLE_productName__
     }
 
     func build(withListener listener: ___VARIABLE_productName___Listener) -> ___VARIABLE_productName___Routing {
-        let component = ___VARIABLE_productName___Component(dependency: dependency)
+        let _ = ___VARIABLE_productName___Component(dependency: dependency)
         let viewController = ___VARIABLE_productName___ViewController()
         let interactor = ___VARIABLE_productName___Interactor(presenter: viewController)
         interactor.listener = listener
