@@ -81,7 +81,9 @@ private extension CreateRIBsCommand {
                 print("テンプレート読み取り開始→", templateDirectory + "/\(fileType).swift")
                 let template = readText(from: templateDirectory + "/\(fileType).swift")
                 print("テンプレート読み込み完了→", template)
-                let replacedText = template.replacingOccurrences(of: "___VARIABLE_productName___", with: "\(target)")
+                let replacedText = template
+                    .replacingOccurrences(of: "___VARIABLE_productName___", with: "\(target)")
+                    .replacingOccurrences(of: "___VARIABLE_productName_lowercased___", with: "\(target.lowercasedFirstLetter())")
                 write(text: replacedText, toPath: filePath)
             } else {
                 print("\(fileType)ファイル作成失敗")

@@ -3,13 +3,13 @@
 import RIBs
 
 protocol ___VARIABLE_productName___Dependency: Dependency {
-    var ___VARIABLE_productName___ViewController: ___VARIABLE_productName___ViewControllable { get }
+    var ___VARIABLE_productName_lowercased___ViewController: ___VARIABLE_productName___ViewControllable { get }
 }
 
 final class ___VARIABLE_productName___Component: Component<___VARIABLE_productName___Dependency> {
 
-    fileprivate var ___VARIABLE_productName___ViewController: ___VARIABLE_productName___ViewControllable {
-        return dependency.___VARIABLE_productName___ViewController
+    fileprivate var ___VARIABLE_productName_lowercased___ViewController: ___VARIABLE_productName___ViewControllable {
+        return dependency.___VARIABLE_productName_lowercased___ViewController
     }
 
 }
