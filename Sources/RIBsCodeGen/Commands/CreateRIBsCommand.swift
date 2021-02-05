@@ -26,7 +26,8 @@ struct CreateRIBsCommand: Command {
         print("")
 
         self.targetDirectory = targetDirectory
-        self.templateDirectory = templateDirectory
+        self.templateDirectory = isOwnsView ? templateDirectory + "/OwnsView" : templateDirectory + "/Default"
+        print("templateDirectory", self.templateDirectory)
         self.target = target
         self.isOwnsView = isOwnsView
 
@@ -74,10 +75,12 @@ private extension CreateRIBsCommand {
 
         fileTypes.forEach { fileType in
             let filePath = targetDirectory + "/\(target)/\(target)\(fileType).swift"
-            print(filePath)
+            print("読み取り開始→", filePath)
             if FileManager.default.createFile(atPath: filePath, contents: nil, attributes: nil) {
                 print("\(fileType)ファイル作成成功")
+                print("テンプレート読み取り開始→", templateDirectory + "/\(fileType).swift")
                 let template = readText(from: templateDirectory + "/\(fileType).swift")
+                print("テンプレート読み込み完了→", template)
                 let replacedText = template.replacingOccurrences(of: "___VARIABLE_productName___", with: "\(target)")
                 write(text: replacedText, toPath: filePath)
             } else {

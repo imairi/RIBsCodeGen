@@ -54,7 +54,7 @@ func makeCommand(commandLineArguments: [String]) -> Command {
         let paths = allSwiftSourcePaths(directoryPath: targetDirectory)
         let parent = "ParentDemo"
         let isOwnsView = true
-        let templateDirectory = isOwnsView ? "/Users/imairiyousuke/git/RIBsCodeGen/Templates/OwnsView" : "/Users/imairiyousuke/git/RIBsCodeGen/Templates/Default"
+        let templateDirectory = "/Users/imairiyousuke/git/RIBsCodeGen/Templates"
         return CreateRIBsCommand(paths: paths,
                                  targetDirectory: targetDirectory,
                                  templateDirectory: templateDirectory,
@@ -62,20 +62,20 @@ func makeCommand(commandLineArguments: [String]) -> Command {
                                  isOwnsView: isOwnsView)
     case "依存のみ"://既存の RIB を使って依存だけをはる
         return HelpCommand()//TODO:修正
-    default://単体 + 依存。単体をテンプレートから作成→ComponentExtensionの追加→依存の解決。
+    case "単体（子）のみ + 依存"://子 + 依存。単体をテンプレートから作成→ComponentExtensionの追加→依存の解決。
         let targetDirectory = "/Users/imairiyousuke/git/RIBsCodeGen/Sample"
         let paths = allSwiftSourcePaths(directoryPath: targetDirectory)
         let parent = "ParentDemo"
         let child = "ChildDemo"
         let isOwnsView = true
-        let templateDirectory = isOwnsView ? "/Users/imairiyousuke/git/RIBsCodeGen/Templates/OwnsView" : "/Users/imairiyousuke/git/RIBsCodeGen/Templates/Default"
+        let templateDirectory = "/Users/imairiyousuke/git/RIBsCodeGen/Templates"
 
         // 単体
         let childRIBCreateCommand = CreateRIBsCommand(paths: paths,
-                                                  targetDirectory: targetDirectory,
-                                                  templateDirectory: templateDirectory,
-                                                  target: child,
-                                                  isOwnsView: isOwnsView)
+                                                      targetDirectory: targetDirectory,
+                                                      templateDirectory: templateDirectory,
+                                                      target: child,
+                                                      isOwnsView: isOwnsView)
         _ = childRIBCreateCommand.run()
 
         // ComponentExtension
@@ -87,6 +87,43 @@ func makeCommand(commandLineArguments: [String]) -> Command {
                                                                        child: child)
         _ = createComponentExtensionCommand.run()
         
+
+        // 依存の解決
+        let paths3 = allSwiftSourcePaths(directoryPath: targetDirectory)
+        return DependencyCommand(paths: paths3, parent: parent, child: child)
+    default:// scaffold
+        let targetDirectory = "/Users/imairiyousuke/git/RIBsCodeGen/Sample"
+        let parent = "ParentDemo"
+        let child = "ChildDemo"
+        let templateDirectory = "/Users/imairiyousuke/git/RIBsCodeGen/Templates"
+
+        // 親
+        let paths0 = allSwiftSourcePaths(directoryPath: targetDirectory)
+        let parentRIBCreateCommand = CreateRIBsCommand(paths: paths0,
+                                                       targetDirectory: targetDirectory,
+                                                       templateDirectory: templateDirectory,
+                                                       target: parent,
+                                                       isOwnsView: true)
+        _ = parentRIBCreateCommand.run()
+
+        // 子
+        let paths = allSwiftSourcePaths(directoryPath: targetDirectory)
+        let childRIBCreateCommand = CreateRIBsCommand(paths: paths,
+                                                      targetDirectory: targetDirectory,
+                                                      templateDirectory: templateDirectory,
+                                                      target: child,
+                                                      isOwnsView: true)
+        _ = childRIBCreateCommand.run()
+
+        // ComponentExtension
+        let paths2 = allSwiftSourcePaths(directoryPath: targetDirectory)
+        let createComponentExtensionCommand = CreateComponentExtension(paths: paths2,
+                                                                       targetDirectory: targetDirectory,
+                                                                       templateDirectory: templateDirectory,
+                                                                       parent: parent,
+                                                                       child: child)
+        _ = createComponentExtensionCommand.run()
+
 
         // 依存の解決
         let paths3 = allSwiftSourcePaths(directoryPath: targetDirectory)

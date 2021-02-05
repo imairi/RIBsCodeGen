@@ -25,6 +25,7 @@ final class ___VARIABLE_productName___Builder: Builder<___VARIABLE_productName__
         let viewController = ___VARIABLE_productName___ViewController()
         let interactor = ___VARIABLE_productName___Interactor(presenter: viewController)
         interactor.listener = listener
-        return ___VARIABLE_productName___Router(interactor: interactor, viewController: viewController)
+        return ___VARIABLE_productName___Router(interactor: interactor,
+                                                viewController: viewController)
     }
 }

@@ -30,6 +30,7 @@ final class ___VARIABLE_productName___Builder: Builder<___VARIABLE_productName__
         let component = ___VARIABLE_productName___Component(dependency: dependency)
         let interactor = ___VARIABLE_productName___Interactor()
         interactor.listener = listener
-        return ___VARIABLE_productName___Router(interactor: interactor, viewController: component.___VARIABLE_productName___ViewController)
+        return ___VARIABLE_productName___Router(interactor: interactor,
+                                                viewController: component.___VARIABLE_productName___ViewController)
     }
 }
