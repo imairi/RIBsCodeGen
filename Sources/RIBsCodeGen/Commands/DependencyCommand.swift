@@ -114,7 +114,7 @@ private extension DependencyCommand {
 
         let inheritedTypes = interactable.getInheritedTypes()
         let isConformsToChildListener = !inheritedTypes.filterByKeyName("\(child)Listener").isEmpty
-        let insertPosition = interactable.getInnerLeadingPosition() - 2
+        let insertPosition = interactable.getInnerLeadingPosition() - 2 // TODO: 準拠している Protocol の最後の末尾を起点にしたほうがよい
 
         do {
             if !isConformsToChildListener { // 親RouterのInteractableを、ChildListener に準拠させる
@@ -263,7 +263,8 @@ private extension DependencyCommand {
             return
         }
 
-        let insertPosition = parentBuilderDependency.getInnerTrailingPosition() - 3
+        print("parentBuilderDependency:", parentBuilderDependency.bridge())
+        let insertPosition = parentBuilderDependency.getInnerLeadingPosition() - 2// TODO: 準拠している Protocol の最後の末尾を起点にしたほうがよい
 
         do {
             var text = try String.init(contentsOfFile: parentBuilderPath, encoding: .utf8)

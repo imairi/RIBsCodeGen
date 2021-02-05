@@ -103,7 +103,7 @@ func makeCommand(commandLineArguments: [String]) -> Command {
                                                        targetDirectory: targetDirectory,
                                                        templateDirectory: templateDirectory,
                                                        target: parent,
-                                                       isOwnsView: false)
+                                                       isOwnsView: true)
         _ = parentRIBCreateCommand.run()
 
         // 子
