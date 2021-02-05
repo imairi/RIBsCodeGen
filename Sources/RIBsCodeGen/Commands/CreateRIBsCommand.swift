@@ -21,6 +21,7 @@ struct CreateRIBsCommand: Command {
          templateDirectory: String,
          target: String,
          isOwnsView: Bool) {
+        print("--------------------------Create \(target) RIB".applyingBackgroundColor(.magenta), isOwnsView ? "with View".applyingBackgroundColor(.magenta) : "")
         print("")
         print("Analyze \(paths.count) swift files.".applyingStyle(.bold))
         print("")
@@ -31,9 +32,9 @@ struct CreateRIBsCommand: Command {
         self.target = target
         self.isOwnsView = isOwnsView
 
-        let parentRouterPath = paths.filter({ $0.contains(target + "Router.swift") }).first
-        let parentInteractorPath = paths.filter({ $0.contains(target + "Interactor.swift") }).first
-        let parentBuilderPath = paths.filter({ $0.contains(target + "Builder.swift") }).first
+        let parentRouterPath = paths.filter({ $0.contains("/" + target + "Router.swift") }).first
+        let parentInteractorPath = paths.filter({ $0.contains("/" + target + "Interactor.swift") }).first
+        let parentBuilderPath = paths.filter({ $0.contains("/" + target + "Builder.swift") }).first
 
         needsCreateTargetFile = [parentRouterPath, parentInteractorPath, parentBuilderPath].contains(nil)
     }
@@ -80,7 +81,7 @@ private extension CreateRIBsCommand {
                 print("\(fileType)ファイル作成成功")
                 print("テンプレート読み取り開始→", templateDirectory + "/\(fileType).swift")
                 let template = readText(from: templateDirectory + "/\(fileType).swift")
-                print("テンプレート読み込み完了→", template)
+                print("テンプレート読み込み完了")
                 let replacedText = template
                     .replacingOccurrences(of: "___VARIABLE_productName___", with: "\(target)")
                     .replacingOccurrences(of: "___VARIABLE_productName_lowercased___", with: "\(target.lowercasedFirstLetter())")
@@ -105,8 +106,8 @@ private extension CreateRIBsCommand {
 
     func write(text: String, toPath path: String) {
         do {
-            print(text)
-            print("... 書き込み中 ...")
+//            print(text)
+            print("... 書き込み中 ...", path)
             try text.write(to: URL(fileURLWithPath: path), atomically: true, encoding: .utf8)
             print("... 書き込み完了 ...")
         } catch {

@@ -21,6 +21,7 @@ struct DependencyCommand: Command {
     private let childBuilderPath: String
 
     init(paths: [String], parent: String, child: String) {
+        print("--------------------------Link child:\(child) RIB to parent:\(parent)".applyingBackgroundColor(.magenta))
         print("")
         print("Analyze \(paths.count) swift files.".applyingStyle(.bold))
         print("")
@@ -263,7 +264,7 @@ private extension DependencyCommand {
             return
         }
 
-        print("parentBuilderDependency:", parentBuilderDependency.bridge())
+//        print("parentBuilderDependency:", parentBuilderDependency.bridge())
         let insertPosition = parentBuilderDependency.getInnerLeadingPosition() - 2// TODO: 準拠している Protocol の最後の末尾を起点にしたほうがよい
 
         do {
@@ -303,7 +304,7 @@ private extension DependencyCommand {
         do {
             var text = try String.init(contentsOfFile: parentBuilderPath, encoding: .utf8)
             let dependencyInsertIndex = text.utf8.index(text.startIndex, offsetBy: insertPosition)
-            text.insert(contentsOf: "let \(child.lowercasedFirstLetter())Builder = \(child)Builder(component: dependency)\n", at: dependencyInsertIndex)
+            text.insert(contentsOf: "let \(child.lowercasedFirstLetter())Builder = \(child)Builder(dependency: component)\n", at: dependencyInsertIndex)
             write(text: text, toPath: parentBuilderPath)
         } catch {
             print(error)
@@ -349,8 +350,8 @@ private extension DependencyCommand {
 private extension DependencyCommand {
     func write(text: String, toPath path: String) {
         do {
-            print(text)
-            print("... 書き込み中 ...")
+//            print(text)
+            print("... 書き込み中 ...", path)
             try text.write(to: URL(fileURLWithPath: path), atomically: true, encoding: .utf8)
             print("... 書き込み完了 ...")
         } catch {

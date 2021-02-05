@@ -21,8 +21,6 @@ var setting: Setting?
 func main() {
     let arguments = [String](CommandLine.arguments.dropFirst())
     print("arguments", arguments)
-    let command = makeCommand(commandLineArguments: arguments)
-    let result = command.run()
 
     guard let settingFilePath = Path.current.glob(".ribscodegen").first else {
         print("設定ファイルがありません。")
@@ -41,6 +39,9 @@ func main() {
     } catch {
         print("設定ファイルの形式がおかしい", error)
     }
+
+    let command = makeCommand(commandLineArguments: arguments)
+    let result = command.run()
 
     switch result {
     case let .success(message):
@@ -108,6 +109,13 @@ func makeCommand(commandLineArguments: [String]) -> Command {
         let targetRIBName = secondArgument
         let isOwnsView = true
         let templateDirectory = setting?.templateDirectory ?? ""
+
+        print("------------------")
+        print("- targetDirectory", targetDirectory)
+        print("- targetRIBName", targetRIBName)
+        print("- isOwnsView", isOwnsView)
+        print("- templateDirectory", templateDirectory)
+        print("------------------")
 
         // 単体
         let childRIBCreateCommand = CreateRIBsCommand(paths: paths,

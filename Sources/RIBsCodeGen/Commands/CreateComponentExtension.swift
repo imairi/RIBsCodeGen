@@ -21,6 +21,7 @@ struct CreateComponentExtension: Command {
          templateDirectory: String,
          parent: String,
          child: String) {
+        print("--------------------------Create ComponentExtension \(parent)Dependency\(child)".applyingBackgroundColor(.magenta))
         print("")
         print("Analyze \(paths.count) swift files.".applyingStyle(.bold))
         print("")
@@ -89,8 +90,8 @@ private extension CreateComponentExtension {
 
     func write(text: String, toPath path: String) {
         do {
-            print(text)
-            print("... 書き込み中 ...")
+//            print(text)
+            print("... 書き込み中 ...", path)
             try text.write(to: URL(fileURLWithPath: path), atomically: true, encoding: .utf8)
             print("... 書き込み完了 ...")
         } catch {

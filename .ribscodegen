@@ -1,2 +1,2 @@
-targetDirectory: "/Users/imairiyousuke/git/RIBsCodeGen/Sample"
-templateDirectory: "/Users/imairiyousuke/git/RIBsCodeGen/Templates"
+targetDirectory: "Sample"
+templateDirectory: "Templates"
