@@ -81,7 +81,7 @@ private extension CreateComponentExtension {
 private extension CreateComponentExtension {
     func readText(from path: String) -> String {
         do {
-            return try String(contentsOf: URL(fileURLWithPath: path), encoding: .utf8)
+            return try Path(path).read()
         } catch {
             print("読み込みエラー", error)
             return ""
@@ -92,7 +92,7 @@ private extension CreateComponentExtension {
         do {
 //            print(text)
             print("... 書き込み中 ...", path)
-            try text.write(to: URL(fileURLWithPath: path), atomically: true, encoding: .utf8)
+            try Path(path).write(text)
             print("... 書き込み完了 ...")
         } catch {
             print("書き込みエラー", error)

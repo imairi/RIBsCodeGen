@@ -8,6 +8,7 @@
 import Foundation
 import SourceKittenFramework
 import Rainbow
+import PathKit
 
 struct DependencyCommand: Command {
     private let parent: String
@@ -352,7 +353,7 @@ private extension DependencyCommand {
         do {
 //            print(text)
             print("... 書き込み中 ...", path)
-            try text.write(to: URL(fileURLWithPath: path), atomically: true, encoding: .utf8)
+            try Path(path).write(text)
             print("... 書き込み完了 ...")
         } catch {
             print("書き込みエラー", error)
