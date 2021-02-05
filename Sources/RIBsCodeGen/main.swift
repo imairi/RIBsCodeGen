@@ -66,13 +66,25 @@ func makeCommand(commandLineArguments: [String]) -> Command {
 
     let optionArguments = commandLineArgumentsLackOfFirst.dropFirst()
 
-    var optionKey = ""
+//    var optionKey = ""
+//    var arguments = [String:String]()
+//    for (index, value) in optionArguments.enumerated() {
+//        if index % 2 == 0 {
+//            optionKey = value.replacingOccurrences(of: "--", with: "")
+//        } else {
+//            arguments[optionKey] = value
+//        }
+//    }
+
     var arguments = [String:String]()
-    for (index, value) in optionArguments.enumerated() {
-        if index % 2 == 0 {
-            optionKey = value.replacingOccurrences(of: "--", with: "")
+    var latestOptionKey = ""
+    optionArguments.forEach { argument in
+        if argument.contains("--") {
+            let optionKey = argument.replacingOccurrences(of: "--", with: "")
+            arguments[optionKey] = ""
+            latestOptionKey = optionKey
         } else {
-            arguments[optionKey] = value
+            arguments[latestOptionKey] = argument
         }
     }
 
@@ -91,7 +103,7 @@ func makeCommand(commandLineArguments: [String]) -> Command {
         let targetDirectory = setting?.targetDirectory ?? ""
         let paths = allSwiftSourcePaths(directoryPath: targetDirectory)
         let targetRIBName = secondArgument
-        let isOwnsView = true
+        let isOwnsView = arguments["noview"]?.isEmpty == false
         let templateDirectory = setting?.templateDirectory ?? ""
         return CreateRIBsCommand(paths: paths,
                                  targetDirectory: targetDirectory,
@@ -107,7 +119,7 @@ func makeCommand(commandLineArguments: [String]) -> Command {
         let targetDirectory = setting?.targetDirectory ?? ""
         let paths = allSwiftSourcePaths(directoryPath: targetDirectory)
         let targetRIBName = secondArgument
-        let isOwnsView = true
+        let isOwnsView = arguments["noview"]?.isEmpty == false
         let templateDirectory = setting?.templateDirectory ?? ""
 
         print("------------------")
