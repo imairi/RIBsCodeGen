@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "RIBsCodeGen",
     products: [
-        .executable(name: "RIBsCodeGen", targets: ["RIBsCodeGen"])
+        .executable(name: "ribscodegen", targets: ["RIBsCodeGen"])
     ],
     dependencies: [
         .package(url: "https://github.com/jpsim/SourceKitten", from: "0.22.0"),

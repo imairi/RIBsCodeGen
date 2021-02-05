@@ -12,6 +12,7 @@ let version = "0.1.0"
 
 func main() {
     let arguments = [String](CommandLine.arguments.dropFirst())
+    print("arguments", arguments)
 //    let command = makeCommand(commandLineArguments: arguments)
     let command = makeCommand(commandLineArguments: ["dependency"])
     let result = command.run()
