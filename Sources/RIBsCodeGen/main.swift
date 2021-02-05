@@ -7,14 +7,40 @@
 
 import Foundation
 import PathKit
+import Yams
+
+struct Setting: Codable {
+    var targetDirectory: String
+    var templateDirectory: String
+}
 
 let version = "0.1.0"
+
+var setting: Setting?
 
 func main() {
     let arguments = [String](CommandLine.arguments.dropFirst())
     print("arguments", arguments)
     let command = makeCommand(commandLineArguments: arguments)
     let result = command.run()
+
+    guard let settingFilePath = Path.current.glob(".ribscodegen").first else {
+        print("設定ファイルがありません。")
+        return
+    }
+
+    let a: String? = try? settingFilePath.read()
+    guard let settingFileString = a else {
+        print("設定ファイルが読み込めません。")
+        return
+    }
+    print("settingFile", settingFileString)
+    let decoder = YAMLDecoder()
+    do {
+        setting = try decoder.decode(Setting.self, from: settingFileString)
+    } catch {
+        print("設定ファイルの形式がおかしい", error)
+    }
 
     switch result {
     case let .success(message):
@@ -61,11 +87,11 @@ func makeCommand(commandLineArguments: [String]) -> Command {
             print("引数足りない")
             return HelpCommand()
         }
-        let targetDirectory = "/Users/imairiyousuke/git/RIBsCodeGen/Sample"
+        let targetDirectory = setting?.targetDirectory ?? ""
         let paths = allSwiftSourcePaths(directoryPath: targetDirectory)
         let targetRIBName = secondArgument
         let isOwnsView = true
-        let templateDirectory = "/Users/imairiyousuke/git/RIBsCodeGen/Templates"
+        let templateDirectory = setting?.templateDirectory ?? ""
         return CreateRIBsCommand(paths: paths,
                                  targetDirectory: targetDirectory,
                                  templateDirectory: templateDirectory,
@@ -77,11 +103,11 @@ func makeCommand(commandLineArguments: [String]) -> Command {
             print("引数足りない")
             return HelpCommand()
         }
-        let targetDirectory = "/Users/imairiyousuke/git/RIBsCodeGen/Sample"
+        let targetDirectory = setting?.targetDirectory ?? ""
         let paths = allSwiftSourcePaths(directoryPath: targetDirectory)
         let targetRIBName = secondArgument
         let isOwnsView = true
-        let templateDirectory = "/Users/imairiyousuke/git/RIBsCodeGen/Templates"
+        let templateDirectory = setting?.templateDirectory ?? ""
 
         // 単体
         let childRIBCreateCommand = CreateRIBsCommand(paths: paths,
@@ -105,10 +131,15 @@ func makeCommand(commandLineArguments: [String]) -> Command {
         let paths3 = allSwiftSourcePaths(directoryPath: targetDirectory)
         return DependencyCommand(paths: paths3, parent: parentRIBName, child: targetRIBName)
     case "link"://既存の RIB を使って依存だけをはる
-        let targetDirectory = "/Users/imairiyousuke/git/RIBsCodeGen/Sample"
-        let parent = "ParentDemo"
-        let child = "ChildDemo"
-        let templateDirectory = "/Users/imairiyousuke/git/RIBsCodeGen/Templates"
+        guard let secondArgument = secondArgument,
+              let parentRIBName = arguments["parent"] else {
+            print("引数足りない")
+            return HelpCommand()
+        }
+        let targetDirectory = setting?.targetDirectory ?? ""
+        let parent = parentRIBName
+        let child = secondArgument
+        let templateDirectory = setting?.templateDirectory ?? ""
         // ComponentExtension
         let paths2 = allSwiftSourcePaths(directoryPath: targetDirectory)
         let createComponentExtensionCommand = CreateComponentExtension(paths: paths2,
