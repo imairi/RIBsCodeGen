@@ -49,7 +49,7 @@ func makeCommand(commandLineArguments: [String]) -> Command {
         return HelpCommand()
     case "version":
         return VersionCommand(version: version)
-    case "単体"://単純にテンプレートからの作成をするだけ。
+    case "単体のみ"://単純にテンプレートからの作成をするだけ。
         let targetDirectory = "/Users/imairiyousuke/git/RIBsCodeGen/Sample"
         let paths = allSwiftSourcePaths(directoryPath: targetDirectory)
         let parent = "ParentDemo"
@@ -60,6 +60,8 @@ func makeCommand(commandLineArguments: [String]) -> Command {
                                  templateDirectory: templateDirectory,
                                  target: parent,
                                  isOwnsView: isOwnsView)
+    case "依存のみ"://既存の RIB を使って依存だけをはる
+        return HelpCommand()//TODO:修正
     default://単体 + 依存。単体をテンプレートから作成→ComponentExtensionの追加→依存の解決。
         let targetDirectory = "/Users/imairiyousuke/git/RIBsCodeGen/Sample"
         let paths = allSwiftSourcePaths(directoryPath: targetDirectory)
@@ -77,11 +79,18 @@ func makeCommand(commandLineArguments: [String]) -> Command {
         _ = childRIBCreateCommand.run()
 
         // ComponentExtension
-        // TODO: 
+        let paths2 = allSwiftSourcePaths(directoryPath: targetDirectory)
+        let createComponentExtensionCommand = CreateComponentExtension(paths: paths2,
+                                                                       targetDirectory: targetDirectory,
+                                                                       templateDirectory: templateDirectory,
+                                                                       parent: parent,
+                                                                       child: child)
+        _ = createComponentExtensionCommand.run()
+        
 
         // 依存の解決
-        let paths2 = allSwiftSourcePaths(directoryPath: targetDirectory)
-        return DependencyCommand(paths: paths2, parent: parent, child: child)
+        let paths3 = allSwiftSourcePaths(directoryPath: targetDirectory)
+        return DependencyCommand(paths: paths3, parent: parent, child: child)
     }
 }
 
