@@ -19,7 +19,7 @@ struct Argument: CustomStringConvertible {
 
 extension Argument {
     var hasParent: Bool {
-        options["parent"]?.isEmpty == false
+        options["parent"]?.isEmpty == false // "--parent xxx 「xxx」のチェック"
     }
 
     var parent: String {
@@ -27,6 +27,6 @@ extension Argument {
     }
 
     var noView: Bool {
-        options["noview"]?.isEmpty ?? false
+        options["noview"] != nil // "--noview の存在有無"
     }
 }
