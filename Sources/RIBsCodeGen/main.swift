@@ -206,7 +206,10 @@ func makeCommand(commandLineArguments: [String]) -> Command {
                 guard let ribName = array.last, !ribName.isEmpty else {
                     return nil
                 }
-                return Node(spaceCount: spaceCount, ribName: ribName)
+                let erasedSpaceRIBName = ribName.replacingOccurrences(of: " ", with: "")
+                let isOwnsView = !erasedSpaceRIBName.contains("*")
+                let extractedRIBNameString = erasedSpaceRIBName.replacingOccurrences(of: "*", with: "")
+                return Node(spaceCount: spaceCount, ribName: extractedRIBNameString, isOwnsView: isOwnsView)
             }
             .compactMap { $0 }
 
@@ -216,10 +219,10 @@ func makeCommand(commandLineArguments: [String]) -> Command {
 
             guard let parentNode = filteredNodes.filter({ $0.spaceCount < node.spaceCount }).first else {
                 print("\(node.ribName)は最上位ノード")
-                edges.append(Edge(parent: argumentParentRIBName, child: node.ribName))
+                edges.append(Edge(parent: argumentParentRIBName, target: node.ribName, isOwnsView: node.isOwnsView))
                 continue
             }
-            edges.append(Edge(parent: parentNode.ribName, child: node.ribName))
+            edges.append(Edge(parent: parentNode.ribName, target: node.ribName, isOwnsView: node.isOwnsView))
         }
 
         print(edges)
@@ -227,8 +230,8 @@ func makeCommand(commandLineArguments: [String]) -> Command {
         edges.reversed().forEach { edge in
             let targetDirectory = setting?.targetDirectory ?? ""
             let paths = allSwiftSourcePaths(directoryPath: targetDirectory)
-            let targetRIBName = edge.child
-            let isOwnsView = arguments["noview"]?.isEmpty == false // TODO:
+            let targetRIBName = edge.target
+            let isOwnsView = edge.isOwnsView
             let templateDirectory = setting?.templateDirectory ?? ""
 
             print("------------------")
@@ -270,18 +273,21 @@ func makeCommand(commandLineArguments: [String]) -> Command {
 struct Node: CustomStringConvertible {
     let spaceCount: Int
     let ribName: String
+    let isOwnsView: Bool
 
     var description: String {
-        "<space: \(spaceCount), name: \(ribName)>"
+        "<space: \(spaceCount), name: \(ribName), isOwnsView: \(isOwnsView)>"
     }
 }
 
 struct Edge: CustomStringConvertible {
     let parent: String
-    let child: String
+    let target: String
+    let isOwnsView: Bool
 
     var description: String {
-        "[child:\(child) -> parent:\(parent)]"
+        let viewState = isOwnsView ? "" : "(noView)"
+        return "[child:\(target)\(viewState) -> parent:\(parent)]"
     }
 }
 
