@@ -58,49 +58,77 @@ struct DependencyCommand: Command {
     }
     
     func run() -> Result {
-        resolveDependencyForRouter()
-        resolveDependencyForBuilder()
-        return .success(message: "dependency completed")
+        let resolveDependencyForRouterResult = resolveDependencyForRouter()
+        switch resolveDependencyForRouterResult {
+        case let .success(message):
+            print("\(message)".green)
+        case let .failure(error):
+            return .failure(error: error)
+        }
+
+        let resolveDependencyForBuilderResult = resolveDependencyForBuilder()
+        switch resolveDependencyForBuilderResult {
+        case let .success(message):
+            print("\(message)".green)
+        case let .failure(error):
+            return .failure(error: error)
+        }
+
+        return .success(message: "Success to add \(child) dependency and builder initialize to \(parent) Router/Builder.".green.bold)
     }
 }
 
 // MARK: - Run
 private extension DependencyCommand {
-    func resolveDependencyForRouter() {
-        addChildListenerIfNeeded(parentRouterPath: parentRouterPath)
+    func resolveDependencyForRouter() -> Result {
+        do {
+            try addChildListenerIfNeeded(parentRouterPath: parentRouterPath)
+        } catch {
+            return .failure(error: .failedToAddChildListener)
+        }
 
         if !hasChildBuilder(parentRouterPath: parentRouterPath) {
-            addChildBuilderProperty(parentRouterPath: parentRouterPath)
-            addChildBuilderArgument(parentRouterPath: parentRouterPath)
-            addChildBuilderInitialize(parentRouterPath: parentRouterPath)
-            removeRouterInitializeOverrideAttribute(parentRouterPath: parentRouterPath)
+            do {
+                try addChildBuilderProperty(parentRouterPath: parentRouterPath)
+                try addChildBuilderArgument(parentRouterPath: parentRouterPath)
+                try addChildBuilderInitialize(parentRouterPath: parentRouterPath)
+                try removeRouterInitializeOverrideAttribute(parentRouterPath: parentRouterPath)
+            } catch {
+                return .failure(error: .failedToAddChildListener)
+            }
         }
 
         do {
             let formattedText = try Formatter.format(path: parentRouterPath)
             write(text: formattedText, toPath: parentRouterPath)
+            return .success(message: "Resolve \(child) dependencies for \(parent) Router")
         } catch {
-            print("Failed to format file: \(parentRouterPath)".red.bold, error)
+            return .failure(error: .failedFormat)
         }
     }
 
-    func resolveDependencyForBuilder() {
-        addChildDependency(parentBuilderPath: parentBuilderPath)
-        addChildBuilderInitialize(parentBuilderPath: parentBuilderPath)
-        addChildBuilderToRouterInit(parentBuilderPath: parentBuilderPath)
+    func resolveDependencyForBuilder() -> Result {
+        do {
+            try addChildDependency(parentBuilderPath: parentBuilderPath)
+            try addChildBuilderInitialize(parentBuilderPath: parentBuilderPath)
+            try addChildBuilderToRouterInit(parentBuilderPath: parentBuilderPath)
+        } catch {
+            return .failure(error: .failedToAddChildBuilder)
+        }
 
         do {
             let formattedText = try Formatter.format(path: parentBuilderPath)
             write(text: formattedText, toPath: parentBuilderPath)
+            return .success(message: "Resolve \(child) dependencies for \(parent) Builder")
         } catch {
-            print("Failed to format file: \(parentBuilderPath)".red.bold, error)
+            return .failure(error: .failedFormat)
         }
     }
 }
 
 // MARK: - Private methods for Router
 private extension DependencyCommand {
-    func addChildListenerIfNeeded(parentRouterPath: String) {
+    func addChildListenerIfNeeded(parentRouterPath: String) throws {
         let parentRouterFile = File(path: parentRouterPath)!
         let parentRouterFileStructure = try! Structure(file: parentRouterFile)
 
@@ -111,27 +139,23 @@ private extension DependencyCommand {
 
         guard let interactable = interactables.first else {
             print("Not found: \(parent)Interactable".red.bold)
-            return
+            throw Error.failedToAddChildListener
         }
 
         let inheritedTypes = interactable.getInheritedTypes()
         let isConformsToChildListener = !inheritedTypes.filterByKeyName("\(child)Listener").isEmpty
         let insertPosition = interactable.getInnerLeadingPosition() - 2 // TODO: 準拠している Protocol の最後の末尾を起点にしたほうがよい
 
-        do {
-            guard !isConformsToChildListener else {
-                print("Skip to add child listener to parent router.")
-                return
-            }
-            // 親RouterのInteractableを、ChildListener に準拠させる
-            var text = try String(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
-            let insertIndex = text.utf8.index(text.startIndex, offsetBy: insertPosition)
-            text.insert(contentsOf: ",\n \(child)Listener", at: insertIndex)
-
-            write(text: text, toPath: parentRouterPath)
-        } catch {
-            print("Failed to read file: \(parentRouterFile.path ?? "")".red.bold, error)
+        guard !isConformsToChildListener else {
+            print("Skip to add child listener to parent router.")
+            return
         }
+        // 親RouterのInteractableを、ChildListener に準拠させる
+        var text = try String(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
+        let insertIndex = text.utf8.index(text.startIndex, offsetBy: insertPosition)
+        text.insert(contentsOf: ",\n \(child)Listener", at: insertIndex)
+
+        write(text: text, toPath: parentRouterPath)
     }
 
     func hasChildBuilder(parentRouterPath: String) -> Bool {
@@ -145,27 +169,23 @@ private extension DependencyCommand {
         return hasChildBuilder
     }
 
-    func addChildBuilderProperty(parentRouterPath: String) {
+    func addChildBuilderProperty(parentRouterPath: String) throws {
         let parentRouterFile = File(path: parentRouterPath)!
-        let parentRouterFileStructure = try! Structure(file: parentRouterFile)
+        let parentRouterFileStructure = try Structure(file: parentRouterFile)
 
         let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().extractByKeyName("\(parent)Router")
         let initLeadingPosition = parentRouterStructure.getInnerLeadingPosition()
 
-        do {
-            var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
-            let propertyInsertIndex = text.utf8.index(text.startIndex, offsetBy: initLeadingPosition)
-            text.insert(contentsOf: "\n\nprivate let \(child.lowercasedFirstLetter())Builder: \(child)Buildable", at: propertyInsertIndex)
+        var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
+        let propertyInsertIndex = text.utf8.index(text.startIndex, offsetBy: initLeadingPosition)
+        text.insert(contentsOf: "\n\nprivate let \(child.lowercasedFirstLetter())Builder: \(child)Buildable", at: propertyInsertIndex)
 
-            write(text: text, toPath: parentRouterPath)
-        } catch {
-            print("Failed to read file: \(parentRouterFile.path ?? "")".red.bold, error)
-        }
+        write(text: text, toPath: parentRouterPath)
     }
 
-    func addChildBuilderArgument(parentRouterPath: String) {
+    func addChildBuilderArgument(parentRouterPath: String) throws {
         let parentRouterFile = File(path: parentRouterPath)!
-        let parentRouterFileStructure = try! Structure(file: parentRouterFile)
+        let parentRouterFileStructure = try Structure(file: parentRouterFile)
 
         let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().extractByKeyName("\(parent)Router")
         let initStructure = parentRouterStructure.getSubStructures().extractByKeyName("init")
@@ -179,68 +199,55 @@ private extension DependencyCommand {
         }
         initArgumentEndPosition = Int(lastArgumentOffset + lastArgumentLength)
 
-        do {
-            var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
+        var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
+        let argumentInsertIndex = text.utf8.index(text.startIndex, offsetBy: initArgumentEndPosition)
+        text.insert(contentsOf: ",\n \(child.lowercasedFirstLetter())Builder: \(child)Buildable", at: argumentInsertIndex)
 
-            let argumentInsertIndex = text.utf8.index(text.startIndex, offsetBy: initArgumentEndPosition)
-            text.insert(contentsOf: ",\n \(child.lowercasedFirstLetter())Builder: \(child)Buildable", at: argumentInsertIndex)
-
-            write(text: text, toPath: parentRouterPath)
-        } catch {
-            print("Failed to read file: \(parentRouterFile.path ?? "")".red.bold, error)
-        }
+        write(text: text, toPath: parentRouterPath)
     }
 
-    func removeRouterInitializeOverrideAttribute(parentRouterPath: String) {
+    func addChildBuilderInitialize(parentRouterPath: String) throws {
         let parentRouterFile = File(path: parentRouterPath)!
-        let parentRouterFileStructure = try! Structure(file: parentRouterFile)
-
-        let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().extractByKeyName("\(parent)Router")
-        let initStructure = parentRouterStructure.getSubStructures().extractByKeyName("init")
-        let attributes = initStructure.getAttributes()
-        let shouldRemoveOverrideAttribute = !attributes.filterByAttribute(.override).isEmpty
-
-        do {
-            guard shouldRemoveOverrideAttribute else {
-                print("Skip to remove override attribute from init function.")
-                return
-            }
-            var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
-            text = text.replacingOccurrences(of: "override init", with: "init")
-
-            write(text: text, toPath: parentRouterPath)
-        } catch {
-            print("Failed to read file: \(parentRouterFile.path ?? "")".red.bold, error)
-        }
-    }
-
-    func addChildBuilderInitialize(parentRouterPath: String) {
-        let parentRouterFile = File(path: parentRouterPath)!
-        let parentRouterFileStructure = try! Structure(file: parentRouterFile)
+        let parentRouterFileStructure = try Structure(file: parentRouterFile)
 
         let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().extractByKeyName("\(parent)Router")
         let initStructure = parentRouterStructure.getSubStructures().extractByKeyName("init")
         let superInitStructure = initStructure.getSubStructures().extractByKeyName("super.init")
         let superInitStartPosition = superInitStructure.getOuterLeadingPosition()
 
-        do {
-            var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
+        var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
 
-            let builderInitializeInsertIndex = text.utf8.index(text.startIndex, offsetBy: superInitStartPosition)
-            text.insert(contentsOf: "self.\(child.lowercasedFirstLetter())Builder = \(child.lowercasedFirstLetter())Builder\n", at: builderInitializeInsertIndex)
+        let builderInitializeInsertIndex = text.utf8.index(text.startIndex, offsetBy: superInitStartPosition)
+        text.insert(contentsOf: "self.\(child.lowercasedFirstLetter())Builder = \(child.lowercasedFirstLetter())Builder\n", at: builderInitializeInsertIndex)
 
-            write(text: text, toPath: parentRouterPath)
-        } catch {
-            print("Failed to read file: \(parentRouterFile.path ?? "")".red.bold, error)
+        write(text: text, toPath: parentRouterPath)
+    }
+
+    func removeRouterInitializeOverrideAttribute(parentRouterPath: String) throws {
+        let parentRouterFile = File(path: parentRouterPath)!
+        let parentRouterFileStructure = try Structure(file: parentRouterFile)
+
+        let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().extractByKeyName("\(parent)Router")
+        let initStructure = parentRouterStructure.getSubStructures().extractByKeyName("init")
+        let attributes = initStructure.getAttributes()
+        let shouldRemoveOverrideAttribute = !attributes.filterByAttribute(.override).isEmpty
+
+        guard shouldRemoveOverrideAttribute else {
+            print("Skip to remove override attribute from init function.")
+            return
         }
+        var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
+        text = text.replacingOccurrences(of: "override init", with: "init")
+
+        write(text: text, toPath: parentRouterPath)
     }
 }
 
 // MARK: - Private methods for Builder
 private extension DependencyCommand {
-    func addChildDependency(parentBuilderPath: String) {
+    func addChildDependency(parentBuilderPath: String) throws {
         let parentBuilderFile = File(path: parentBuilderPath)!
-        let parentBuilderFileStructure = try! Structure(file: parentBuilderFile)
+        let parentBuilderFileStructure = try Structure(file: parentBuilderFile)
 
         let parentBuilderProtocols = parentBuilderFileStructure.dictionary
             .getSubStructures()
@@ -248,7 +255,7 @@ private extension DependencyCommand {
 
         guard let parentBuilderDependency = parentBuilderProtocols.filterByKeyName("\(parent)Dependency").first else {
             print("Not found protocol \(parent)Dependency.".red.bold)
-            return
+            throw Error.failedToAddChildBuilder
         }
 
         let shouldAddDependency = parentBuilderDependency.getInheritedTypes().filterByKeyName("\(parent)Dependency\(child)").isEmpty
@@ -260,19 +267,15 @@ private extension DependencyCommand {
 
         let insertPosition = parentBuilderDependency.getInnerLeadingPosition() - 2// TODO: 準拠している Protocol の最後の末尾を起点にしたほうがよい
 
-        do {
-            var text = try String.init(contentsOfFile: parentBuilderPath, encoding: .utf8)
-            let dependencyInsertIndex = text.utf8.index(text.startIndex, offsetBy: insertPosition)
-            text.insert(contentsOf: ",\n\("\(parent)Dependency\(child)")", at: dependencyInsertIndex)
-            write(text: text, toPath: parentBuilderPath)
-        } catch {
-            print("Failed to read file: \(parentBuilderPath)".red.bold, error)
-        }
+        var text = try String.init(contentsOfFile: parentBuilderPath, encoding: .utf8)
+        let dependencyInsertIndex = text.utf8.index(text.startIndex, offsetBy: insertPosition)
+        text.insert(contentsOf: ",\n\("\(parent)Dependency\(child)")", at: dependencyInsertIndex)
+        write(text: text, toPath: parentBuilderPath)
     }
 
-    func addChildBuilderInitialize(parentBuilderPath: String) {
+    func addChildBuilderInitialize(parentBuilderPath: String) throws {
         let parentBuilderFile = File(path: parentBuilderPath)!
-        let parentBuilderFileStructure = try! Structure(file: parentBuilderFile)
+        let parentBuilderFileStructure = try Structure(file: parentBuilderFile)
 
         let parentBuilderClasses = parentBuilderFileStructure.dictionary
             .getSubStructures()
@@ -280,7 +283,7 @@ private extension DependencyCommand {
 
         guard let parentBuilderClass = parentBuilderClasses.filterByKeyName("\(parent)Builder").first else {
             print("Not found \(parent)Builder class.".red.bold)
-            return
+            throw Error.failedToAddChildBuilder
         }
 
         let initStructure = parentBuilderClass.getSubStructures().extractByKeyName("build")
@@ -294,19 +297,15 @@ private extension DependencyCommand {
 
         let insertPosition = parentRouter.getOuterLeadingPosition() - "return ".count
 
-        do {
-            var text = try String.init(contentsOfFile: parentBuilderPath, encoding: .utf8)
-            let dependencyInsertIndex = text.utf8.index(text.startIndex, offsetBy: insertPosition)
-            text.insert(contentsOf: "let \(child.lowercasedFirstLetter())Builder = \(child)Builder(dependency: component)\n", at: dependencyInsertIndex)
-            write(text: text, toPath: parentBuilderPath)
-        } catch {
-            print("Failed to read file: \(parentBuilderPath)".red.bold, error)
-        }
+        var text = try String.init(contentsOfFile: parentBuilderPath, encoding: .utf8)
+        let dependencyInsertIndex = text.utf8.index(text.startIndex, offsetBy: insertPosition)
+        text.insert(contentsOf: "let \(child.lowercasedFirstLetter())Builder = \(child)Builder(dependency: component)\n", at: dependencyInsertIndex)
+        write(text: text, toPath: parentBuilderPath)
     }
 
-    func addChildBuilderToRouterInit(parentBuilderPath: String) {
+    func addChildBuilderToRouterInit(parentBuilderPath: String) throws {
         let parentBuilderFile = File(path: parentBuilderPath)!
-        let parentBuilderFileStructure = try! Structure(file: parentBuilderFile)
+        let parentBuilderFileStructure = try Structure(file: parentBuilderFile)
 
         let parentBuilderClasses = parentBuilderFileStructure.dictionary
             .getSubStructures()
@@ -314,7 +313,7 @@ private extension DependencyCommand {
 
         guard let parentBuilderClass = parentBuilderClasses.filterByKeyName("\(parent)Builder").first else {
             print("Not found \(parent)Builder class.".red.bold)
-            return
+            throw Error.failedToAddChildBuilder
         }
 
         let initStructure = parentBuilderClass.getSubStructures().extractByKeyName("build")
@@ -328,14 +327,10 @@ private extension DependencyCommand {
 
         let insertPosition = parentRouter.getInnerTrailingPosition()
 
-        do {
-            var text = try String.init(contentsOfFile: parentBuilderPath, encoding: .utf8)
-            let dependencyInsertIndex = text.utf8.index(text.startIndex, offsetBy: insertPosition)
-            text.insert(contentsOf: ", \n\(child.lowercasedFirstLetter())Builder: \(child.lowercasedFirstLetter())Builder", at: dependencyInsertIndex)
-            write(text: text, toPath: parentBuilderPath)
-        } catch {
-            print("Failed to read file: \(parentBuilderPath)".red.bold, error)
-        }
+        var text = try String.init(contentsOfFile: parentBuilderPath, encoding: .utf8)
+        let dependencyInsertIndex = text.utf8.index(text.startIndex, offsetBy: insertPosition)
+        text.insert(contentsOf: ", \n\(child.lowercasedFirstLetter())Builder: \(child.lowercasedFirstLetter())Builder", at: dependencyInsertIndex)
+        write(text: text, toPath: parentBuilderPath)
     }
 }
 

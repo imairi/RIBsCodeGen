@@ -13,6 +13,9 @@ enum Error: Swift.Error {
     case unknown
     case failedCreateDirectory
     case failedCreateFile
+    case failedFormat
+    case failedToAddChildListener
+    case failedToAddChildBuilder
 
     var message: String {
         switch self {
@@ -26,6 +29,12 @@ enum Error: Swift.Error {
             return "Failed to create directory."
         case .failedCreateFile:
             return "Failed to write file."
+        case .failedFormat:
+            return "Failed to format file."
+        case .failedToAddChildListener:
+            return "Failed to add child listener."
+        case .failedToAddChildBuilder:
+            return "Failed to add child builder."
         }
     }
 
