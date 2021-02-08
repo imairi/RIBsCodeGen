@@ -100,8 +100,7 @@ func run(with commandLineArguments: [String]) -> Result {
     case "add" where !argument.hasParent:
         let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
         let command = CreateRIBsCommand(paths: paths,
-                                        targetDirectory: setting.targetDirectory,
-                                        templateDirectory: setting.templateDirectory,
+                                        setting: setting,
                                         target: argument.second,
                                         isOwnsView: !argument.noView)
         return command.run()
@@ -109,8 +108,7 @@ func run(with commandLineArguments: [String]) -> Result {
         // 単体
         let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
         let childRIBCreateCommand = CreateRIBsCommand(paths: paths,
-                                                      targetDirectory: setting.targetDirectory,
-                                                      templateDirectory: setting.templateDirectory,
+                                                      setting: setting,
                                                       target: argument.second,
                                                       isOwnsView: !argument.noView)
         _ = childRIBCreateCommand.run()
@@ -197,8 +195,7 @@ func run(with commandLineArguments: [String]) -> Result {
 
             // 単体
             let childRIBCreateCommand = CreateRIBsCommand(paths: paths,
-                                                          targetDirectory: targetDirectory,
-                                                          templateDirectory: templateDirectory,
+                                                          setting: setting,
                                                           target: targetRIBName,
                                                           isOwnsView: isOwnsView)
             _ = childRIBCreateCommand.run()

@@ -18,17 +18,18 @@ struct CreateRIBsCommand: Command {
 
     init(paths: [String],
          setting: Setting,
-         argument: Argument) {
-        targetDirectory = setting.targetDirectory
-        target = argument.second
-        isOwnsView = !argument.noView
-        templateDirectory = isOwnsView ? setting.templateDirectory + "/OwnsView" : setting.templateDirectory + "/Default"
-
-        let parentRouterPath = paths.filter({ $0.contains("/" + argument.second + "Router.swift") }).first
-        let parentInteractorPath = paths.filter({ $0.contains("/" + argument.second + "Interactor.swift") }).first
-        let parentBuilderPath = paths.filter({ $0.contains("/" + argument.second + "Builder.swift") }).first
-
+         target: String,
+         isOwnsView: Bool) {
+        let parentRouterPath = paths.filter({ $0.contains("/" + target + "Router.swift") }).first
+        let parentInteractorPath = paths.filter({ $0.contains("/" + target + "Interactor.swift") }).first
+        let parentBuilderPath = paths.filter({ $0.contains("/" + target + "Builder.swift") }).first
         needsCreateTargetFile = [parentRouterPath, parentInteractorPath, parentBuilderPath].contains(nil)
+
+        targetDirectory = setting.targetDirectory
+        templateDirectory = isOwnsView ? setting.templateDirectory + "/OwnsView" : setting.templateDirectory + "/Default"
+        
+        self.target = target
+        self.isOwnsView = isOwnsView
     }
 
     func run() -> Result {
