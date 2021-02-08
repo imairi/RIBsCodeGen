@@ -23,7 +23,10 @@ extension Argument {
     }
 
     var parent: String {
-        options["parent"] ?? ""
+        guard let parentString = options["parent"] else {
+            fatalError("--parent is needed.".bold.red)
+        }
+        return parentString
     }
 
     var noView: Bool {

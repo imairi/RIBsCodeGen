@@ -22,10 +22,6 @@ struct DependencyCommand: Command {
     private let childBuilderPath: String
 
     init(paths: [String], parent: String, child: String) {
-        print("--------------------------Link child:\(child) RIB to parent:\(parent)".applyingBackgroundColor(.magenta))
-        print("")
-        print("Analyze \(paths.count) swift files.".applyingStyle(.bold))
-        print("")
         self.parent = parent
         self.child = child
         
@@ -80,9 +76,11 @@ private extension DependencyCommand {
             removeRouterInitializeOverrideAttribute(parentRouterPath: parentRouterPath)
         }
 
-        // フォーマットして保存
-        if let formattedText = format(path: parentRouterPath) {
+        do {
+            let formattedText = try Formatter.format(path: parentRouterPath)
             write(text: formattedText, toPath: parentRouterPath)
+        } catch {
+            print("フォーマットエラー", error)
         }
     }
 
@@ -91,9 +89,11 @@ private extension DependencyCommand {
         addChildBuilderInitialize(parentBuilderPath: parentBuilderPath)
         addChildBuilderToRouterInit(parentBuilderPath: parentBuilderPath)
 
-        // フォーマットして保存
-        if let formattedText = format(path: parentBuilderPath) {
+        do {
+            let formattedText = try Formatter.format(path: parentBuilderPath)
             write(text: formattedText, toPath: parentBuilderPath)
+        } catch {
+            print("フォーマットエラー", error)
         }
     }
 }
@@ -139,7 +139,6 @@ private extension DependencyCommand {
         let varInstanceArray = parentRouterStructure.getSubStructures().filterByKeyKind(.varInstance)
         let childBuildableInstanceArray = varInstanceArray.filterByKeyTypeName("\(child)Buildable")
         let hasChildBuilder = !childBuildableInstanceArray.isEmpty
-        print("\(parent)Router は \(child)Builder を保持しているか→", hasChildBuilder)
         return hasChildBuilder
     }
 
@@ -149,8 +148,6 @@ private extension DependencyCommand {
 
         let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().extractByKeyName("\(parent)Router")
         let initLeadingPosition = parentRouterStructure.getInnerLeadingPosition()
-
-        print("initLeadingPosition", initLeadingPosition)
 
         do {
             var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
@@ -173,14 +170,11 @@ private extension DependencyCommand {
 
         var initArgumentEndPosition = 0
 
-        print("Router 初期化メソッドの最後の引数", initArguments.last ?? "nil")
         guard let lastArgumentLength = initArguments.last?["key.length"] as? Int64,
               let lastArgumentOffset = initArguments.last?["key.offset"] as? Int64 else {
             return
         }
         initArgumentEndPosition = Int(lastArgumentOffset + lastArgumentLength)
-
-        print("initArgumentEndPosition★", initArgumentEndPosition)
 
         do {
             var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
@@ -203,8 +197,6 @@ private extension DependencyCommand {
         let attributes = initStructure.getAttributes()
         let shouldRemoveOverrideAttribute = !attributes.filterByAttribute(.override).isEmpty
 
-        print("shouldRemoveOverrideAttribute★", shouldRemoveOverrideAttribute)
-
         do {
             guard shouldRemoveOverrideAttribute else {
                 print("override 消す処理をスキップ")
@@ -212,8 +204,6 @@ private extension DependencyCommand {
             }
             var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
             text = text.replacingOccurrences(of: "override init", with: "init")
-
-            print(text)
 
             write(text: text, toPath: parentRouterPath)
         } catch {
@@ -265,7 +255,6 @@ private extension DependencyCommand {
             return
         }
 
-//        print("parentBuilderDependency:", parentBuilderDependency.bridge())
         let insertPosition = parentBuilderDependency.getInnerLeadingPosition() - 2// TODO: 準拠している Protocol の最後の末尾を起点にしたほうがよい
 
         do {
@@ -351,27 +340,9 @@ private extension DependencyCommand {
 private extension DependencyCommand {
     func write(text: String, toPath path: String) {
         do {
-//            print(text)
-            print("... 書き込み中 ...", path)
             try Path(path).write(text)
-            print("... 書き込み完了 ...")
         } catch {
             print("書き込みエラー", error)
         }
-    }
-
-    func format(path: String) -> String? {
-        var formattedText: String?
-        do {
-            guard let parentRouterFile = File(path: path) else {
-                print("該当ファイルが見つかりませんでした。", path)
-                return nil
-            }
-            formattedText = try parentRouterFile.format(trimmingTrailingWhitespace: true, useTabs: false, indentWidth: 4)
-        } catch {
-            print("フォーマットエラー", error)
-        }
-
-        return formattedText
     }
 }
