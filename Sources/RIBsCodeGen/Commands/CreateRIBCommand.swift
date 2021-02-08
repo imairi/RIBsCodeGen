@@ -47,30 +47,37 @@ struct CreateRIBCommand: Command {
 
     func run() -> Result {
         guard needsCreateTargetFile else {
-            return .success(message: "")
+            return .success(message: "No need to add RIB, it already be exists.".yellow.bold)
         }
-        createDirectory()
-        createFiles()
-        return .success(message: "")
+
+        do {
+            try createDirectory()
+        } catch {
+            return .failure(error: .failedCreateDirectory)
+        }
+
+        do {
+            try createFiles()
+        } catch {
+            return .failure(error: .failedCreateFile)
+        }
+
+        return .success(message: "Success to create \(target) RIB.".green.bold)
     }
 }
 
 // MARK: - Private methods
 private extension CreateRIBCommand {
-    func createDirectory() {
+    func createDirectory() throws {
         let filePath = targetDirectory + "/\(target)"
         guard !Path(filePath).exists else {
             print("skip to create directory: \(filePath)")
             return
         }
-        do {
-            try Path(filePath).mkdir()
-        } catch {
-            print("Failed to create directory: \(filePath)".red.bold, error)
-        }
+        try Path(filePath).mkdir()
     }
 
-    func createFiles() {
+    func createFiles() throws {
         let fileTypes: [String]
         if isOwnsView {
             fileTypes = ["Router", "Interactor", "Builder", "ViewController"]
@@ -78,20 +85,15 @@ private extension CreateRIBCommand {
             fileTypes = ["Router", "Interactor", "Builder"]
         }
 
-        fileTypes.forEach { fileType in
+        try fileTypes.forEach { fileType in
             let filePath = targetDirectory + "/\(target)/\(target)\(fileType).swift"
-            do {
-                let template: String = try Path(templateDirectory + "/\(fileType).swift").read()
-                let replacedText = template
-                    .replacingOccurrences(of: "___VARIABLE_productName___", with: "\(target)")
-                    .replacingOccurrences(of: "___VARIABLE_productName_lowercased___", with: "\(target.lowercasedFirstLetter())")
-                try Path(filePath).write(replacedText)
-                let formattedText = try Formatter.format(path: filePath)
-                try Path(filePath).write(formattedText)
-            } catch {
-                print("Failed to write file: \(filePath)".red.bold, error)
-
-            }
+            let template: String = try Path(templateDirectory + "/\(fileType).swift").read()
+            let replacedText = template
+                .replacingOccurrences(of: "___VARIABLE_productName___", with: "\(target)")
+                .replacingOccurrences(of: "___VARIABLE_productName_lowercased___", with: "\(target.lowercasedFirstLetter())")
+            try Path(filePath).write(replacedText)
+            let formattedText = try Formatter.format(path: filePath)
+            try Path(filePath).write(formattedText)
         }
     }
 }

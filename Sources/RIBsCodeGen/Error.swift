@@ -11,6 +11,8 @@ enum Error: Swift.Error {
     case notFoundStructure
     case lackOfArguments
     case unknown
+    case failedCreateDirectory
+    case failedCreateFile
 
     var message: String {
         switch self {
@@ -20,6 +22,10 @@ enum Error: Swift.Error {
             return "Not found essential arguments"
         case .unknown:
             return "Unknown error"
+        case .failedCreateDirectory:
+            return "Failed to create directory."
+        case .failedCreateFile:
+            return "Failed to write file."
         }
     }
 
