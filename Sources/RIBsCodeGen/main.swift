@@ -224,7 +224,43 @@ func makeCommand(commandLineArguments: [String]) -> Command {
 
         print(edges)
 
+        edges.reversed().forEach { edge in
+            let targetDirectory = setting?.targetDirectory ?? ""
+            let paths = allSwiftSourcePaths(directoryPath: targetDirectory)
+            let targetRIBName = edge.child
+            let isOwnsView = arguments["noview"]?.isEmpty == false // TODO:
+            let templateDirectory = setting?.templateDirectory ?? ""
 
+            print("------------------")
+            print("- targetDirectory", targetDirectory)
+            print("- targetRIBName", targetRIBName)
+            print("- isOwnsView", isOwnsView)
+            print("- templateDirectory", templateDirectory)
+            print("------------------")
+
+            // 単体
+            let childRIBCreateCommand = CreateRIBsCommand(paths: paths,
+                                                          targetDirectory: targetDirectory,
+                                                          templateDirectory: templateDirectory,
+                                                          target: targetRIBName,
+                                                          isOwnsView: isOwnsView)
+            _ = childRIBCreateCommand.run()
+
+            // ComponentExtension
+            let paths2 = allSwiftSourcePaths(directoryPath: targetDirectory)
+            let createComponentExtensionCommand = CreateComponentExtension(paths: paths2,
+                                                                           targetDirectory: targetDirectory,
+                                                                           templateDirectory: templateDirectory,
+                                                                           parent: edge.parent,
+                                                                           child: targetRIBName)
+            _ = createComponentExtensionCommand.run()
+
+
+            // 依存の解決
+            let paths3 = allSwiftSourcePaths(directoryPath: targetDirectory)
+            let dependencyCommand = DependencyCommand(paths: paths3, parent: edge.parent, child: targetRIBName)
+            _ = dependencyCommand.run()
+        }
         return HelpCommand()
     default:
         return HelpCommand()
