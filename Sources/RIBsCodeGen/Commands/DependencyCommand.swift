@@ -26,27 +26,27 @@ struct DependencyCommand: Command {
         self.child = child
         
         guard let parentInteractorPath = paths.filter({ $0.contains(parent + "Interactor.swift") }).first else {
-            fatalError("\(parent)Interactor.swift が見つかりません。")
+            fatalError("Not found \(parent)Interactor.swift".red.bold)
         }
 
         guard let parentRouterPath = paths.filter({ $0.contains(parent + "Router.swift") }).first else {
-            fatalError("\(parent)Router.swift が見つかりません。")
+            fatalError("Not found \(parent)Router.swift".red.bold)
         }
 
         guard let parentBuilderPath = paths.filter({ $0.contains(parent + "Builder.swift") }).first else {
-            fatalError("\(parent)Builder.swift が見つかりません。")
+            fatalError("Not found \(parent)Builder.swift".red.bold)
         }
 
         guard let childInteractorPath = paths.filter({ $0.contains(child + "Interactor.swift") }).first else {
-            fatalError("\(child)Interactor.swift が見つかりません。")
+            fatalError("Not found \(child)Interactor.swift".red.bold)
         }
 
         guard let childRouterPath = paths.filter({ $0.contains(child + "Router.swift") }).first else {
-            fatalError("\(child)Router.swift が見つかりません。")
+            fatalError("Not found \(child)Router.swift".red.bold)
         }
 
         guard let childBuilderPath = paths.filter({ $0.contains(child + "Builder.swift") }).first else {
-            fatalError("\(child)Builder.swift が見つかりません。")
+            fatalError("Not found \(child)Builder.swift".red.bold)
         }
 
         self.parentInteractorPath = parentInteractorPath

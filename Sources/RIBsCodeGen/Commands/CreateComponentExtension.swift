@@ -30,40 +30,43 @@ struct CreateComponentExtension: Command {
 
     func run() -> Result {
         guard needsCreateTargetFile else {
-            return .success(message: "ComponentExtensionファイルはあります。")
+            return .success(message: "No need to add ComponentExtension, it already be exists.".yellow.bold)
         }
-        createDirectory()
-        createFiles()
-        return .success(message: "")
+        do {
+            try createDirectory()
+        } catch {
+            return .failure(error: .failedCreateDirectory)
+        }
+
+        do {
+            try createFiles()
+        } catch {
+            return .failure(error: .failedCreateFile)
+        }
+
+        return .success(message: "Success to create \(parent)Component+\(child).swift".green.bold)
     }
 }
 
 // MARK: - Private methods
 private extension CreateComponentExtension {
-    func createDirectory() {
+    func createDirectory() throws {
         let filePath = targetDirectory + "/\(parent)/Dependencies" // 親 Directory -> Dependencies
         guard !Path(filePath).exists else {
             print("skip to create directory: \(filePath)")
             return
         }
-        do {
-            try Path(stringLiteral: filePath).mkdir()
-        } catch {
-            print("Failed to create directory: \(filePath)".red.bold, error)
-        }
+
+        try Path(stringLiteral: filePath).mkdir()
     }
 
-    func createFiles() {
+    func createFiles() throws {
         let filePath = targetDirectory + "/\(parent)/Dependencies" + "/\(parent)Component+\(child).swift"
-        do {
-            let template: String = try Path(templateDirectory + "/ComponentExtension/ComponentExtension.swift").read()
-            let replacedText = template
-                .replacingOccurrences(of: "___VARIABLE_productName___", with: "\(parent)")
-                .replacingOccurrences(of: "___VARIABLE_childName___", with: "\(child)")
-            try Path(filePath).write(replacedText)
-        } catch {
-            print("Failed to write file: \(filePath)".red.bold, error)
-        }
+        let template: String = try Path(templateDirectory + "/ComponentExtension/ComponentExtension.swift").read()
+        let replacedText = template
+            .replacingOccurrences(of: "___VARIABLE_productName___", with: "\(parent)")
+            .replacingOccurrences(of: "___VARIABLE_childName___", with: "\(child)")
+        try Path(filePath).write(replacedText)
     }
 }
 
