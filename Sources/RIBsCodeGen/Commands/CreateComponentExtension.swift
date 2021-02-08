@@ -42,6 +42,10 @@ struct CreateComponentExtension: Command {
 private extension CreateComponentExtension {
     func createDirectory() {
         let filePath = targetDirectory + "/\(parent)/Dependencies" // 親 Directory -> Dependencies
+        guard !Path(filePath).exists else {
+            print("ディレクトリ作成スキップ")
+            return
+        }
         do {
             try Path(stringLiteral: filePath).mkdir()
         } catch {

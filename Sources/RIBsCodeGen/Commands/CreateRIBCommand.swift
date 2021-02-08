@@ -59,6 +59,10 @@ struct CreateRIBCommand: Command {
 private extension CreateRIBCommand {
     func createDirectory() {
         let filePath = targetDirectory + "/\(target)"
+        guard !Path(filePath).exists else {
+            print("ディレクトリ作成スキップ")
+            return
+        }
         do {
             try Path(filePath).mkdir()
         } catch {
