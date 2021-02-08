@@ -9,12 +9,15 @@ import Foundation
 
 enum Error: Swift.Error {
     case notFoundStructure
+    case lackOfArguments
     case unknown
 
     var message: String {
         switch self {
         case .notFoundStructure:
             return "Not found structure"
+        case .lackOfArguments:
+            return "Not found essential arguments"
         case .unknown:
             return "Unknown error"
         }
