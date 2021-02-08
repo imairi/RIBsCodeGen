@@ -174,10 +174,78 @@ func makeCommand(commandLineArguments: [String]) -> Command {
         let paths3 = allSwiftSourcePaths(directoryPath: targetDirectory)
         return DependencyCommand(paths: paths3, parent: parent, child: child)
     case "scaffold":// ファイルから読み取り -> 一括作成
-        // TODO:
+        guard let tree = secondArgument else {
+            print("markdown ファイルを指定して下さい")
+            return HelpCommand()
+        }
+
+        guard let treePath = Path.current.glob(tree).first else {
+            print("ファイルを指定して下さい。")
+            return HelpCommand()
+        }
+
+        guard let treeString: String = try? treePath.read() else {
+            print("ファイルが読み込めません")
+            return HelpCommand()
+        }
+
+        guard let argumentParentRIBName = arguments["parent"] else {
+            print("parent 引数足りない")
+            return HelpCommand()
+        }
+
+        print(treeString)
+
+
+        let treeArray = treeString.components(separatedBy: "\n")
+        let reversedTreeArray = treeArray.reversed()
+        let nodes: [Node] = reversedTreeArray
+            .map { $0.components(separatedBy: "- ") }
+            .map { array -> Node? in
+                let spaceCount = array.first?.count ?? 0
+                guard let ribName = array.last, !ribName.isEmpty else {
+                    return nil
+                }
+                return Node(spaceCount: spaceCount, ribName: ribName)
+            }
+            .compactMap { $0 }
+
+        var edges = [Edge]()
+        for (index, node) in nodes.enumerated() {
+            let filteredNodes = nodes[index..<nodes.count]
+
+            guard let parentNode = filteredNodes.filter({ $0.spaceCount < node.spaceCount }).first else {
+                print("\(node.ribName)は最上位ノード")
+                edges.append(Edge(parent: argumentParentRIBName, child: node.ribName))
+                continue
+            }
+            edges.append(Edge(parent: parentNode.ribName, child: node.ribName))
+        }
+
+        print(edges)
+
+
         return HelpCommand()
     default:
         return HelpCommand()
+    }
+}
+
+struct Node: CustomStringConvertible {
+    let spaceCount: Int
+    let ribName: String
+
+    var description: String {
+        "<space: \(spaceCount), name: \(ribName)>"
+    }
+}
+
+struct Edge: CustomStringConvertible {
+    let parent: String
+    let child: String
+
+    var description: String {
+        "[child:\(child) -> parent:\(parent)]"
     }
 }
 
