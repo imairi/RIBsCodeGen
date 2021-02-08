@@ -786,11 +786,11 @@
 			isa = PBXGroup;
 			children = (
 				B94DF34A25CBD79400152AF7 /* CreateRIBsCommand.swift */,
-				OBJ_10 /* Command.swift */,
+				B9B816C025CCC9C90022D6D1 /* CreateComponentExtension.swift */,
 				OBJ_11 /* DependencyCommand.swift */,
+				OBJ_10 /* Command.swift */,
 				OBJ_12 /* HelpCommand.swift */,
 				OBJ_13 /* VersionCommand.swift */,
-				B9B816C025CCC9C90022D6D1 /* CreateComponentExtension.swift */,
 			);
 			path = Commands;
 			sourceTree = "<group>";

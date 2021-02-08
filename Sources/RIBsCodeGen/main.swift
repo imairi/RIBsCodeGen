@@ -195,13 +195,6 @@ func run(with commandLineArguments: [String]) -> Result {
             let isOwnsView = edge.isOwnsView
             let templateDirectory = setting.templateDirectory
 
-            print("------------------")
-            print("- targetDirectory", targetDirectory)
-            print("- targetRIBName", targetRIBName)
-            print("- isOwnsView", isOwnsView)
-            print("- templateDirectory", templateDirectory)
-            print("------------------")
-
             // 単体
             let childRIBCreateCommand = CreateRIBsCommand(paths: paths,
                                                           targetDirectory: targetDirectory,

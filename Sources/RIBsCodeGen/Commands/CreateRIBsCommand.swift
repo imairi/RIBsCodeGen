@@ -17,24 +17,16 @@ struct CreateRIBsCommand: Command {
     let isOwnsView: Bool
 
     init(paths: [String],
-         targetDirectory: String,
-         templateDirectory: String,
-         target: String,
-         isOwnsView: Bool) {
-        print("--------------------------Create \(target) RIB".applyingBackgroundColor(.magenta), isOwnsView ? "with View".applyingBackgroundColor(.magenta) : "")
-        print("")
-        print("Analyze \(paths.count) swift files.".applyingStyle(.bold))
-        print("")
+         setting: Setting,
+         argument: Argument) {
+        targetDirectory = setting.targetDirectory
+        target = argument.second
+        isOwnsView = !argument.noView
+        templateDirectory = isOwnsView ? setting.templateDirectory + "/OwnsView" : setting.templateDirectory + "/Default"
 
-        self.targetDirectory = targetDirectory
-        self.templateDirectory = isOwnsView ? templateDirectory + "/OwnsView" : templateDirectory + "/Default"
-        print("templateDirectory", self.templateDirectory)
-        self.target = target
-        self.isOwnsView = isOwnsView
-
-        let parentRouterPath = paths.filter({ $0.contains("/" + target + "Router.swift") }).first
-        let parentInteractorPath = paths.filter({ $0.contains("/" + target + "Interactor.swift") }).first
-        let parentBuilderPath = paths.filter({ $0.contains("/" + target + "Builder.swift") }).first
+        let parentRouterPath = paths.filter({ $0.contains("/" + argument.second + "Router.swift") }).first
+        let parentInteractorPath = paths.filter({ $0.contains("/" + argument.second + "Interactor.swift") }).first
+        let parentBuilderPath = paths.filter({ $0.contains("/" + argument.second + "Builder.swift") }).first
 
         needsCreateTargetFile = [parentRouterPath, parentInteractorPath, parentBuilderPath].contains(nil)
     }
@@ -52,21 +44,15 @@ struct CreateRIBsCommand: Command {
 // MARK: - Private methods
 private extension CreateRIBsCommand {
     func createDirectory() {
-        print("ディレクトリ作成開始")
         let filePath = targetDirectory + "/\(target)"
-
         do {
-            try FileManager.default.createDirectory(atPath: filePath,
-                                                    withIntermediateDirectories: true,
-                                                    attributes: nil)
+            try Path(stringLiteral: filePath).mkdir()
         } catch {
             print("ディレクトリ作成失敗", error)
         }
     }
 
     func createFiles() {
-        print("ファイル作成開始")
-
         let fileTypes: [String]
         if isOwnsView {
             fileTypes = ["Router", "Interactor", "Builder", "ViewController"]
@@ -76,12 +62,8 @@ private extension CreateRIBsCommand {
 
         fileTypes.forEach { fileType in
             let filePath = targetDirectory + "/\(target)/\(target)\(fileType).swift"
-            print("読み取り開始→", filePath)
             if FileManager.default.createFile(atPath: filePath, contents: nil, attributes: nil) {
-                print("\(fileType)ファイル作成成功")
-                print("テンプレート読み取り開始→", templateDirectory + "/\(fileType).swift")
                 let template = readText(from: templateDirectory + "/\(fileType).swift")
-                print("テンプレート読み込み完了")
                 let replacedText = template
                     .replacingOccurrences(of: "___VARIABLE_productName___", with: "\(target)")
                     .replacingOccurrences(of: "___VARIABLE_productName_lowercased___", with: "\(target.lowercasedFirstLetter())")
@@ -106,10 +88,7 @@ private extension CreateRIBsCommand {
 
     func write(text: String, toPath path: String) {
         do {
-//            print(text)
-            print("... 書き込み中 ...", path)
             try Path(path).write(text)
-            print("... 書き込み完了 ...")
         } catch {
             print("書き込みエラー", error)
         }

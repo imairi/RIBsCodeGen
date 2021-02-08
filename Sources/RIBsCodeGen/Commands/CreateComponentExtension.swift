@@ -21,11 +21,6 @@ struct CreateComponentExtension: Command {
          templateDirectory: String,
          parent: String,
          child: String) {
-        print("--------------------------Create ComponentExtension \(parent)Dependency\(child)".applyingBackgroundColor(.magenta))
-        print("")
-        print("Analyze \(paths.count) swift files.".applyingStyle(.bold))
-        print("")
-
         self.targetDirectory = targetDirectory
         self.templateDirectory = templateDirectory
         self.parent = parent
