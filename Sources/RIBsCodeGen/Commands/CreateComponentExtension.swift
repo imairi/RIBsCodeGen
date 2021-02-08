@@ -53,7 +53,7 @@ private extension CreateComponentExtension {
     func createDirectory() throws {
         let filePath = targetDirectory + "/\(parent)/Dependencies" // 親 Directory -> Dependencies
         guard !Path(filePath).exists else {
-            print("skip to create directory: \(filePath)")
+            print("Skip to create directory: \(filePath)")
             return
         }
 

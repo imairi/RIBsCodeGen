@@ -71,7 +71,7 @@ private extension CreateRIBCommand {
     func createDirectory() throws {
         let filePath = targetDirectory + "/\(target)"
         guard !Path(filePath).exists else {
-            print("skip to create directory: \(filePath)")
+            print("Skip to create directory: \(filePath)")
             return
         }
         try Path(filePath).mkdir()
