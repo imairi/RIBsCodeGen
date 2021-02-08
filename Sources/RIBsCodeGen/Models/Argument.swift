@@ -19,7 +19,7 @@ struct Argument: CustomStringConvertible {
 
 extension Argument {
     var hasParent: Bool {
-        options["parent"] != nil
+        options["parent"]?.isEmpty == false
     }
 
     var parent: String {
