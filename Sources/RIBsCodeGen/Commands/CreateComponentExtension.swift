@@ -17,16 +17,15 @@ struct CreateComponentExtension: Command {
     let child: String
 
     init(paths: [String],
-         targetDirectory: String,
-         templateDirectory: String,
+         setting: Setting,
          parent: String,
          child: String) {
-        self.targetDirectory = targetDirectory
-        self.templateDirectory = templateDirectory
+        targetDirectory = setting.targetDirectory
+        templateDirectory = setting.templateDirectory
+        needsCreateTargetFile = paths.filter({ $0.contains("\(parent)Component+\(child).swift") }).isEmpty
+
         self.parent = parent
         self.child = child
-
-        needsCreateTargetFile = paths.filter({ $0.contains("\(parent)Component+\(child).swift") }).isEmpty
     }
 
     func run() -> Result {
@@ -42,71 +41,25 @@ struct CreateComponentExtension: Command {
 // MARK: - Private methods
 private extension CreateComponentExtension {
     func createDirectory() {
-        print("ディレクトリ作成開始")
-        let filePath = targetDirectory + "/\(parent)/Dependencies" // 親Directory->Dependencies
-
+        let filePath = targetDirectory + "/\(parent)/Dependencies" // 親 Directory -> Dependencies
         do {
-            try FileManager.default.createDirectory(atPath: filePath,
-                                                    withIntermediateDirectories: true,
-                                                    attributes: nil)
+            try Path(stringLiteral: filePath).mkdir()
         } catch {
             print("ディレクトリ作成失敗", error)
         }
     }
 
     func createFiles() {
-        print("ファイル作成開始")
-
         let filePath = targetDirectory + "/\(parent)/Dependencies" + "/\(parent)Component+\(child).swift"
-        print(filePath)
-        if FileManager.default.createFile(atPath: filePath, contents: nil, attributes: nil) {
-            print("ComponentExtensionファイル作成成功")
-            let template = readText(from: templateDirectory + "/ComponentExtension/ComponentExtension.swift")
+        do {
+            let template: String = try Path(templateDirectory + "/ComponentExtension/ComponentExtension.swift").read()
             let replacedText = template
                 .replacingOccurrences(of: "___VARIABLE_productName___", with: "\(parent)")
                 .replacingOccurrences(of: "___VARIABLE_childName___", with: "\(child)")
-            write(text: replacedText, toPath: filePath)
-        } else {
-            print("ComponentExtensionファイル作成失敗")
-        }
-    }
-}
-
-// MARK: - execute methods
-private extension CreateComponentExtension {
-    func readText(from path: String) -> String {
-        do {
-            return try Path(path).read()
+            try Path(filePath).write(replacedText)
         } catch {
-            print("読み込みエラー", error)
-            return ""
+            print("ComponentExtensionファイル書き込み失敗", error)
         }
-    }
-
-    func write(text: String, toPath path: String) {
-        do {
-//            print(text)
-            print("... 書き込み中 ...", path)
-            try Path(path).write(text)
-            print("... 書き込み完了 ...")
-        } catch {
-            print("書き込みエラー", error)
-        }
-    }
-
-    func format(path: String) -> String? {
-        var formattedText: String?
-        do {
-            guard let parentRouterFile = File(path: path) else {
-                print("該当ファイルが見つかりませんでした。", path)
-                return nil
-            }
-            formattedText = try parentRouterFile.format(trimmingTrailingWhitespace: true, useTabs: false, indentWidth: 4)
-        } catch {
-            print("フォーマットエラー", error)
-        }
-
-        return formattedText
     }
 }
 

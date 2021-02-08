@@ -11,12 +11,13 @@
 		B947CAB325CB956A008947E7 /* Dictionary+SourceKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B947CA5425CB94F0008947E7 /* Dictionary+SourceKit.swift */; };
 		B947CAD225CB956E008947E7 /* Array+SourceKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B947CA6525CB9503008947E7 /* Array+SourceKit.swift */; };
 		B947CB2225CBC02D008947E7 /* SwiftExpressionKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = B947CB2125CBC02D008947E7 /* SwiftExpressionKind.swift */; };
-		B94DF34B25CBD79400152AF7 /* CreateRIBsCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94DF34A25CBD79400152AF7 /* CreateRIBsCommand.swift */; };
+		B94DF34B25CBD79400152AF7 /* CreateRIBCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94DF34A25CBD79400152AF7 /* CreateRIBCommand.swift */; };
 		B9B816C125CCC9C90022D6D1 /* CreateComponentExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B816C025CCC9C90022D6D1 /* CreateComponentExtension.swift */; };
 		B9CD123425D1019600DE04D0 /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CD123325D1019600DE04D0 /* Setting.swift */; };
 		B9CD125425D101AD00DE04D0 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CD125325D101AD00DE04D0 /* Node.swift */; };
 		B9CD126525D101B900DE04D0 /* Edge.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CD126425D101B900DE04D0 /* Edge.swift */; };
 		B9CD127625D1033D00DE04D0 /* Argument.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CD127525D1033D00DE04D0 /* Argument.swift */; };
+		B9CD12A525D11B8900DE04D0 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CD12A425D11B8900DE04D0 /* Formatter.swift */; };
 		OBJ_155 /* api.c in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_105 /* api.c */; };
 		OBJ_156 /* emitter.c in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_106 /* emitter.c */; };
 		OBJ_157 /* parser.c in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_107 /* parser.c */; };
@@ -250,12 +251,13 @@
 		B947CA5425CB94F0008947E7 /* Dictionary+SourceKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+SourceKit.swift"; sourceTree = "<group>"; };
 		B947CA6525CB9503008947E7 /* Array+SourceKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+SourceKit.swift"; sourceTree = "<group>"; };
 		B947CB2125CBC02D008947E7 /* SwiftExpressionKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftExpressionKind.swift; sourceTree = "<group>"; };
-		B94DF34A25CBD79400152AF7 /* CreateRIBsCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateRIBsCommand.swift; sourceTree = "<group>"; };
+		B94DF34A25CBD79400152AF7 /* CreateRIBCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateRIBCommand.swift; sourceTree = "<group>"; };
 		B9B816C025CCC9C90022D6D1 /* CreateComponentExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateComponentExtension.swift; sourceTree = "<group>"; };
 		B9CD123325D1019600DE04D0 /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
 		B9CD125325D101AD00DE04D0 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		B9CD126425D101B900DE04D0 /* Edge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Edge.swift; sourceTree = "<group>"; };
 		B9CD127525D1033D00DE04D0 /* Argument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Argument.swift; sourceTree = "<group>"; };
+		B9CD12A425D11B8900DE04D0 /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		OBJ_10 /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		OBJ_101 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = /Users/imairiyousuke/git/RIBsCodeGen/.build/checkouts/SourceKitten/Package.swift; sourceTree = "<group>"; };
 		OBJ_105 /* api.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = api.c; sourceTree = "<group>"; };
@@ -480,6 +482,7 @@
 				B9CD125325D101AD00DE04D0 /* Node.swift */,
 				B9CD126425D101B900DE04D0 /* Edge.swift */,
 				B9CD127525D1033D00DE04D0 /* Argument.swift */,
+				B9CD12A425D11B8900DE04D0 /* Formatter.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -785,7 +788,7 @@
 		OBJ_9 /* Commands */ = {
 			isa = PBXGroup;
 			children = (
-				B94DF34A25CBD79400152AF7 /* CreateRIBsCommand.swift */,
+				B94DF34A25CBD79400152AF7 /* CreateRIBCommand.swift */,
 				B9B816C025CCC9C90022D6D1 /* CreateComponentExtension.swift */,
 				OBJ_11 /* DependencyCommand.swift */,
 				OBJ_10 /* Command.swift */,
@@ -1173,11 +1176,12 @@
 				B9CD123425D1019600DE04D0 /* Setting.swift in Sources */,
 				B947CA9425CB9566008947E7 /* String+Foundation.swift in Sources */,
 				B9CD125425D101AD00DE04D0 /* Node.swift in Sources */,
-				B94DF34B25CBD79400152AF7 /* CreateRIBsCommand.swift in Sources */,
+				B94DF34B25CBD79400152AF7 /* CreateRIBCommand.swift in Sources */,
 				OBJ_202 /* VersionCommand.swift in Sources */,
 				OBJ_203 /* Error.swift in Sources */,
 				B9CD126525D101B900DE04D0 /* Edge.swift in Sources */,
 				B947CAD225CB956E008947E7 /* Array+SourceKit.swift in Sources */,
+				B9CD12A525D11B8900DE04D0 /* Formatter.swift in Sources */,
 				OBJ_204 /* Result.swift in Sources */,
 				B9CD127625D1033D00DE04D0 /* Argument.swift in Sources */,
 				B947CB2225CBC02D008947E7 /* SwiftExpressionKind.swift in Sources */,
