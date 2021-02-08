@@ -97,7 +97,7 @@ func run(with commandLineArguments: [String]) -> Result {
     case "version":
         let command = VersionCommand(version: version)
         return command.run()
-    case "add" where argument.hasParent:
+    case "add" where !argument.hasParent:
         let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
         let command = CreateRIBsCommand(paths: paths,
                                         targetDirectory: setting.targetDirectory,
@@ -105,7 +105,7 @@ func run(with commandLineArguments: [String]) -> Result {
                                         target: argument.second,
                                         isOwnsView: !argument.noView)
         return command.run()
-    case "add" where !argument.hasParent:
+    case "add" where argument.hasParent:
         // 単体
         let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
         let childRIBCreateCommand = CreateRIBsCommand(paths: paths,
