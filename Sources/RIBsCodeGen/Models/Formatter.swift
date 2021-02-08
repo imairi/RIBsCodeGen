@@ -27,7 +27,7 @@ private enum FormatterError: Swift.Error {
 enum Formatter {
     static func format(path: String) throws -> String {
         guard let parentRouterFile = File(path: path) else {
-            print("該当ファイルが見つかりませんでした。", path)
+            print("Not found target file: \(path)".red.bold)
             throw FormatterError.notFoundTargetFile
         }
         return try parentRouterFile.format(trimmingTrailingWhitespace: true, useTabs: false, indentWidth: 4)

@@ -38,17 +38,17 @@ func main() {
 
 func analyzeArguments(commandLineArguments: [String]) -> Argument? {
     guard let firstArgument = commandLineArguments.first else {
-        print("引数足りない")
+        print("Lack of argument.".red.bold)
         return nil
     }
 
     let commandLineArgumentsLackOfFirst = commandLineArguments.dropFirst()
     guard let secondArgument = commandLineArgumentsLackOfFirst.first else {
-        print("引数足りない")
+        print("Lack of argument.".red.bold)
         return nil
     }
     let optionArguments = commandLineArgumentsLackOfFirst.dropFirst()
-    
+
     var otherArguments = [String:String]()
     var latestOptionKey = ""
     optionArguments.forEach { argument in
@@ -60,27 +60,27 @@ func analyzeArguments(commandLineArguments: [String]) -> Argument? {
             otherArguments[latestOptionKey] = argument
         }
     }
-    
+
     return Argument(first: firstArgument, second: secondArgument, options: otherArguments)
 }
 
 func analyzeSettings() -> Setting? {
     guard let settingFilePath = Path.current.glob(".ribscodegen").first else {
-        print("設定ファイルがありません。")
+        print("Not found setting file, add .ribscodegen at current directory".red.bold)
         return nil
     }
-    
+
     let settingFile: String? = try? settingFilePath.read()
     guard let settingFileString = settingFile else {
-        print("設定ファイルが読み込めません。")
+        print("Failed to read .ribscodegen.".red.bold)
         return nil
     }
-    
+
     let decoder = YAMLDecoder()
     do {
         return try decoder.decode(Setting.self, from: settingFileString)
     } catch {
-        print("設定ファイルの形式がおかしい", error)
+        print("Failed to decode .ribscodegen. Check the setting values.".red.bold)
         return nil
     }
 }
@@ -89,7 +89,7 @@ func run(with commandLineArguments: [String]) -> Result {
     guard let argument = analyzeArguments(commandLineArguments: commandLineArguments) else {
         return .failure(error: .lackOfArguments)
     }
-    
+
     switch argument.first {
     case "help":
         let command = HelpCommand()
@@ -112,7 +112,7 @@ func run(with commandLineArguments: [String]) -> Result {
                                                      target: argument.second,
                                                      isOwnsView: !argument.noView)
         _ = childRIBCreateCommand.run()
-        
+
         // ComponentExtension
         let paths2 = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
         let createComponentExtensionCommand = CreateComponentExtension(paths: paths2,
@@ -120,8 +120,8 @@ func run(with commandLineArguments: [String]) -> Result {
                                                                        parent: argument.parent,
                                                                        child: argument.second)
         _ = createComponentExtensionCommand.run()
-        
-        
+
+
         // 依存の解決
         let paths3 = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
         return DependencyCommand(paths: paths3, parent: argument.parent, child: argument.second).run()
@@ -133,27 +133,24 @@ func run(with commandLineArguments: [String]) -> Result {
                                                                        parent: argument.parent,
                                                                        child: argument.second)
         _ = createComponentExtensionCommand.run()
-        
+
         // 依存の解決
         let paths3 = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
         let dependencyCommand = DependencyCommand(paths: paths3, parent: argument.parent, child: argument.second)
         return dependencyCommand.run()
     case "scaffold":
         guard let treePath = Path.current.glob(argument.second).first else {
-            print("ファイルを指定して下さい。")
+            print("Needs to add markdown file path for second argument.".red.bold)
             return HelpCommand().run()
         }
-        
+
         guard let treeString: String = try? treePath.read() else {
-            print("ファイルが読み込めません")
+            print("Failed to read file: \(treePath)".red.bold)
             return HelpCommand().run()
         }
-        
+
         let argumentParentRIBName = argument.parent
-        
-        print(treeString)
-        
-        
+
         let treeArray = treeString.components(separatedBy: "\n")
         let reversedTreeArray = treeArray.reversed()
         let nodes: [Node] = reversedTreeArray
@@ -169,33 +166,30 @@ func run(with commandLineArguments: [String]) -> Result {
                 return Node(spaceCount: spaceCount, ribName: extractedRIBNameString, isOwnsView: isOwnsView)
             }
             .compactMap { $0 }
-        
+
         var edges = [Edge]()
         for (index, node) in nodes.enumerated() {
             let filteredNodes = nodes[index..<nodes.count]
-            
+
             guard let parentNode = filteredNodes.filter({ $0.spaceCount < node.spaceCount }).first else {
-                print("\(node.ribName)は最上位ノード")
                 edges.append(Edge(parent: argumentParentRIBName, target: node.ribName, isOwnsView: node.isOwnsView))
                 continue
             }
             edges.append(Edge(parent: parentNode.ribName, target: node.ribName, isOwnsView: node.isOwnsView))
         }
-        
-        print(edges)
-        
+
         edges.reversed().forEach { edge in
             let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
             let targetRIBName = edge.target
             let isOwnsView = edge.isOwnsView
-            
+
             // 単体
             let childRIBCreateCommand = CreateRIBCommand(paths: paths,
                                                          setting: setting,
                                                          target: targetRIBName,
                                                          isOwnsView: isOwnsView)
             _ = childRIBCreateCommand.run()
-            
+
             // ComponentExtension
             let paths2 = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
             let createComponentExtensionCommand = CreateComponentExtension(paths: paths2,
@@ -203,8 +197,8 @@ func run(with commandLineArguments: [String]) -> Result {
                                                                            parent: edge.parent,
                                                                            child: targetRIBName)
             _ = createComponentExtensionCommand.run()
-            
-            
+
+
             // 依存の解決
             let paths3 = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
             let dependencyCommand = DependencyCommand(paths: paths3, parent: edge.parent, child: targetRIBName)
@@ -218,7 +212,7 @@ func run(with commandLineArguments: [String]) -> Result {
 
 func allSwiftSourcePaths(directoryPath: String) -> [String] {
     let absolutePath = Path(directoryPath).absolute()
-    
+
     do {
         return try absolutePath.recursiveChildren().filter({ $0.extension == "swift" }).map({ $0.string })
     } catch {

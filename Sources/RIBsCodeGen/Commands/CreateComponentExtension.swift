@@ -43,13 +43,13 @@ private extension CreateComponentExtension {
     func createDirectory() {
         let filePath = targetDirectory + "/\(parent)/Dependencies" // 親 Directory -> Dependencies
         guard !Path(filePath).exists else {
-            print("ディレクトリ作成スキップ")
+            print("skip to create directory: \(filePath)")
             return
         }
         do {
             try Path(stringLiteral: filePath).mkdir()
         } catch {
-            print("ディレクトリ作成失敗", error)
+            print("Failed to create directory: \(filePath)".red.bold, error)
         }
     }
 
@@ -62,7 +62,7 @@ private extension CreateComponentExtension {
                 .replacingOccurrences(of: "___VARIABLE_childName___", with: "\(child)")
             try Path(filePath).write(replacedText)
         } catch {
-            print("ComponentExtensionファイル書き込み失敗", error)
+            print("Failed to write file: \(filePath)".red.bold, error)
         }
     }
 }

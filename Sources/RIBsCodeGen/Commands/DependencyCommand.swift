@@ -80,7 +80,7 @@ private extension DependencyCommand {
             let formattedText = try Formatter.format(path: parentRouterPath)
             write(text: formattedText, toPath: parentRouterPath)
         } catch {
-            print("フォーマットエラー", error)
+            print("Failed to format file: \(parentRouterPath)".red.bold, error)
         }
     }
 
@@ -93,7 +93,7 @@ private extension DependencyCommand {
             let formattedText = try Formatter.format(path: parentBuilderPath)
             write(text: formattedText, toPath: parentBuilderPath)
         } catch {
-            print("フォーマットエラー", error)
+            print("Failed to format file: \(parentBuilderPath)".red.bold, error)
         }
     }
 }
@@ -110,7 +110,7 @@ private extension DependencyCommand {
             .filterByKeyName("\(parent)Interactable")
 
         guard let interactable = interactables.first else {
-            print("\(parent)Interactable がありません。")
+            print("Not found: \(parent)Interactable".red.bold)
             return
         }
 
@@ -119,15 +119,18 @@ private extension DependencyCommand {
         let insertPosition = interactable.getInnerLeadingPosition() - 2 // TODO: 準拠している Protocol の最後の末尾を起点にしたほうがよい
 
         do {
-            if !isConformsToChildListener { // 親RouterのInteractableを、ChildListener に準拠させる
-                var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
-                let insertIndex = text.utf8.index(text.startIndex, offsetBy: insertPosition)
-                text.insert(contentsOf: ",\n \(child)Listener", at: insertIndex)
-
-                write(text: text, toPath: parentRouterPath)
+            guard !isConformsToChildListener else {
+                print("Skip to add child listener to parent router.")
+                return
             }
+            // 親RouterのInteractableを、ChildListener に準拠させる
+            var text = try String(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
+            let insertIndex = text.utf8.index(text.startIndex, offsetBy: insertPosition)
+            text.insert(contentsOf: ",\n \(child)Listener", at: insertIndex)
+
+            write(text: text, toPath: parentRouterPath)
         } catch {
-            print(error)
+            print("Failed to read file: \(parentRouterFile.path ?? "")".red.bold, error)
         }
     }
 
@@ -156,7 +159,7 @@ private extension DependencyCommand {
 
             write(text: text, toPath: parentRouterPath)
         } catch {
-            print(error)
+            print("Failed to read file: \(parentRouterFile.path ?? "")".red.bold, error)
         }
     }
 
@@ -184,7 +187,7 @@ private extension DependencyCommand {
 
             write(text: text, toPath: parentRouterPath)
         } catch {
-            print(error)
+            print("Failed to read file: \(parentRouterFile.path ?? "")".red.bold, error)
         }
     }
 
@@ -199,7 +202,7 @@ private extension DependencyCommand {
 
         do {
             guard shouldRemoveOverrideAttribute else {
-                print("override 消す処理をスキップ")
+                print("Skip to remove override attribute from init function.")
                 return
             }
             var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
@@ -207,7 +210,7 @@ private extension DependencyCommand {
 
             write(text: text, toPath: parentRouterPath)
         } catch {
-            print(error)
+            print("Failed to read file: \(parentRouterFile.path ?? "")".red.bold, error)
         }
     }
 
@@ -228,7 +231,7 @@ private extension DependencyCommand {
 
             write(text: text, toPath: parentRouterPath)
         } catch {
-            print(error)
+            print("Failed to read file: \(parentRouterFile.path ?? "")".red.bold, error)
         }
     }
 }
@@ -244,14 +247,14 @@ private extension DependencyCommand {
             .filterByKeyKind(.protocol)
 
         guard let parentBuilderDependency = parentBuilderProtocols.filterByKeyName("\(parent)Dependency").first else {
-            print("protocol \(parent)Dependency が見つかりません。")
+            print("Not found protocol \(parent)Dependency.".red.bold)
             return
         }
 
         let shouldAddDependency = parentBuilderDependency.getInheritedTypes().filterByKeyName("\(parent)Dependency\(child)").isEmpty
 
         guard shouldAddDependency else {
-            print("\(parent)Dependency\(child)は存在する。")
+            print("Skip to add \(parent)Dependency\(child).")
             return
         }
 
@@ -263,7 +266,7 @@ private extension DependencyCommand {
             text.insert(contentsOf: ",\n\("\(parent)Dependency\(child)")", at: dependencyInsertIndex)
             write(text: text, toPath: parentBuilderPath)
         } catch {
-            print(error)
+            print("Failed to read file: \(parentBuilderPath)".red.bold, error)
         }
     }
 
@@ -276,14 +279,14 @@ private extension DependencyCommand {
             .filterByKeyKind(.class)
 
         guard let parentBuilderClass = parentBuilderClasses.filterByKeyName("\(parent)Builder").first else {
-            print("class \(parent)Builder が見つかりません。")
+            print("Not found \(parent)Builder class.".red.bold)
             return
         }
 
         let initStructure = parentBuilderClass.getSubStructures().extractByKeyName("build")
         let childBuilderInitializers = initStructure.getSubStructures().filterByKeyKind(.call).filterByKeyName("\(child)Builder")
         guard childBuilderInitializers.isEmpty else {
-            print("すでに \(child)Builder の初期化処理があります。")
+            print("Skip to add \(child)Builder initialize.")
             return
         }
 
@@ -297,7 +300,7 @@ private extension DependencyCommand {
             text.insert(contentsOf: "let \(child.lowercasedFirstLetter())Builder = \(child)Builder(dependency: component)\n", at: dependencyInsertIndex)
             write(text: text, toPath: parentBuilderPath)
         } catch {
-            print(error)
+            print("Failed to read file: \(parentBuilderPath)".red.bold, error)
         }
     }
 
@@ -310,7 +313,7 @@ private extension DependencyCommand {
             .filterByKeyKind(.class)
 
         guard let parentBuilderClass = parentBuilderClasses.filterByKeyName("\(parent)Builder").first else {
-            print("class \(parent)Builder が見つかりません。")
+            print("Not found \(parent)Builder class.".red.bold)
             return
         }
 
@@ -319,7 +322,7 @@ private extension DependencyCommand {
 
         let childBuilderArguments = parentRouter.getSubStructures().filterByKeyKind(.argument).filterByKeyName("\(child.lowercasedFirstLetter())Builder")
         guard childBuilderArguments.isEmpty else {
-            print("すでに \(child)Builder が引数として存在しています。")
+            print("Skip to add \(child)Builder for Router initialize argument.")
             return
         }
 
@@ -331,7 +334,7 @@ private extension DependencyCommand {
             text.insert(contentsOf: ", \n\(child.lowercasedFirstLetter())Builder: \(child.lowercasedFirstLetter())Builder", at: dependencyInsertIndex)
             write(text: text, toPath: parentBuilderPath)
         } catch {
-            print(error)
+            print("Failed to read file: \(parentBuilderPath)".red.bold, error)
         }
     }
 }
@@ -342,7 +345,7 @@ private extension DependencyCommand {
         do {
             try Path(path).write(text)
         } catch {
-            print("書き込みエラー", error)
+            print("Failed to write file: \(path)", error)
         }
     }
 }

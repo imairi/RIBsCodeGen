@@ -60,13 +60,13 @@ private extension CreateRIBCommand {
     func createDirectory() {
         let filePath = targetDirectory + "/\(target)"
         guard !Path(filePath).exists else {
-            print("ディレクトリ作成スキップ")
+            print("skip to create directory: \(filePath)")
             return
         }
         do {
             try Path(filePath).mkdir()
         } catch {
-            print("ディレクトリ作成失敗", error)
+            print("Failed to create directory: \(filePath)".red.bold, error)
         }
     }
 
@@ -89,7 +89,7 @@ private extension CreateRIBCommand {
                 let formattedText = try Formatter.format(path: filePath)
                 try Path(filePath).write(formattedText)
             } catch {
-                print("\(fileType)ファイル書き込み失敗", error)
+                print("Failed to write file: \(filePath)".red.bold, error)
 
             }
         }
