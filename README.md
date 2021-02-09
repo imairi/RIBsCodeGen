@@ -44,7 +44,6 @@ RIBs templates are added to `templateDirectory`. The hierarchy is the below.
   - Interactor.swift
   - Builder.swift
   - ViewController.swift
-
 ```
 
 Template file is based on Xcode template style. Refer to sample [Templates](/Templates) for the detail.
