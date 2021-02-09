@@ -9,13 +9,13 @@
 import RIBs
 
 protocol SampleParentViewlessDependency: Dependency {
-    var SampleParentViewlessViewController: SampleParentViewlessViewControllable { get }
+    var sampleParentViewlessViewController: SampleParentViewlessViewControllable { get }
 }
 
 final class SampleParentViewlessComponent: Component<SampleParentViewlessDependency> {
 
-    fileprivate var SampleParentViewlessViewController: SampleParentViewlessViewControllable {
-        return dependency.SampleParentViewlessViewController
+    fileprivate var sampleParentViewlessViewController: SampleParentViewlessViewControllable {
+        return dependency.sampleParentViewlessViewController
     }
 
 }
