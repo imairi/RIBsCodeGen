@@ -5,15 +5,49 @@
 # RIBsCodeGen
 RIBsCodeGen generates [RIBs](https://github.com/uber/RIBs) boilerplate. Router, Interactor, Builder and ViewController are created automatically following its templates.
 
-This tool also resolves the dependencies between parent and child RIB. Not only add the ComponentExtension but also add the child listener and builder to parent Router, Builder. 
+This tool also resolves the dependencies between parent and child RIB. Not only add the ComponentExtension file but also add the child listener and builder to parent Router, Builder. 
 
-Additionally, the operation is enable to run for multiple RIBs. If writes the RIBs tree by Markfown list style, this tool generates all RIBs following the tree. 
+Additionally, the operation is enable to run for multiple RIBs. If writes the RIBs tree by Markdown list style, this tool generates all RIBs following the tree. 
 
 Let's save time to create RIBs as much as possible.
 
+# Features
+
+- [x] Generate Router, Interactor, Builder, ViewController following template
+- [x] Generate ComponentExtension following template
+- [x] Bulk generation following RIBs tree
+- [ ] Remove the RIB and the related codes
+- [ ] Rename the RIB adn the related codes
+
 # Settings
 
-設定ファイルについて。
+add `.ribscodegen` file to the current directory the operation runs. RIBsCodeGen loads this setting file before runs the below commands.
+
+```
+targetDirectory: "Sample"
+templateDirectory: "Templates"
+```
+
+`targetDirectory` is RIBs source codes directory. This tool loads RIBs files under the target directory. And the output is generated to the target directory.
+
+RIBs templates are added to `templateDirectory`. The hierarchy is the below.
+
+```
+- ComponentExtension
+  - ComponentExtension.swift
+- Default
+  - Router.swift
+  - Interactor.swift
+  - Builder.swift
+- OwnsView
+  - Router.swift
+  - Interactor.swift
+  - Builder.swift
+  - ViewController.swift
+
+```
+
+Template file is based on Xcode template style. Refer to sample [Templates](/Templates) for the detail.
 
 # Usage
 
