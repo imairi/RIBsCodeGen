@@ -130,14 +130,6 @@ And the below files would be updated for resolving dependency.
 - SampleParent/SampleParentRouter.swift
 - SampleParent/SampleParentBuilder.swift
 
-## Version
-
-`version` command, it is checking the tool version.
-
-```
-swift run ribscodegen version
-```
-
 ## Help
 
 `help` command, it is checking the tool usage.
