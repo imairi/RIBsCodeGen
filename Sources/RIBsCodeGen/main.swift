@@ -9,8 +9,6 @@ import Foundation
 import PathKit
 import Yams
 
-let version = "1.0.1"
-
 var setting: Setting!
 
 func main() {
@@ -44,10 +42,6 @@ func run(with commandLineArguments: [String]) {
     switch argument.action {
     case .help:
         let result = HelpCommand().run()
-        showResult(result)
-        exit(0)
-    case .version:
-        let result = VersionCommand(version: version).run()
         showResult(result)
         exit(0)
     case .add where !argument.hasParent:

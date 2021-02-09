@@ -8,7 +8,7 @@
 import Foundation
 
 enum Action {
-    case add(String), link(String), scaffold(String), help, version
+    case add(String), link(String), scaffold(String), help
 
     init(name: String, target: String?) {
         switch name {
@@ -32,8 +32,6 @@ enum Action {
             }
         case "help":
             self = .help
-        case "version":
-            self = .version
         default:
             self = .help
         }
@@ -73,7 +71,7 @@ extension Argument {
             return target
         case let .scaffold(target):
             return target
-        case .help, .version:
+        case .help:
             return ""
         }
     }
