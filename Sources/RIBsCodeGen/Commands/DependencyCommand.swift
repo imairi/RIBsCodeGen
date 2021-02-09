@@ -58,6 +58,7 @@ struct DependencyCommand: Command {
     }
     
     func run() -> Result {
+        print("Start updating Router for dependency between \(parent) and \(child).")
         let resolveDependencyForRouterResult = resolveDependencyForRouter()
         switch resolveDependencyForRouterResult {
         case let .success(message):
@@ -66,6 +67,7 @@ struct DependencyCommand: Command {
             return .failure(error: error)
         }
 
+        print("Start updating Builder for dependency between \(parent) and \(child).")
         let resolveDependencyForBuilderResult = resolveDependencyForBuilder()
         switch resolveDependencyForBuilderResult {
         case let .success(message):

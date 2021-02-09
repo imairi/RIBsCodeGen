@@ -14,6 +14,8 @@ let version = "0.1.0"
 var setting: Setting!
 
 func main() {
+    print("Start RIBsCodeGen operation.\n")
+
     let arguments = [String](CommandLine.arguments.dropFirst())
 
     guard let setting = analyzeSettings() else {

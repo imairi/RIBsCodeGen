@@ -46,6 +46,8 @@ struct CreateRIBCommand: Command {
     }
 
     func run() -> Result {
+        print("Start creating \(target) RIB.")
+
         guard needsCreateTargetFile else {
             return .success(message: "No need to add RIB, it already be exists.".yellow.bold)
         }
@@ -70,8 +72,9 @@ struct CreateRIBCommand: Command {
 private extension CreateRIBCommand {
     func createDirectory() throws {
         let filePath = targetDirectory + "/\(target)"
+        print("  Creating directory: \(filePath)")
         guard !Path(filePath).exists else {
-            print("Skip to create directory: \(filePath)")
+            print("  Skip to create directory: \(filePath)")
             return
         }
         try Path(filePath).mkdir()
@@ -87,6 +90,7 @@ private extension CreateRIBCommand {
 
         try fileTypes.forEach { fileType in
             let filePath = targetDirectory + "/\(target)/\(target)\(fileType).swift"
+            print("  Creating file: \(filePath)")
             let template: String = try Path(templateDirectory + "/\(fileType).swift").read()
             let replacedText = template
                 .replacingOccurrences(of: "___VARIABLE_productName___", with: "\(target)")

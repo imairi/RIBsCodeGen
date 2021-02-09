@@ -29,6 +29,8 @@ struct CreateComponentExtension: Command {
     }
 
     func run() -> Result {
+        print("Start creating ComponentExtension between \(parent) and \(child).")
+
         guard needsCreateTargetFile else {
             return .success(message: "No need to add ComponentExtension, it already be exists.".yellow.bold)
         }
@@ -52,8 +54,9 @@ struct CreateComponentExtension: Command {
 private extension CreateComponentExtension {
     func createDirectory() throws {
         let filePath = targetDirectory + "/\(parent)/Dependencies" // 親 Directory -> Dependencies
+        print("  Creating directory: \(filePath)")
         guard !Path(filePath).exists else {
-            print("Skip to create directory: \(filePath)")
+            print("  Skip to create directory: \(filePath)")
             return
         }
 
@@ -62,6 +65,7 @@ private extension CreateComponentExtension {
 
     func createFiles() throws {
         let filePath = targetDirectory + "/\(parent)/Dependencies" + "/\(parent)Component+\(child).swift"
+        print("  Creating file: \(filePath)")
         let template: String = try Path(templateDirectory + "/ComponentExtension/ComponentExtension.swift").read()
         let replacedText = template
             .replacingOccurrences(of: "___VARIABLE_productName___", with: "\(parent)")
