@@ -9,7 +9,7 @@ import Foundation
 import PathKit
 import Yams
 
-let version = "0.1.0"
+let version = "1.0.1"
 
 var setting: Setting!
 
