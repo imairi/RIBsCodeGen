@@ -29,7 +29,7 @@ struct CreateComponentExtension: Command {
     }
 
     func run() -> Result {
-        print("Start creating ComponentExtension between \(parent) and \(child).")
+        print("\nStart creating ComponentExtension between \(parent) and \(child).".bold)
 
         guard needsCreateTargetFile else {
             return .success(message: "No need to add ComponentExtension, it already be exists.".yellow.bold)
@@ -46,7 +46,7 @@ struct CreateComponentExtension: Command {
             return .failure(error: .failedCreateFile)
         }
 
-        return .success(message: "Success to create \(parent)Component+\(child).swift".green.bold)
+        return .success(message: "Successfully finished creating \(parent)Component+\(child).swift".green.bold)
     }
 }
 

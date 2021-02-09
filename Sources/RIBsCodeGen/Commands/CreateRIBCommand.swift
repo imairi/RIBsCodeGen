@@ -46,7 +46,7 @@ struct CreateRIBCommand: Command {
     }
 
     func run() -> Result {
-        print("Start creating \(target) RIB.")
+        print("\nStart creating \(target) RIB.".bold)
 
         guard needsCreateTargetFile else {
             return .success(message: "No need to add RIB, it already be exists.".yellow.bold)
@@ -64,7 +64,7 @@ struct CreateRIBCommand: Command {
             return .failure(error: .failedCreateFile)
         }
 
-        return .success(message: "Success to create \(target) RIB.".green.bold)
+        return .success(message: "Successfully finished creating \(target) RIB.".green.bold)
     }
 }
 
