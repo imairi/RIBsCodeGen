@@ -115,7 +115,7 @@ And the below files would be updated for resolving dependency.
 
 ## Link
 
-`link` command, it is resolving dependency for the parent.
+`link` command, it is resolving dependency for the parent. If there are reusable RIBs, the command is useful.
 
 ```
 swift run ribscodegen link Demo --parent SampleParent
@@ -129,8 +129,6 @@ And the below files would be updated for resolving dependency.
 
 - SampleParent/SampleParentRouter.swift
 - SampleParent/SampleParentBuilder.swift
-
-If there are reusable RIBs, the command is useful.
 
 ## Version
 
