@@ -14,7 +14,13 @@ let version = "0.1.0"
 var setting: Setting!
 
 func main() {
-    print("Start RIBsCodeGen operation.\n")
+    let ribsCodeGenString = "RI".red.bold.underline
+        + "Bs".lightRed.bold.underline
+        + "Co".lightMagenta.bold.underline
+        + "de".magenta.bold.underline
+        + "Gen".lightBlue.bold.underline
+    let startMessage = "\nStart ".bold.underline + ribsCodeGenString + " operation.\n".bold.underline
+    print(startMessage)
 
     let arguments = [String](CommandLine.arguments.dropFirst())
 
