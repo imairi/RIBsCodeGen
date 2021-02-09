@@ -26,7 +26,8 @@ func main() {
 
     guard let setting = analyzeSettings() else {
         print("")
-        print("\nRIBsCodeGen operation failed. Check the above error logs.".white.applyingBackgroundColor(.red))
+        print("\nRIBsCodeGen operation failed. Check the above error logs.".red)
+        print("")
         exit(1)
     }
     RIBsCodeGen.setting = setting
@@ -97,7 +98,8 @@ func showResult(_ result: Result) {
         print(message)
     case let .failure(error):
         print(error.message.red)
-        print("\nRIBsCodeGen operation failed. Check the above error logs.".white.applyingBackgroundColor(.red))
+        print("\nRIBsCodeGen operation failed. Check the above error logs.".red)
+        print("")
         exit(Int32(error.code))
     }
 }

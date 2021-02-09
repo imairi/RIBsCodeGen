@@ -37,12 +37,15 @@ struct CreateComponentExtension: Command {
         do {
             try createDirectory()
         } catch {
+            print("  Failed to creating directory.".red.bold)
             return .failure(error: .failedCreateDirectory)
         }
 
         do {
             try createFiles()
         } catch {
+            print("  Failed to creating file.".red.bold)
+            print("  Check the template directory.".red.bold)
             return .failure(error: .failedCreateFile)
         }
 
@@ -56,7 +59,7 @@ private extension CreateComponentExtension {
         let filePath = targetDirectory + "/\(parent)/Dependencies" // 親 Directory -> Dependencies
         print("  Creating directory: \(filePath)")
         guard !Path(filePath).exists else {
-            print("  Skip to create directory: \(filePath)")
+            print("  Skip to create directory: \(filePath)".yellow)
             return
         }
 
