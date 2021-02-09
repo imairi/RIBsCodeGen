@@ -1,4 +1,8 @@
-//___FILEHEADER___
+//
+//  ___VARIABLE_productName___Component+___VARIABLE_childName___.swift
+//
+//  Created by RIBsCodeGen.
+//
 
 import RIBs
 

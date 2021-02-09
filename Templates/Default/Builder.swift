@@ -1,4 +1,8 @@
-//___FILEHEADER___
+//
+//  ___VARIABLE_productName___Builder.swift
+//
+//  Created by RIBsCodeGen.
+//
 
 import RIBs
 

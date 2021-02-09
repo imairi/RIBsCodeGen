@@ -1,4 +1,8 @@
-//___FILEHEADER___
+//
+//  ___VARIABLE_productName___Interactor.swift
+//
+//  Created by RIBsCodeGen.
+//
 
 import RIBs
 import RxSwift

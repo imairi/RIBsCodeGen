@@ -1,4 +1,8 @@
-//___FILEHEADER___
+//
+//  ___VARIABLE_productName___Router.swift
+//
+//  Created by RIBsCodeGen.
+//
 
 import RIBs
 

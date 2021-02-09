@@ -1,4 +1,8 @@
-//___FILEHEADER___
+//
+//  ___VARIABLE_productName___ViewController.swift
+//
+//  Created by RIBsCodeGen.
+//
 
 import RIBs
 import RxSwift
