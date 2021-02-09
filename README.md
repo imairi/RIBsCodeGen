@@ -17,7 +17,7 @@ Let's save time to create RIBs as much as possible.
 - [x] Generate ComponentExtension following template
 - [x] Bulk generation following RIBs tree
 - [ ] Remove the RIB and the related codes
-- [ ] Rename the RIB adn the related codes
+- [ ] Rename the RIB and the related codes
 
 # Settings
 
