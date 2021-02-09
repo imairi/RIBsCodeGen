@@ -7,13 +7,45 @@
 
 import Foundation
 
+enum Action {
+    case add(String), link(String), scaffold(String), help, version
+
+    init(name: String, target: String?) {
+        switch name {
+        case "add":
+            if let target = target {
+                self = .add(target)
+            } else {
+                self = .help
+            }
+        case "link":
+            if let target = target {
+                self = .link(target)
+            } else {
+                self = .help
+            }
+        case "scaffold":
+            if let target = target {
+                self = .scaffold(target)
+            } else {
+                self = .help
+            }
+        case "help":
+            self = .help
+        case "version":
+            self = .version
+        default:
+            self = .help
+        }
+    }
+}
+
 struct Argument: CustomStringConvertible {
-    let first: String
-    let second: String
+    let action: Action
     let options: [String:String]
 
     var description: String {
-        "1st: \(first), 2nd: \(second), options: \(options)"
+        "action: \(action), options: \(options)"
     }
 }
 
@@ -31,5 +63,18 @@ extension Argument {
 
     var noView: Bool {
         options["noview"] != nil // "--noview の存在有無"
+    }
+
+    var actionTarget: String {
+        switch action {
+        case let .add(target):
+            return target
+        case let .link(target):
+            return target
+        case let .scaffold(target):
+            return target
+        case .help, .version:
+            return ""
+        }
     }
 }

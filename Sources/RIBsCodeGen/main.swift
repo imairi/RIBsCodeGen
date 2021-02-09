@@ -18,7 +18,7 @@ func main() {
 
     guard let setting = analyzeSettings() else {
         print("")
-        print("\n failure.".red.applyingStyle(.bold))
+        print("\nRIBsCodeGen operation failed. Check the above error logs.".white.applyingBackgroundColor(.red))
         exit(1)
     }
     RIBsCodeGen.setting = setting
@@ -32,20 +32,20 @@ func run(with commandLineArguments: [String]) {
         return showResult(.failure(error: .lackOfArguments))
     }
 
-    switch argument.first {
-    case "help":
+    switch argument.action {
+    case .help:
         let result = HelpCommand().run()
         showResult(result)
         exit(0)
-    case "version":
+    case .version:
         let result = VersionCommand(version: version).run()
         showResult(result)
         exit(0)
-    case "add" where !argument.hasParent:
+    case .add where !argument.hasParent:
         let result = makeCreateRIBCommand(argument: argument).run()
         showResult(result)
         exit(0)
-    case "add" where argument.hasParent:
+    case .add where argument.hasParent:
         let resultCreateRIB = makeCreateRIBCommand(argument: argument).run()
         showResult(resultCreateRIB)
 
@@ -55,14 +55,14 @@ func run(with commandLineArguments: [String]) {
         let resultDependency = makeDependencyCommand(argument: argument).run()
         showResult(resultDependency)
         exit(0)
-    case "link":
+    case .link:
         let resultCreateComponentExtension = makeCreateComponentExtension(argument: argument).run()
         showResult(resultCreateComponentExtension)
 
         let resultDependency = makeDependencyCommand(argument: argument).run()
         showResult(resultDependency)
         exit(0)
-    case "scaffold":
+    case .scaffold:
         let edges = makeEdges(argument: argument)
         edges.forEach { edge in
             let resultCreateRIB = makeCreateRIBCommand(edge: edge).run()
@@ -89,7 +89,7 @@ func showResult(_ result: Result) {
         print(message)
     case let .failure(error):
         print(error.message.red)
-        print("\n failure.".red.applyingStyle(.bold))
+        print("\nRIBsCodeGen operation failed. Check the above error logs.".white.applyingBackgroundColor(.red))
         exit(Int32(error.code))
     }
 }
@@ -106,16 +106,15 @@ func allSwiftSourcePaths(directoryPath: String) -> [String] {
 
 // MARK: - Analyze methods
 func analyzeArguments(commandLineArguments: [String]) -> Argument? {
-    guard let firstArgument = commandLineArguments.first else {
-        print("Lack of argument.".red.bold)
+    guard let firstArgumentString = commandLineArguments.first else {
+        print("Set action for first argument.".red.bold)
         return nil
     }
-
     let commandLineArgumentsLackOfFirst = commandLineArguments.dropFirst()
-    guard let secondArgument = commandLineArgumentsLackOfFirst.first else {
-        print("Lack of argument.".red.bold)
-        return nil
-    }
+    let secondArgumentString = commandLineArgumentsLackOfFirst.first
+
+    let action = Action(name: firstArgumentString, target: secondArgumentString)
+
     let optionArguments = commandLineArgumentsLackOfFirst.dropFirst()
 
     var otherArguments = [String:String]()
@@ -130,7 +129,7 @@ func analyzeArguments(commandLineArguments: [String]) -> Argument? {
         }
     }
 
-    return Argument(first: firstArgument, second: secondArgument, options: otherArguments)
+    return Argument(action: action, options: otherArguments)
 }
 
 func analyzeSettings() -> Setting? {
@@ -159,7 +158,7 @@ func makeCreateRIBCommand(argument: Argument) -> Command {
     let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
     return CreateRIBCommand(paths: paths,
                             setting: setting,
-                            target: argument.second,
+                            target: argument.actionTarget,
                             isOwnsView: !argument.noView)
 }
 
@@ -176,7 +175,7 @@ func makeCreateComponentExtension(argument: Argument) -> Command {
     return CreateComponentExtension(paths: paths,
                                     setting: setting,
                                     parent: argument.parent,
-                                    child: argument.second)
+                                    child: argument.actionTarget)
 }
 
 func makeCreateComponentExtension(edge: Edge) -> Command {
@@ -191,7 +190,7 @@ func makeDependencyCommand(argument: Argument) -> Command {
     let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
     return DependencyCommand(paths: paths,
                              parent: argument.parent,
-                             child: argument.second)
+                             child: argument.actionTarget)
 }
 
 func makeDependencyCommand(edge: Edge) -> Command {
@@ -202,7 +201,7 @@ func makeDependencyCommand(edge: Edge) -> Command {
 }
 
 func makeEdges(argument: Argument) -> [Edge] {
-    guard let treePath = Path.current.glob(argument.second).first else {
+    guard let treePath = Path.current.glob(argument.actionTarget).first else {
         fatalError("Needs to add markdown file path for second argument.".red.bold)
     }
 
