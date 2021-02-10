@@ -56,14 +56,20 @@ struct CreateComponentExtension: Command {
 // MARK: - Private methods
 private extension CreateComponentExtension {
     func createDirectory() throws {
-        let filePath = targetDirectory + "/\(parent)/Dependencies" // 親 Directory -> Dependencies
-        print("  Creating directory: \(filePath)")
-        guard !Path(filePath).exists else {
-            print("  Skip to create directory: \(filePath)".yellow)
+        let parentDirectory = targetDirectory + "/\(parent)"
+        guard Path(parentDirectory).exists else {
+            print("  \(parentDirectory) is not existed. Create \(parent) RIB before this operation.".yellow)
+            throw Error.failedCreateDirectory
+        }
+
+        let dependenciesDirectory = parentDirectory + "/Dependencies" // 親 Directory -> Dependencies
+        print("  Creating directory: \(dependenciesDirectory)")
+        guard !Path(dependenciesDirectory).exists else {
+            print("  Skip to create directory: \(dependenciesDirectory)".yellow)
             return
         }
 
-        try Path(stringLiteral: filePath).mkdir()
+        try Path(dependenciesDirectory).mkdir()
     }
 
     func createFiles() throws {
