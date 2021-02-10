@@ -177,14 +177,18 @@ private extension DependencyCommand {
     func addChildBuilderProperty(parentRouterPath: String) throws {
         print("  Adding child builder declaration to parent Router.")
         let parentRouterFile = File(path: parentRouterPath)!
-        let parentRouterFileStructure = try Structure(file: parentRouterFile)
+        let initializeLines = parentRouterFile.lines.filter { $0.content.contains("init") }
 
-        let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().extractByKeyName("\(parent)Router")
-        let initLeadingPosition = parentRouterStructure.getInnerLeadingPosition()
+        guard let routerInitializeLine = initializeLines.filter({ $0.content.contains("\(parent)Interactable") }).first else {
+            print("  Failed to find \(parent)Router initialize line.".red)
+            return
+        }
+
+        let initLeadingPosition = routerInitializeLine.byteRange.location.value
 
         var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
         let propertyInsertIndex = text.utf8.index(text.startIndex, offsetBy: initLeadingPosition)
-        text.insert(contentsOf: "\n\nprivate let \(child.lowercasedFirstLetter())Builder: \(child)Buildable", at: propertyInsertIndex)
+        text.insert(contentsOf: "private let \(child.lowercasedFirstLetter())Builder: \(child)Buildable\n\n", at: propertyInsertIndex)
 
         write(text: text, toPath: parentRouterPath)
     }
@@ -298,7 +302,7 @@ private extension DependencyCommand {
         }
 
         guard let parentRouterInitializeLine = parentBuilderFile.lines.filter({ $0.content.contains("\(parent)Router") }).first else {
-            print("  Failed to find \(parent)Router initialize".red)
+            print("  Failed to find \(parent)Router initialize line.".red)
             return
         }
 
