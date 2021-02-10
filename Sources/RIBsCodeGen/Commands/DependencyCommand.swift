@@ -292,11 +292,11 @@ private extension DependencyCommand {
             .getSubStructures()
             .filterByKeyKind(.class)
 
-        guard let parentBuilderClass = parentBuilderClasses.filterByKeyName("\(parent)Builder").first else {
+        guard parentBuilderClasses.filterByKeyName("\(parent)Builder").first != nil else {
             print("  Not found \(parent)Builder class.".red.bold)
             throw Error.failedToAddChildBuilder
         }
-        
+
         guard let parentRouterInitializeLine = parentBuilderFile.lines.filter({ $0.content.contains("\(parent)Router") }).first else {
             print("  Failed to find \(parent)Router initialize".red)
             return
