@@ -25,27 +25,27 @@ struct DependencyCommand: Command {
         self.parent = parent
         self.child = child
         
-        guard let parentInteractorPath = paths.filter({ $0.contains(parent + "Interactor.swift") }).first else {
+        guard let parentInteractorPath = paths.filter({ $0.contains("/" + parent + "Interactor.swift") }).first else {
             fatalError("Not found \(parent)Interactor.swift".red.bold)
         }
 
-        guard let parentRouterPath = paths.filter({ $0.contains(parent + "Router.swift") }).first else {
+        guard let parentRouterPath = paths.filter({ $0.contains("/" + parent + "Router.swift") }).first else {
             fatalError("Not found \(parent)Router.swift".red.bold)
         }
 
-        guard let parentBuilderPath = paths.filter({ $0.contains(parent + "Builder.swift") }).first else {
+        guard let parentBuilderPath = paths.filter({ $0.contains("/" + parent + "Builder.swift") }).first else {
             fatalError("Not found \(parent)Builder.swift".red.bold)
         }
 
-        guard let childInteractorPath = paths.filter({ $0.contains(child + "Interactor.swift") }).first else {
+        guard let childInteractorPath = paths.filter({ $0.contains("/" + child + "Interactor.swift") }).first else {
             fatalError("Not found \(child)Interactor.swift".red.bold)
         }
 
-        guard let childRouterPath = paths.filter({ $0.contains(child + "Router.swift") }).first else {
+        guard let childRouterPath = paths.filter({ $0.contains("/" + child + "Router.swift") }).first else {
             fatalError("Not found \(child)Router.swift".red.bold)
         }
 
-        guard let childBuilderPath = paths.filter({ $0.contains(child + "Builder.swift") }).first else {
+        guard let childBuilderPath = paths.filter({ $0.contains("/" + child + "Builder.swift") }).first else {
             fatalError("Not found \(child)Builder.swift".red.bold)
         }
 

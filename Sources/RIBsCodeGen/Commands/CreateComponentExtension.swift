@@ -22,7 +22,7 @@ struct CreateComponentExtension: Command {
          child: String) {
         targetDirectory = setting.targetDirectory
         templateDirectory = setting.templateDirectory
-        needsCreateTargetFile = paths.filter({ $0.contains("\(parent)Component+\(child).swift") }).isEmpty
+        needsCreateTargetFile = paths.filter({ $0.contains("/\(parent)Component+\(child).swift") }).isEmpty
 
         self.parent = parent
         self.child = child
