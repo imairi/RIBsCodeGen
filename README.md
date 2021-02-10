@@ -15,6 +15,7 @@ Let's save time to create RIBs as much as possible.
 
 - [x] Generate Router, Interactor, Builder, ViewController following template
 - [x] Generate ComponentExtension following template
+- [x] Add child listener and builder to parent Router and Builder file
 - [x] Bulk generation following RIBs tree
 - [ ] Remove the RIB and the related codes
 - [ ] Rename the RIB and the related codes
