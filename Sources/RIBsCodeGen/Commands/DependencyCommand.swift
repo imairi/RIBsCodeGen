@@ -296,19 +296,17 @@ private extension DependencyCommand {
             print("  Not found \(parent)Builder class.".red.bold)
             throw Error.failedToAddChildBuilder
         }
-
-        let initStructure = parentBuilderClass.getSubStructures().extractByKeyName("build")
-        let childBuilderInitializers = initStructure.getSubStructures().filterByKeyKind(.call).filterByKeyName("\(child)Builder")
-        guard childBuilderInitializers.isEmpty else {
-            print("  Skip to add \(child)Builder initialize.".yellow)
+        
+        guard let parentRouterInitializeLine = parentBuilderFile.lines.filter({ $0.content.contains("\(parent)Router") }).first else {
+            print("  Failed to find \(parent)Router initialize".red)
             return
         }
 
-        let parentRouter = initStructure.getSubStructures().filterByKeyKind(.call).extractByKeyName("\(parent)Router")
-
-        let insertPosition = parentRouter.getOuterLeadingPosition() - "return ".count
+        let insertPosition = parentRouterInitializeLine.byteRange.location.value
+        print("insertPosition", insertPosition)
 
         var text = try String.init(contentsOfFile: parentBuilderPath, encoding: .utf8)
+
         let dependencyInsertIndex = text.utf8.index(text.startIndex, offsetBy: insertPosition)
         text.insert(contentsOf: "let \(child.lowercasedFirstLetter())Builder = \(child)Builder(dependency: component)\n", at: dependencyInsertIndex)
         write(text: text, toPath: parentBuilderPath)
