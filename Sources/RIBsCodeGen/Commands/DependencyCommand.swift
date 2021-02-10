@@ -91,7 +91,9 @@ private extension DependencyCommand {
             return .failure(error: .failedToAddChildListener)
         }
 
-        if !hasChildBuilder(parentRouterPath: parentRouterPath) {
+        if hasChildBuilderInRouter(parentRouterPath: parentRouterPath) {
+            print("  Skip to add child Builder to parent Router.".yellow)
+        } else {
             do {
                 try addChildBuilderProperty(parentRouterPath: parentRouterPath)
                 try addChildBuilderArgument(parentRouterPath: parentRouterPath)
@@ -152,7 +154,7 @@ private extension DependencyCommand {
         let insertPosition = interactable.getInnerLeadingPosition() - 2 // TODO: 準拠している Protocol の最後の末尾を起点にしたほうがよい
 
         guard !isConformsToChildListener else {
-            print("  Skip to add child listener to parent router.".yellow)
+            print("  Skip to add child Listener to parent Router.".yellow)
             return
         }
         // 親RouterのInteractableを、ChildListener に準拠させる
@@ -163,7 +165,7 @@ private extension DependencyCommand {
         write(text: text, toPath: parentRouterPath)
     }
 
-    func hasChildBuilder(parentRouterPath: String) -> Bool {
+    func hasChildBuilderInRouter(parentRouterPath: String) -> Bool {
         let parentRouterFile = File(path: parentRouterPath)!
         let parentRouterFileStructure = try! Structure(file: parentRouterFile)
 
@@ -275,7 +277,7 @@ private extension DependencyCommand {
         let shouldAddDependency = parentBuilderDependency.getInheritedTypes().filterByKeyName("\(parent)Dependency\(child)").isEmpty
 
         guard shouldAddDependency else {
-            print("Skip to add \(parent)Dependency\(child).".yellow)
+            print("  Skip to add \(parent)Dependency\(child).".yellow)
             return
         }
 
@@ -296,9 +298,30 @@ private extension DependencyCommand {
             .getSubStructures()
             .filterByKeyKind(.class)
 
-        guard parentBuilderClasses.filterByKeyName("\(parent)Builder").first != nil else {
+        guard let parentBuilderClass = parentBuilderClasses.filterByKeyName("\(parent)Builder").first else {
             print("  Not found \(parent)Builder class.".red.bold)
             throw Error.failedToAddChildBuilder
+        }
+
+        guard let buildMethod = parentBuilderClass.getSubStructures().filterByKeyName("build").first else {
+            print("  Not found build method in \(parent)Builder class.".red.bold)
+            throw Error.failedToAddChildBuilder
+        }
+
+        let childBuilderInitializeCalls = buildMethod.getSubStructures()
+            .filterByKeyKind(.call)
+            .filterByKeyName("\(child)Builder")
+            .filter { childBuilderCall in
+                let childBuilderInitializeCall = childBuilderCall
+                    .getSubStructures()
+                    .filterByKeyKind(.argument)
+                    .filterByKeyName("dependency")
+                return !childBuilderInitializeCall.isEmpty
+            }
+
+        guard childBuilderInitializeCalls.isEmpty else {
+            print("  Skip to add child Builder initialize to parent Router.".yellow)
+            return
         }
 
         guard let parentRouterInitializeLine = parentBuilderFile.lines.filter({ $0.content.contains("\(parent)Router") }).first else {
@@ -307,7 +330,6 @@ private extension DependencyCommand {
         }
 
         let insertPosition = parentRouterInitializeLine.byteRange.location.value
-        print("insertPosition", insertPosition)
 
         var text = try String.init(contentsOfFile: parentBuilderPath, encoding: .utf8)
 
