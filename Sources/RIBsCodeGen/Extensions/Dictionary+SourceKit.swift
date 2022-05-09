@@ -71,4 +71,8 @@ extension Dictionary where Key == String {
         // 外側の末尾の位置を確認する 【self.functionName（）←ここ】
         return getInnerTrailingPosition() + 1
     }
+    
+    func getKeyNameLength() -> Int {
+        Int(self["key.namelength"] as? Int64 ?? 0)
+    }
 }

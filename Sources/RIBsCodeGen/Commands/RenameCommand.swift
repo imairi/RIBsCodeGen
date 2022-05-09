@@ -7,6 +7,21 @@ import SourceKittenFramework
 import Rainbow
 import PathKit
 
+private enum RenameProtocolType: CaseIterable {
+    case routing, listener, presentable
+    
+    var suffix: String {
+        switch self {
+        case .routing:
+            return "Routing"
+        case .listener:
+            return "Listener"
+        case .presentable:
+            return "Presentable"
+        }
+    }
+}
+
 struct RenameCommand: Command {
     private let currentName: String
     private let newName: String
@@ -40,13 +55,66 @@ struct RenameCommand: Command {
     
     func run() -> Result {
         print("\nStart rename \(currentName) to \(newName)".bold)
+    
+        var result: Result?
+        RenameProtocolType.allCases.forEach { renameProtocolType in
+            do {
+                try renameForInteractor(for: renameProtocolType)
+            } catch {
+                result = .failure(error: .unknown) // TODO 正しいエラー
+            }
+        }
         
-        print("★ interactorPath", interactorPath)
-        print("★ routerPath", routerPath)
-        print("★ builderPath", builderPath)
-        print("★ viewControllerPath", viewControllerPath ?? "nil")
-        
-        return .success(message: "succeeded")
+        return result ?? .success(message: "succeeded")
     }
 }
 
+// MARK: - Run
+private extension RenameCommand {
+    func renameForInteractor(for renameProtocolType: RenameProtocolType) throws {
+        let interactorFile = File(path: interactorPath)!
+        let interactorFileStructure = try! Structure(file: interactorFile)
+        let interactorDictionary = interactorFileStructure.dictionary
+        let subStructures = interactorDictionary.getSubStructures()
+        let protocols = subStructures.filterByKeyKind(.protocol)
+        let targetProtocolDictionary = protocols.extractByKeyName("\(currentName)\(renameProtocolType.suffix)")
+        guard !targetProtocolDictionary.isEmpty else {
+            print("\(currentName)\(renameProtocolType.suffix) is not found. Skip to rename.".yellow)
+            return
+        }
+    
+        var text = try String.init(contentsOfFile: interactorPath, encoding: .utf8)
+        let startIndex = text.utf8.index(text.startIndex, offsetBy: targetProtocolDictionary.getOuterLeadingPosition())
+        let endIndex = text.utf8.index(text.startIndex, offsetBy: targetProtocolDictionary.getOuterLeadingPosition() + targetProtocolDictionary.getKeyNameLength())
+        text.replaceSubrange(startIndex..<endIndex, with: "\(newName)\(renameProtocolType.suffix)")
+        try Path(interactorPath).write(text)
+    }
+}
+
+extension Dictionary {
+    func prettyPrinted() {
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: self, options: [.prettyPrinted]) else {
+            print("JSON Serialization error")
+            return
+        }
+        guard let jsonString = String(data: jsonData, encoding: .utf8) else {
+            print("JSON Encoding error")
+            return
+        }
+        print(jsonString)
+    }
+}
+
+extension Array {
+    func prettyPrinted() {
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: self, options: [.prettyPrinted]) else {
+            print("JSON Serialization error")
+            return
+        }
+        guard let jsonString = String(data: jsonData, encoding: .utf8) else {
+            print("JSON Encoding error")
+            return
+        }
+        print(jsonString)
+    }
+}
