@@ -80,11 +80,12 @@ func run(with commandLineArguments: [String]) {
         }
         exit(0)
     case .rename:
-        let oldRIBName = argument.actionTarget
-        guard let newRIBName = argument.options.first?.value else {
+        let currentName = argument.actionTarget
+        guard let newName = argument.options.first?.value else {
             return
         }
-        print(oldRIBName, "->", newRIBName)
+        let resultRenameCommand = makeRenameCommand(currentName: currentName, newName: newName).run()
+        showResult(resultRenameCommand)
         exit(0)
     default:
         let result = HelpCommand().run()
@@ -251,6 +252,11 @@ func makeEdges(argument: Argument) -> [Edge] {
     }
 
     return edges.reversed()
+}
+
+func makeRenameCommand(currentName: String, newName: String) -> Command {
+    let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
+    return RenameCommand(paths: paths, currentName: currentName, newName: newName)
 }
 
 main()
