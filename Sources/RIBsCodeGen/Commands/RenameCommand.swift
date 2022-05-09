@@ -76,29 +76,17 @@ struct RenameCommand: Command {
         print("\nStart rename \(currentName) to \(newName)".bold)
     
         var result: Result?
-        RenameProtocolType.allCases.forEach { renameProtocolType in
-            do {
-                try renameProtocolsInInteractor(for: renameProtocolType)
-            } catch {
-                result = .failure(error: .unknown) // TODO: 正しいエラー
-            }
-        }
-
-        do {
-            try renameClassInInteractor()
-        } catch {
-            result = .failure(error: .unknown) // TODO: 正しいエラー
-        }
-
-        do {
-            try renameExtensionsInInteractor()
-        } catch {
-            result = .failure(error: .unknown) // TODO: 正しいエラー
-        }
-
         RenameVariableType.allCases.forEach { renameVariableType in
             do {
-                try renameVariablesTypeInInteractor(for: renameVariableType)
+                switch renameVariableType {
+                case .presentableListener:
+                    try renameVariablesTypeInPresentableProtocol()
+                case .listener:
+                    try renameVariablesTypeInInteractor(for: .listener)
+                case .routing:
+                    try renameVariablesTypeInInteractor(for: .routing)
+                }
+                
             } catch {
                 result = .failure(error: .unknown) // TODO: 正しいエラー
             }
@@ -123,6 +111,26 @@ struct RenameCommand: Command {
             } catch {
                 result = .failure(error: .unknown) // TODO: 正しいエラー
             }
+        }
+        
+        RenameProtocolType.allCases.forEach { renameProtocolType in
+            do {
+                try renameProtocolsInInteractor(for: renameProtocolType)
+            } catch {
+                result = .failure(error: .unknown) // TODO: 正しいエラー
+            }
+        }
+
+        do {
+            try renameClassInInteractor()
+        } catch {
+            result = .failure(error: .unknown) // TODO: 正しいエラー
+        }
+
+        do {
+            try renameExtensionsInInteractor()
+        } catch {
+            result = .failure(error: .unknown) // TODO: 正しいエラー
         }
 
         return result ?? .success(message: "succeeded")
@@ -199,16 +207,42 @@ private extension RenameCommand {
         let targetClassDictionary = classes.extractDictionaryByKeyName("\(currentName)Interactor")
         
         let targetTypeName = "\(currentName)\(renameVariableType.suffix)"
-        guard let router = targetClassDictionary.getSubStructures().filterByKeyTypeName(targetTypeName).first else {
+        let newTypeName = "\(newName)\(renameVariableType.suffix)"
+        guard let targetVariableDictionary = targetClassDictionary.getSubStructures().filterByKeyTypeName(targetTypeName).first else {
             print("\(targetTypeName) is not found. Skip to rename.".yellow)
             return
         }
     
         var text = try String.init(contentsOfFile: interactorPath, encoding: .utf8)
         let lengthBetweenVariableNameAndTypeName = 2 // プロパティ名と型名の間の長さ `: `
-        let startIndex = text.utf8.index(text.startIndex, offsetBy: router.getVariableTypeLeadingPosition() + lengthBetweenVariableNameAndTypeName)
-        let endIndex = text.utf8.index(text.startIndex, offsetBy: router.getVariableTypeTrailingPosition())
-        text.replaceSubrange(startIndex..<endIndex, with: "\(newName)\(renameVariableType.suffix)")
+        let startIndex = text.utf8.index(text.startIndex, offsetBy: targetVariableDictionary.getVariableTypeLeadingPosition() + lengthBetweenVariableNameAndTypeName)
+        let endIndex = text.utf8.index(text.startIndex, offsetBy: targetVariableDictionary.getVariableTypeTrailingPosition())
+        text.replaceSubrange(startIndex..<endIndex, with: newTypeName)
+        try Path(interactorPath).write(text)
+    }
+    
+    func renameVariablesTypeInPresentableProtocol() throws {
+        let interactorFile = File(path: interactorPath)!
+        let interactorFileStructure = try! Structure(file: interactorFile)
+        let interactorDictionary = interactorFileStructure.dictionary
+        let subStructures = interactorDictionary.getSubStructures()
+    
+        let protocols = subStructures.filterByKeyKind(.protocol)
+        let targetProtocolDictionary = protocols.extractDictionaryByKeyName("\(currentName)Presentable")
+    
+        let targetTypeName = "\(currentName)PresentableListener?"
+        let newTypeName = "\(newName)PresentableListener?"
+        guard let targetVariableDictionary = targetProtocolDictionary.getSubStructures().filterByKeyTypeName(targetTypeName).first else {
+            print("\(targetTypeName) is not found. Skip to rename.".yellow)
+            return
+        }
+    
+        var text = try String.init(contentsOfFile: interactorPath, encoding: .utf8)
+        let lengthBetweenVariableNameAndTypeName = 2 // プロパティ名と型名の間の長さ `: `
+        let lengthBetweenTypeNameAndClosure = 2 //型名と{の間の長さ ` {`
+        let startIndex = text.utf8.index(text.startIndex, offsetBy: targetVariableDictionary.getVariableTypeLeadingPosition() + lengthBetweenVariableNameAndTypeName)
+        let endIndex = text.utf8.index(text.startIndex, offsetBy: targetVariableDictionary.getInnerLeadingPosition() - lengthBetweenTypeNameAndClosure)
+        text.replaceSubrange(startIndex..<endIndex, with: newTypeName)
         try Path(interactorPath).write(text)
     }
     
