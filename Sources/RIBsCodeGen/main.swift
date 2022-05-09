@@ -19,7 +19,8 @@ func main() {
         + "Gen".lightBlue.bold.underline
     let startMessage = "\nStart ".bold.underline + ribsCodeGenString + " operation.\n".bold.underline
     print(startMessage)
-
+    
+    Path.current = "/Users/imairiyousuke/git/RIBsCodeGen"
     let arguments = [String](CommandLine.arguments.dropFirst())
 
     guard let setting = analyzeSettings() else {
@@ -77,6 +78,13 @@ func run(with commandLineArguments: [String]) {
             let resultDependency = makeDependencyCommand(edge: edge).run()
             showResult(resultDependency)
         }
+        exit(0)
+    case .rename:
+        let oldRIBName = argument.actionTarget
+        guard let newRIBName = argument.options.first?.value else {
+            return
+        }
+        print(oldRIBName, "->", newRIBName)
         exit(0)
     default:
         let result = HelpCommand().run()
