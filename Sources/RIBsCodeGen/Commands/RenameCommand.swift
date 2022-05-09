@@ -37,6 +37,10 @@ private enum RenameVariableType: CaseIterable {
     }
 }
 
+private enum RenameInheritedType: CaseIterable {
+    case presentableInteractor, interactable, presentableListener
+}
+
 struct RenameCommand: Command {
     private let currentName: String
     private let newName: String
@@ -91,10 +95,31 @@ struct RenameCommand: Command {
         } catch {
             result = .failure(error: .unknown) // TODO: 正しいエラー
         }
-    
+
         RenameVariableType.allCases.forEach { renameVariableType in
             do {
                 try renameVariablesTypeInInteractor(for: renameVariableType)
+            } catch {
+                result = .failure(error: .unknown) // TODO: 正しいエラー
+            }
+        }
+    
+        RenameInheritedType.allCases.forEach { renameInheritedType in
+            var targetInheritedTypeName: String
+            var newInheritedTypeName: String
+            switch renameInheritedType {
+            case .presentableInteractor:
+                targetInheritedTypeName = "PresentableInteractor<\(currentName)Presentable>"
+                newInheritedTypeName =  "PresentableInteractor<\(newName)Presentable>"
+            case .interactable:
+                targetInheritedTypeName = "\(currentName)Interactable"
+                newInheritedTypeName =  "\(newName)Interactable"
+            case .presentableListener:
+                targetInheritedTypeName = "\(currentName)PresentableListener"
+                newInheritedTypeName =  "\(newName)PresentableListener"
+            }
+            do {
+                try renameInheritedTypes(targetInheritedTypeName: targetInheritedTypeName, newInheritedTypeName: newInheritedTypeName)
             } catch {
                 result = .failure(error: .unknown) // TODO: 正しいエラー
             }
@@ -184,6 +209,45 @@ private extension RenameCommand {
         let startIndex = text.utf8.index(text.startIndex, offsetBy: router.getVariableTypeLeadingPosition() + lengthBetweenVariableNameAndTypeName)
         let endIndex = text.utf8.index(text.startIndex, offsetBy: router.getVariableTypeTrailingPosition())
         text.replaceSubrange(startIndex..<endIndex, with: "\(newName)\(renameVariableType.suffix)")
+        try Path(interactorPath).write(text)
+    }
+    
+    func renameInheritedTypes(targetInheritedTypeName: String, newInheritedTypeName: String) throws {
+        let interactorFile = File(path: interactorPath)!
+        let interactorFileStructure = try! Structure(file: interactorFile)
+        let interactorDictionary = interactorFileStructure.dictionary
+        let subStructures = interactorDictionary.getSubStructures()
+    
+        let classes = subStructures.filterByKeyKind(.class)
+        let targetClassDictionary = classes.extractDictionaryByKeyName("\(currentName)Interactor")
+    
+        let inheritedTypes = targetClassDictionary.getInheritedTypes()
+        let elements = targetClassDictionary.getElements()
+        guard inheritedTypes.count == elements.count else {
+            print("InheritedTypes count does not equal to Element count.")
+            return
+        }
+    
+        var customisedInheritedTypes = [[String: SourceKitRepresentable]]()
+        for i in 0..<inheritedTypes.count {
+            var customisedInheritedType = [String: SourceKitRepresentable]()
+            customisedInheritedType["key.name"] = inheritedTypes[i].getKeyName()
+            customisedInheritedType["key.offset"] = Int64(elements[i].getKeyOffset())
+            customisedInheritedType["key.length"] = Int64(elements[i].getKeyLength())
+            customisedInheritedTypes.append(customisedInheritedType)
+        }
+        
+        let targetInheritedTypeDictionary = customisedInheritedTypes.extractDictionaryByKeyName(targetInheritedTypeName)
+        
+        guard !targetInheritedTypeDictionary.isEmpty else {
+            print("\(targetInheritedTypeName) is not found. Skip to rename".yellow)
+            return
+        }
+        
+        var text = try String.init(contentsOfFile: interactorPath, encoding: .utf8)
+        let startIndex = text.utf8.index(text.startIndex, offsetBy: targetInheritedTypeDictionary.getKeyOffset())
+        let endIndex = text.utf8.index(text.startIndex, offsetBy: targetInheritedTypeDictionary.getKeyOffset() + targetInheritedTypeDictionary.getKeyLength())
+        text.replaceSubrange(startIndex..<endIndex, with: newInheritedTypeName)
         try Path(interactorPath).write(text)
     }
 }

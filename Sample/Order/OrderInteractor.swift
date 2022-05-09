@@ -17,7 +17,7 @@ protocol OrderPresentable: Presentable {
 protocol OrderListener: class {
 }
 
-final class OrderInteractor: PresentableInteractor<OrderPresentable>, OrderInteractable, OrderPresentableListener {
+final class OrderInteractor: PresentableInteractor<NewOrderPresentable>, NewOrderInteractable, NewOrderPresentableListener {
 
     weak var router: OrderRouting?
     weak var listener: OrderListener?
