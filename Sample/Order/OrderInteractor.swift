@@ -7,17 +7,17 @@
 import RIBs
 import RxSwift
 
-protocol NewOrderRouting: ViewableRouting {
+protocol OrderRouting: ViewableRouting {
 }
 
-protocol NewOrderPresentable: Presentable {
+protocol OrderPresentable: Presentable {
     var listener: OrderPresentableListener? { get set }
 }
 
-protocol NewOrderListener: class {
+protocol OrderListener: class {
 }
 
-final class NewOrderInteractor: PresentableInteractor<OrderPresentable>, OrderInteractable, OrderPresentableListener {
+final class OrderInteractor: PresentableInteractor<OrderPresentable>, OrderInteractable, OrderPresentableListener {
 
     weak var router: OrderRouting?
     weak var listener: OrderListener?
