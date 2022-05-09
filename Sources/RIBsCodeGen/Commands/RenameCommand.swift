@@ -59,10 +59,22 @@ struct RenameCommand: Command {
         var result: Result?
         RenameProtocolType.allCases.forEach { renameProtocolType in
             do {
-                try renameForInteractor(for: renameProtocolType)
+                try renameProtocolsInInteractor(for: renameProtocolType)
             } catch {
-                result = .failure(error: .unknown) // TODO 正しいエラー
+                result = .failure(error: .unknown) // TODO: 正しいエラー
             }
+        }
+        
+        do {
+            try renameClassInInteractor()
+        } catch {
+            result = .failure(error: .unknown) // TODO: 正しいエラー
+        }
+        
+        do {
+            try renameExtensionsInInteractor()
+        } catch {
+            result = .failure(error: .unknown) // TODO: 正しいエラー
         }
         
         return result ?? .success(message: "succeeded")
@@ -71,13 +83,13 @@ struct RenameCommand: Command {
 
 // MARK: - Run
 private extension RenameCommand {
-    func renameForInteractor(for renameProtocolType: RenameProtocolType) throws {
+    func renameProtocolsInInteractor(for renameProtocolType: RenameProtocolType) throws {
         let interactorFile = File(path: interactorPath)!
         let interactorFileStructure = try! Structure(file: interactorFile)
         let interactorDictionary = interactorFileStructure.dictionary
         let subStructures = interactorDictionary.getSubStructures()
         let protocols = subStructures.filterByKeyKind(.protocol)
-        let targetProtocolDictionary = protocols.extractByKeyName("\(currentName)\(renameProtocolType.suffix)")
+        let targetProtocolDictionary = protocols.extractDictionaryByKeyName("\(currentName)\(renameProtocolType.suffix)")
         guard !targetProtocolDictionary.isEmpty else {
             print("\(currentName)\(renameProtocolType.suffix) is not found. Skip to rename.".yellow)
             return
@@ -88,6 +100,45 @@ private extension RenameCommand {
         let endIndex = text.utf8.index(text.startIndex, offsetBy: targetProtocolDictionary.getOuterLeadingPosition() + targetProtocolDictionary.getKeyNameLength())
         text.replaceSubrange(startIndex..<endIndex, with: "\(newName)\(renameProtocolType.suffix)")
         try Path(interactorPath).write(text)
+    }
+    
+    func renameClassInInteractor() throws {
+        let interactorFile = File(path: interactorPath)!
+        let interactorFileStructure = try! Structure(file: interactorFile)
+        let interactorDictionary = interactorFileStructure.dictionary
+        let subStructures = interactorDictionary.getSubStructures()
+        let classes = subStructures.filterByKeyKind(.class)
+        let targetClassDictionary = classes.extractDictionaryByKeyName("\(currentName)Interactor")
+        guard !targetClassDictionary.isEmpty else {
+            print("\(currentName)Interactor is not found. Skip to rename.".yellow)
+            return
+        }
+
+        var text = try String.init(contentsOfFile: interactorPath, encoding: .utf8)
+        let startIndex = text.utf8.index(text.startIndex, offsetBy: targetClassDictionary.getOuterLeadingPosition())
+        let endIndex = text.utf8.index(text.startIndex, offsetBy: targetClassDictionary.getOuterLeadingPosition() + targetClassDictionary.getKeyNameLength())
+        text.replaceSubrange(startIndex..<endIndex, with: "\(newName)Interactor")
+        try Path(interactorPath).write(text)
+    }
+    
+    func renameExtensionsInInteractor() throws {
+        while true {
+            let interactorFile = File(path: interactorPath)!
+            let interactorFileStructure = try! Structure(file: interactorFile)
+            let interactorDictionary = interactorFileStructure.dictionary
+            let subStructures = interactorDictionary.getSubStructures()
+            let extensions = subStructures.filterByKeyKind(.extension)
+            let targetExtensionDictionary = extensions.extractDictionaryByKeyName("\(currentName)Interactor")
+            guard !targetExtensionDictionary.isEmpty else {
+                break
+            }
+    
+            var text = try String.init(contentsOfFile: interactorPath, encoding: .utf8)
+            let startIndex = text.utf8.index(text.startIndex, offsetBy: targetExtensionDictionary.getOuterLeadingPosition())
+            let endIndex = text.utf8.index(text.startIndex, offsetBy: targetExtensionDictionary.getOuterLeadingPosition() + targetExtensionDictionary.getKeyNameLength())
+            text.replaceSubrange(startIndex..<endIndex, with: "\(newName)Interactor")
+            try Path(interactorPath).write(text)
+        }
     }
 }
 
