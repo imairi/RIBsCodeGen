@@ -147,6 +147,8 @@ private extension RenameCommand {
             .replacingOccurrences(of: "PresentableInteractor<\(currentName)Presentable>", with: "PresentableInteractor<\(newName)Presentable>")
             .replacingOccurrences(of: "\(currentName)Interactable", with: "\(newName)Interactable")
             .replacingOccurrences(of: "\(currentName)PresentableListener", with: "\(newName)PresentableListener")
+            .replacingOccurrences(of: "router: \(currentName)Routing?", with: "router: \(newName)Routing?")
+            .replacingOccurrences(of: "listener: \(currentName)Listener?", with: "listener: \(newName)Listener?")
             .replacingOccurrences(of: "presenter: \(currentName)Presentable", with: "presenter: \(newName)Presentable")
             .replacingOccurrences(of: "// MARK: - \(currentName)PresentableListener", with: "// MARK: - \(newName)PresentableListener")
         try Path(interactorPath).write(replacedText)
@@ -176,6 +178,7 @@ private extension RenameCommand {
         var text = try String.init(contentsOfFile: builderPath, encoding: .utf8)
         let replacedText = text
             .replacingOccurrences(of: "\(currentName)Builder.swift", with: "\(newName)Builder.swift")
+            .replacingOccurrences(of: "\(currentName)Buildable", with: "\(newName)Buildable")
             .replacingOccurrences(of: "class \(currentName)Builder:", with: "class \(newName)Builder:")
             .replacingOccurrences(of: "\(currentName)Dependency", with: "\(newName)Dependency")
             .replacingOccurrences(of: "\(currentName)Component", with: "\(newName)Component")
@@ -185,6 +188,7 @@ private extension RenameCommand {
             .replacingOccurrences(of: "\(currentName)Listener", with: "\(newName)Listener")
             .replacingOccurrences(of: "\(currentName)Routing", with: "\(newName)Routing")
             .replacingOccurrences(of: "\(currentName)Router", with: "\(newName)Router")
+            .replacingOccurrences(of: "\(currentName)Interactor", with: "\(newName)Interactor")
         try Path(builderPath).write(replacedText)
     }
     
@@ -195,10 +199,10 @@ private extension RenameCommand {
         var text = try String.init(contentsOfFile: viewControllerPath, encoding: .utf8)
         let replacedText = text
             .replacingOccurrences(of: "\(currentName)ViewController.swift", with: "\(newName)ViewController.swift")
-            .replacingOccurrences(of: "\(currentName)PresentableListener", with: "\(newName)PresentableListener")
+            .replacingOccurrences(of: "\(currentName)Presentable", with: "\(newName)Presentable")
+            .replacingOccurrences(of: "protocol \(currentName)PresentableListener", with: "protocol \(newName)PresentableListener")
             .replacingOccurrences(of: "class \(currentName)ViewController:", with: "class \(newName)ViewController:")
             .replacingOccurrences(of: "extension \(currentName)ViewController", with: "extension \(newName)ViewController")
-            .replacingOccurrences(of: "\(currentName)Presentable", with: "\(newName)Presentable")
             .replacingOccurrences(of: "\(currentName)ViewControllable", with: "\(newName)ViewControllable")
         try Path(viewControllerPath).write(replacedText)
     }
@@ -207,8 +211,10 @@ private extension RenameCommand {
         try currentDependenciesPath.forEach { dependencyPath in
             var text = try String.init(contentsOfFile: dependencyPath, encoding: .utf8)
             let replacedText = text
-                .replacingOccurrences(of: "\(currentName)Dependency", with: "\(newName)Dependency")
+                .replacingOccurrences(of: "protocol \(currentName)Dependency", with: "protocol \(newName)Dependency")
                 .replacingOccurrences(of: "\(currentName)Component", with: "\(newName)Component")
+                .replacingOccurrences(of: "scope of \(currentName) to provide for the", with: "scope of \(newName) to provide for the")
+                .replacingOccurrences(of: " \(currentName.lowercasedFirstLetter())ViewController", with: " \(newName.lowercasedFirstLetter())ViewController")
             try Path(dependencyPath).write(replacedText)
         }
     }
@@ -242,13 +248,11 @@ private extension RenameCommand {
                 .replacingOccurrences(of: "\(currentName)Listener", with: "\(newName)Listener")
                 .replacingOccurrences(of: "routeTo\(currentName)", with: "routeTo\(newName)")
                 .replacingOccurrences(of: "switchTo\(currentName)", with: "switchTo\(newName)")
-                .replacingOccurrences(of: "\(currentName)Listener", with: "\(newName)Listener")
-                .replacingOccurrences(of: "\(currentName.lowercasedFirstLetter())Builder: ReservationDashboardBuildable", with: "\(newName.lowercasedFirstLetter())Builder: ReservationDashboardBuildable")
-                .replacingOccurrences(of: "self.\(currentName.lowercasedFirstLetter())Builder = reservationDashboardBuilder", with: "self.\(newName.lowercasedFirstLetter())Builder = reservationDashboardBuilder")
+                .replacingOccurrences(of: "\(currentName.lowercasedFirstLetter())Builder: \(currentName)Buildable", with: "\(newName.lowercasedFirstLetter())Builder: \(newName)Buildable")
+                .replacingOccurrences(of: "self.\(currentName.lowercasedFirstLetter())Builder = \(currentName.lowercasedFirstLetter())Builder", with: "self.\(newName.lowercasedFirstLetter())Builder = \(newName.lowercasedFirstLetter())Builder")
                 .replacingOccurrences(of: "\(currentName.lowercasedFirstLetter())Builder.build", with: "\(newName.lowercasedFirstLetter())Builder.build")
                 .replacingOccurrences(of: "is \(currentName)Routing", with: "is \(newName)Routing")
                 .replacingOccurrences(of: " \(currentName)ViewControllable", with: " \(newName)ViewControllable")
-                .replacingOccurrences(of: "var \(currentName.lowercasedFirstLetter()): Routing?", with: "var \(newName.lowercasedFirstLetter()): Routing?")
                 .replacingOccurrences(of: "detach\(currentName)(", with: "detach\(newName)(")
                 .replacingOccurrences(of: "remove\(currentName)(", with: "remove\(newName)(")
             try Path(parentRouterPath).write(replacedText)
