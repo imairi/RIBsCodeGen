@@ -42,6 +42,7 @@ private enum RenameInheritedType: CaseIterable {
 }
 
 struct RenameCommand: Command {
+    private let paths: [String]
     private let currentName: String
     private let newName: String
     
@@ -49,9 +50,11 @@ struct RenameCommand: Command {
     private let routerPath: String
     private let builderPath: String
     private let viewControllerPath: String?
-    private let dependenciesPath: [String]
+    private let currentDependenciesPath: [String]
+    private let parents: [String]
     
     init(paths: [String], currentName: String, newName: String) {
+        self.paths = paths
         self.currentName = currentName
         self.newName = newName
         
@@ -71,7 +74,15 @@ struct RenameCommand: Command {
         self.routerPath = routerPath
         self.builderPath = builderPath
         viewControllerPath = paths.filter({ $0.contains("/" + currentName + "ViewController.swift") }).first
-        dependenciesPath = paths.filter({ $0.contains("/" + currentName + "/Dependencies/") })
+        currentDependenciesPath = paths.filter({ $0.contains("/" + currentName + "/Dependencies/") })
+    
+        parents = paths
+            .filter({ $0.contains("Component+\(currentName).swift") })
+            .flatMap { $0.split(separator: "/") }
+            .filter({ $0.contains("Component+\(currentName).swift") })
+            .compactMap { $0.split(separator: "+").first }
+            .map { $0.dropLast("Component".count) }
+            .map { String($0) }
     }
     
     func run() -> Result {
@@ -105,6 +116,14 @@ struct RenameCommand: Command {
     
         do {
             try renameForDependencies()
+        } catch {
+            result = .failure(error: .unknown) // TODO: 正しいエラー
+        }
+    
+        do {
+            try renameForParentsInteractor()
+            try renameForParentsRouter()
+            try renameForParentsBuilder()
         } catch {
             result = .failure(error: .unknown) // TODO: 正しいエラー
         }
@@ -181,18 +200,73 @@ private extension RenameCommand {
             .replacingOccurrences(of: "extension \(currentName)ViewController", with: "extension \(newName)ViewController")
             .replacingOccurrences(of: "\(currentName)Presentable", with: "\(newName)Presentable")
             .replacingOccurrences(of: "\(currentName)ViewControllable", with: "\(newName)ViewControllable")
-    
         try Path(viewControllerPath).write(replacedText)
     }
     
     func renameForDependencies() throws {
-        try dependenciesPath.forEach { dependencyPath in
+        try currentDependenciesPath.forEach { dependencyPath in
             var text = try String.init(contentsOfFile: dependencyPath, encoding: .utf8)
             let replacedText = text
                 .replacingOccurrences(of: "\(currentName)Dependency", with: "\(newName)Dependency")
                 .replacingOccurrences(of: "\(currentName)Component", with: "\(newName)Component")
-            
             try Path(dependencyPath).write(replacedText)
+        }
+    }
+    
+    func renameForParentsInteractor() throws {
+        try parents.forEach { parentName in
+            guard let parentInteractorPath = paths.filter({ $0.contains("/" + parentName + "Interactor.swift") }).first else {
+                fatalError("Not found \(parentName)Interactor.swift".red.bold)
+            }
+    
+            var text = try String.init(contentsOfFile: parentInteractorPath, encoding: .utf8)
+            let replacedText = text
+                .replacingOccurrences(of: "\(currentName)Listener", with: "\(newName)Listener")
+                .replacingOccurrences(of: "routeTo\(currentName)", with: "routeTo\(newName)")
+                .replacingOccurrences(of: "switchTo\(currentName)", with: "switchTo\(newName)")
+                .replacingOccurrences(of: "detach\(currentName)", with: "detach\(newName)")
+                .replacingOccurrences(of: "remove\(currentName)", with: "remove\(newName)")
+                .replacingOccurrences(of: "deactivate\(currentName)", with: "deactivate\(newName)")
+            try Path(parentInteractorPath).write(replacedText)
+        }
+    }
+    
+    func renameForParentsRouter() throws {
+        try parents.forEach { parentName in
+            guard let parentRouterPath = paths.filter({ $0.contains("/" + parentName + "Router.swift") }).first else {
+                fatalError("Not found \(parentName)Router.swift".red.bold)
+            }
+            
+            var text = try String.init(contentsOfFile: parentRouterPath, encoding: .utf8)
+            let replacedText = text
+                .replacingOccurrences(of: "\(currentName)Listener", with: "\(newName)Listener")
+                .replacingOccurrences(of: "routeTo\(currentName)", with: "routeTo\(newName)")
+                .replacingOccurrences(of: "switchTo\(currentName)", with: "switchTo\(newName)")
+                .replacingOccurrences(of: "\(currentName)Listener", with: "\(newName)Listener")
+                .replacingOccurrences(of: "\(currentName.lowercasedFirstLetter())Builder: ReservationDashboardBuildable", with: "\(newName.lowercasedFirstLetter())Builder: ReservationDashboardBuildable")
+                .replacingOccurrences(of: "self.\(currentName.lowercasedFirstLetter())Builder = reservationDashboardBuilder", with: "self.\(newName.lowercasedFirstLetter())Builder = reservationDashboardBuilder")
+                .replacingOccurrences(of: "\(currentName.lowercasedFirstLetter())Builder.build", with: "\(newName.lowercasedFirstLetter())Builder.build")
+                .replacingOccurrences(of: "is \(currentName)Routing", with: "is \(newName)Routing")
+                .replacingOccurrences(of: " \(currentName)ViewControllable", with: " \(newName)ViewControllable")
+                .replacingOccurrences(of: "var \(currentName.lowercasedFirstLetter()): Routing?", with: "var \(newName.lowercasedFirstLetter()): Routing?")
+                .replacingOccurrences(of: "detach\(currentName)(", with: "detach\(newName)(")
+                .replacingOccurrences(of: "remove\(currentName)(", with: "remove\(newName)(")
+            try Path(parentRouterPath).write(replacedText)
+        }
+    }
+    
+    func renameForParentsBuilder() throws {
+        try parents.forEach { parentName in
+            guard let parentBuilderPath = paths.filter({ $0.contains("/" + parentName + "Builder.swift") }).first else {
+                fatalError("Not found \(parentName)Builder.swift".red.bold)
+            }
+            
+            var text = try String.init(contentsOfFile: parentBuilderPath, encoding: .utf8)
+            let replacedText = text
+                .replacingOccurrences(of: "\(parentName)Dependency\(currentName)", with: "\(parentName)Dependency\(newName)")
+                .replacingOccurrences(of: "\(currentName.lowercasedFirstLetter())Builder = \(currentName)Builder", with: "\(newName.lowercasedFirstLetter())Builder = \(newName)Builder")
+                .replacingOccurrences(of: "\(currentName.lowercasedFirstLetter())Builder: \(currentName.lowercasedFirstLetter())Builder", with: "\(newName.lowercasedFirstLetter())Builder: \(newName.lowercasedFirstLetter())Builder")
+            try Path(parentBuilderPath).write(replacedText)
         }
     }
 }
