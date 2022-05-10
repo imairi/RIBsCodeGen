@@ -88,7 +88,12 @@ struct RenameCommand: Command {
         } catch {
             result = .failure(error: .unknown) // TODO: 正しいエラー
         }
-        
+    
+        do {
+            try renameForBuilder()
+        } catch {
+            result = .failure(error: .unknown) // TODO: 正しいエラー
+        }
         
         return result ?? .success(message: "succeeded")
     }
@@ -126,11 +131,28 @@ private extension RenameCommand {
             .replacingOccurrences(of: "interactor: \(currentName)Interactable", with: "interactor: \(newName)Interactable")
             .replacingOccurrences(of: "viewController: \(currentName)ViewControllable", with: "viewController: \(newName)ViewControllable")
             .replacingOccurrences(of: "ViewableRouter<\(currentName)Interactable, \(currentName)ViewControllable>", with: "ViewableRouter<\(newName)Interactable, \(newName)ViewControllable>")
-            .replacingOccurrences(of: "\(currentName)Routing", with: "\(newName)Routing")
+            .replacingOccurrences(of: ", \(currentName)Routing", with: ", \(newName)Routing")
             .replacingOccurrences(of: "Router<\(currentName)Interactable>", with: "Router<\(newName)Interactable>")
             .replacingOccurrences(of: "viewController: \(currentName)ViewControllable", with: "viewController: \(newName)ViewControllable")
             .replacingOccurrences(of: "// MARK: - \(currentName)Routing", with: "// MARK: - \(newName)Routing")
         try Path(routerPath).write(replacedText)
+    }
+    
+    func renameForBuilder() throws {
+        var text = try String.init(contentsOfFile: builderPath, encoding: .utf8)
+        let replacedText = text
+            .replacingOccurrences(of: "\(currentName)Builder.swift", with: "\(newName)Builder.swift")
+            .replacingOccurrences(of: "class \(currentName)Builder:", with: "class \(newName)Builder:")
+            .replacingOccurrences(of: "\(currentName)Dependency", with: "\(newName)Dependency")
+            .replacingOccurrences(of: "\(currentName)Component", with: "\(newName)Component")
+            .replacingOccurrences(of: "\(currentName)ViewController", with: "\(newName)ViewController")
+            .replacingOccurrences(of: "\(currentName.lowercasedFirstLetter())ViewController", with: "\(newName.lowercasedFirstLetter())ViewController")
+            .replacingOccurrences(of: "\(currentName)ViewControllable", with: "\(newName)ViewControllable")
+            .replacingOccurrences(of: "\(currentName)Listener", with: "\(newName)Listener")
+            .replacingOccurrences(of: "\(currentName)Routing", with: "\(newName)Routing")
+            .replacingOccurrences(of: "\(currentName)ActionableItem", with: "\(newName)ActionableItem")
+            .replacingOccurrences(of: "\(currentName)Router", with: "\(newName)Router")
+        try Path(builderPath).write(replacedText)
     }
 }
 
