@@ -94,6 +94,12 @@ struct RenameCommand: Command {
         } catch {
             result = .failure(error: .unknown) // TODO: 正しいエラー
         }
+    
+        do {
+            try renameForViewController()
+        } catch {
+            result = .failure(error: .unknown) // TODO: 正しいエラー
+        }
         
         return result ?? .success(message: "succeeded")
     }
@@ -153,6 +159,22 @@ private extension RenameCommand {
             .replacingOccurrences(of: "\(currentName)ActionableItem", with: "\(newName)ActionableItem")
             .replacingOccurrences(of: "\(currentName)Router", with: "\(newName)Router")
         try Path(builderPath).write(replacedText)
+    }
+    
+    func renameForViewController() throws {
+        guard let viewControllerPath = viewControllerPath else {
+            return
+        }
+        var text = try String.init(contentsOfFile: viewControllerPath, encoding: .utf8)
+        let replacedText = text
+            .replacingOccurrences(of: "\(currentName)ViewController.swift", with: "\(newName)ViewController.swift")
+            .replacingOccurrences(of: "\(currentName)PresentableListener", with: "\(newName)PresentableListener")
+            .replacingOccurrences(of: "class \(currentName)ViewController:", with: "class \(newName)ViewController:")
+            .replacingOccurrences(of: "extension \(currentName)ViewController", with: "extension \(newName)ViewController")
+            .replacingOccurrences(of: "\(currentName)Presentable", with: "\(newName)Presentable")
+            .replacingOccurrences(of: "\(currentName)ViewControllable", with: "\(newName)ViewControllable")
+    
+        try Path(viewControllerPath).write(replacedText)
     }
 }
 
