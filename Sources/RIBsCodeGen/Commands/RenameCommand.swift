@@ -49,6 +49,7 @@ struct RenameCommand: Command {
     private let routerPath: String
     private let builderPath: String
     private let viewControllerPath: String?
+    private let dependenciesPath: [String]
     
     init(paths: [String], currentName: String, newName: String) {
         self.currentName = currentName
@@ -70,6 +71,7 @@ struct RenameCommand: Command {
         self.routerPath = routerPath
         self.builderPath = builderPath
         viewControllerPath = paths.filter({ $0.contains("/" + currentName + "ViewController.swift") }).first
+        dependenciesPath = paths.filter({ $0.contains("/" + currentName + "/Dependencies/") })
     }
     
     func run() -> Result {
@@ -97,6 +99,12 @@ struct RenameCommand: Command {
     
         do {
             try renameForViewController()
+        } catch {
+            result = .failure(error: .unknown) // TODO: 正しいエラー
+        }
+    
+        do {
+            try renameForDependencies()
         } catch {
             result = .failure(error: .unknown) // TODO: 正しいエラー
         }
@@ -175,6 +183,17 @@ private extension RenameCommand {
             .replacingOccurrences(of: "\(currentName)ViewControllable", with: "\(newName)ViewControllable")
     
         try Path(viewControllerPath).write(replacedText)
+    }
+    
+    func renameForDependencies() throws {
+        try dependenciesPath.forEach { dependencyPath in
+            var text = try String.init(contentsOfFile: dependencyPath, encoding: .utf8)
+            let replacedText = text
+                .replacingOccurrences(of: "\(currentName)Dependency", with: "\(newName)Dependency")
+                .replacingOccurrences(of: "\(currentName)Component", with: "\(newName)Component")
+            
+            try Path(dependencyPath).write(replacedText)
+        }
     }
 }
 
