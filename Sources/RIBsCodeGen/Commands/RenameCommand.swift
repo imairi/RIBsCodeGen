@@ -82,6 +82,13 @@ struct RenameCommand: Command {
         } catch {
             result = .failure(error: .unknown) // TODO: 正しいエラー
         }
+    
+        do {
+            try renameForRouter()
+        } catch {
+            result = .failure(error: .unknown) // TODO: 正しいエラー
+        }
+        
         
         return result ?? .success(message: "succeeded")
     }
@@ -104,6 +111,26 @@ private extension RenameCommand {
             .replacingOccurrences(of: "presenter: \(currentName)Presentable", with: "presenter: \(newName)Presentable")
             .replacingOccurrences(of: "// MARK: - \(currentName)PresentableListener", with: "// MARK: - \(newName)PresentableListener")
         try Path(interactorPath).write(replacedText)
+    }
+    
+    func renameForRouter() throws {
+        var text = try String.init(contentsOfFile: routerPath, encoding: .utf8)
+        let replacedText = text
+            .replacingOccurrences(of: "\(currentName)Router.swift", with: "\(newName)Router.swift")
+            .replacingOccurrences(of: "protocol \(currentName)Interactable:", with: "protocol \(newName)Interactable:")
+            .replacingOccurrences(of: "protocol \(currentName)ViewControllable:", with: "protocol \(newName)ViewControllable:")
+            .replacingOccurrences(of: "class \(currentName)Router:", with: "class \(newName)Router:")
+            .replacingOccurrences(of: "extension \(currentName)Router", with: "extension \(newName)Router")
+            .replacingOccurrences(of: "router: \(currentName)Routing?", with: "router: \(newName)Routing?")
+            .replacingOccurrences(of: "listener: \(currentName)Listener?", with: "listener: \(newName)Listener?")
+            .replacingOccurrences(of: "interactor: \(currentName)Interactable", with: "interactor: \(newName)Interactable")
+            .replacingOccurrences(of: "viewController: \(currentName)ViewControllable", with: "viewController: \(newName)ViewControllable")
+            .replacingOccurrences(of: "ViewableRouter<\(currentName)Interactable, \(currentName)ViewControllable>", with: "ViewableRouter<\(newName)Interactable, \(newName)ViewControllable>")
+            .replacingOccurrences(of: "\(currentName)Routing", with: "\(newName)Routing")
+            .replacingOccurrences(of: "Router<\(currentName)Interactable>", with: "Router<\(newName)Interactable>")
+            .replacingOccurrences(of: "viewController: \(currentName)ViewControllable", with: "viewController: \(newName)ViewControllable")
+            .replacingOccurrences(of: "// MARK: - \(currentName)Routing", with: "// MARK: - \(newName)Routing")
+        try Path(routerPath).write(replacedText)
     }
 }
 
