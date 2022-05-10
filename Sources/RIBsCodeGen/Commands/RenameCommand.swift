@@ -184,7 +184,6 @@ private extension RenameCommand {
             .replacingOccurrences(of: "\(currentName)ViewControllable", with: "\(newName)ViewControllable")
             .replacingOccurrences(of: "\(currentName)Listener", with: "\(newName)Listener")
             .replacingOccurrences(of: "\(currentName)Routing", with: "\(newName)Routing")
-            .replacingOccurrences(of: "\(currentName)ActionableItem", with: "\(newName)ActionableItem")
             .replacingOccurrences(of: "\(currentName)Router", with: "\(newName)Router")
         try Path(builderPath).write(replacedText)
     }
