@@ -124,6 +124,7 @@ struct RenameCommand: Command {
             try renameForParentsInteractor()
             try renameForParentsRouter()
             try renameForParentsBuilder()
+            try renameForParentsComponentExtensions()
         } catch {
             result = .failure(error: .unknown) // TODO: 正しいエラー
         }
@@ -267,6 +268,23 @@ private extension RenameCommand {
                 .replacingOccurrences(of: "\(currentName.lowercasedFirstLetter())Builder = \(currentName)Builder", with: "\(newName.lowercasedFirstLetter())Builder = \(newName)Builder")
                 .replacingOccurrences(of: "\(currentName.lowercasedFirstLetter())Builder: \(currentName.lowercasedFirstLetter())Builder", with: "\(newName.lowercasedFirstLetter())Builder: \(newName.lowercasedFirstLetter())Builder")
             try Path(parentBuilderPath).write(replacedText)
+        }
+    }
+    
+    func renameForParentsComponentExtensions() throws {
+        try parents.forEach { parentName in
+            guard let componentExtensionPath = paths.filter({ $0.contains("\(parentName)/Dependencies/\(parentName)Component+\(currentName).swift") }).first else {
+                fatalError("Not found \(parentName)Component+\(currentName).swift".red.bold)
+            }
+        
+            var text = try String.init(contentsOfFile: componentExtensionPath, encoding: .utf8)
+            let replacedText = text
+                .replacingOccurrences(of: "\(parentName)Component+\(currentName).swift", with: "\(parentName)Component+\(newName).swift")
+                .replacingOccurrences(of: "scope of \(parentName) to provide for the \(currentName) scope.", with: "scope of \(parentName) to provide for the \(newName) scope.")
+                .replacingOccurrences(of: "\(parentName)Dependency\(currentName)", with: "\(parentName)Dependency\(newName)")
+                .replacingOccurrences(of: ": \(currentName)Dependency", with: ": \(newName)Dependency")
+                .replacingOccurrences(of: "var \(currentName.lowercasedFirstLetter())ViewController: \(currentName)ViewControllable", with: "var \(newName.lowercasedFirstLetter())ViewController: \(newName)ViewControllable")
+            try Path(componentExtensionPath).write(replacedText)
         }
     }
 }
