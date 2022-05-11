@@ -60,6 +60,11 @@ final class RenameCommand: Command {
         self.currentName = currentName
         self.newName = newName
         
+        guard !paths.filter({ $0.contains("/" + currentName + "/") }).isEmpty else {
+            fatalError("Not found \(currentName) RIB directory.Might be wrong the target name.".red.bold)
+            return
+        }
+        
         guard let interactorPath = paths.filter({ $0.contains("/" + currentName + "Interactor.swift") }).first else {
             fatalError("Not found \(currentName)Interactor.swift".red.bold)
         }
