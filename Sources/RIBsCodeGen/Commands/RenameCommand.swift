@@ -186,7 +186,7 @@ private extension RenameCommand {
             .replacingOccurrences(of: "router: \(currentName)Routing?", with: "router: \(newName)Routing?")
             .replacingOccurrences(of: "listener: \(currentName)Listener?", with: "listener: \(newName)Listener?")
             .replacingOccurrences(of: "presenter: \(currentName)Presentable", with: "presenter: \(newName)Presentable")
-            .replacingOccurrences(of: "// MARK: - \(currentName)PresentableListener", with: "// MARK: - \(newName)PresentableListener")
+            .replacingOccurrences(of: "deactivate\(currentName)", with: "deactivate\(newName)")
         try Path(interactorPath).write(replacedText)
         replacedFilePaths.append(interactorPath)
     }
