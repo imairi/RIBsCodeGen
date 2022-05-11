@@ -16,6 +16,7 @@ enum Error: Swift.Error {
     case failedFormat
     case failedToAddChildListener
     case failedToAddChildBuilder
+    case failedToRename(String)
 
     var message: String {
         switch self {
@@ -35,6 +36,8 @@ enum Error: Swift.Error {
             return "Failed to add child listener."
         case .failedToAddChildBuilder:
             return "Failed to add child builder."
+        case let .failedToRename(reason):
+            return reason
         }
     }
 

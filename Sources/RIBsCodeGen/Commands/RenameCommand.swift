@@ -86,56 +86,72 @@ struct RenameCommand: Command {
     }
     
     func run() -> Result {
-        print("\nStart rename \(currentName) to \(newName)".bold)
+        print("\nStart rename \(currentName) to \(newName).\n".bold)
     
         var result: Result?
         
         do {
             try renameForInteractor()
         } catch {
-            result = .failure(error: .unknown) // TODO: 正しいエラー
+            result = .failure(error: .failedToRename("Failed to rename operation for target Interactor."))
         }
     
         do {
             try renameForRouter()
         } catch {
-            result = .failure(error: .unknown) // TODO: 正しいエラー
+            result = .failure(error: .failedToRename("Failed to rename operation for target Router."))
         }
     
         do {
             try renameForBuilder()
         } catch {
-            result = .failure(error: .unknown) // TODO: 正しいエラー
+            result = .failure(error: .failedToRename("Failed to rename operation for target Builder."))
         }
     
         do {
             try renameForViewController()
         } catch {
-            result = .failure(error: .unknown) // TODO: 正しいエラー
+            result = .failure(error: .failedToRename("Failed to rename operation for target ViewController."))
         }
     
         do {
             try renameForDependencies()
         } catch {
-            result = .failure(error: .unknown) // TODO: 正しいエラー
+            result = .failure(error: .failedToRename("Failed to rename operation for target Dependencies."))
         }
     
         do {
             try renameForParentsInteractor()
+        } catch {
+            result = .failure(error: .failedToRename("Failed to rename operation for target parent Interactor."))
+        }
+    
+        do {
             try renameForParentsRouter()
+        } catch {
+            result = .failure(error: .failedToRename("Failed to rename operation for target parent Router."))
+        }
+    
+        do {
             try renameForParentsBuilder()
+        } catch {
+            result = .failure(error: .failedToRename("Failed to rename operation for target parent Builder."))
+        }
+    
+        do {
             try renameForParentsComponentExtensions()
         } catch {
-            result = .failure(error: .unknown) // TODO: 正しいエラー
+            result = .failure(error: .failedToRename("Failed to rename operation for target parent Component Extensions."))
         }
         
-        return result ?? .success(message: "succeeded")
+        return result ?? .success(message: "\nSuccessfully finished renaming \(currentName) to \(newName) for related files.".green.bold)
     }
 }
 
 // MARK: - Run
 private extension RenameCommand {
     func renameForInteractor() throws {
+        print("\trename for \(interactorPath.lastElementSplittedBySlash)")
         var text = try String.init(contentsOfFile: interactorPath, encoding: .utf8)
         let replacedText = text
             .replacingOccurrences(of: "\(currentName)Interactor.swift", with: "\(newName)Interactor.swift")
@@ -155,6 +171,7 @@ private extension RenameCommand {
     }
     
     func renameForRouter() throws {
+        print("\trename for \(routerPath.lastElementSplittedBySlash)")
         var text = try String.init(contentsOfFile: routerPath, encoding: .utf8)
         let replacedText = text
             .replacingOccurrences(of: "\(currentName)Router.swift", with: "\(newName)Router.swift")
@@ -175,6 +192,7 @@ private extension RenameCommand {
     }
     
     func renameForBuilder() throws {
+        print("\trename for \(builderPath.lastElementSplittedBySlash)")
         var text = try String.init(contentsOfFile: builderPath, encoding: .utf8)
         let replacedText = text
             .replacingOccurrences(of: "\(currentName)Builder.swift", with: "\(newName)Builder.swift")
@@ -196,6 +214,7 @@ private extension RenameCommand {
         guard let viewControllerPath = viewControllerPath else {
             return
         }
+        print("\trename for \(viewControllerPath.lastElementSplittedBySlash)")
         var text = try String.init(contentsOfFile: viewControllerPath, encoding: .utf8)
         let replacedText = text
             .replacingOccurrences(of: "\(currentName)ViewController.swift", with: "\(newName)ViewController.swift")
@@ -209,6 +228,7 @@ private extension RenameCommand {
     
     func renameForDependencies() throws {
         try currentDependenciesPath.forEach { dependencyPath in
+            print("\trename for \(dependencyPath.lastElementSplittedBySlash)")
             var text = try String.init(contentsOfFile: dependencyPath, encoding: .utf8)
             let replacedText = text
                 .replacingOccurrences(of: "protocol \(currentName)Dependency", with: "protocol \(newName)Dependency")
@@ -225,6 +245,7 @@ private extension RenameCommand {
                 fatalError("Not found \(parentName)Interactor.swift".red.bold)
             }
     
+            print("\trename for \(parentInteractorPath.lastElementSplittedBySlash)")
             var text = try String.init(contentsOfFile: parentInteractorPath, encoding: .utf8)
             let replacedText = text
                 .replacingOccurrences(of: "\(currentName)Listener", with: "\(newName)Listener")
@@ -242,7 +263,8 @@ private extension RenameCommand {
             guard let parentRouterPath = paths.filter({ $0.contains("/" + parentName + "Router.swift") }).first else {
                 fatalError("Not found \(parentName)Router.swift".red.bold)
             }
-            
+    
+            print("\trename for \(parentRouterPath.lastElementSplittedBySlash)")
             var text = try String.init(contentsOfFile: parentRouterPath, encoding: .utf8)
             let replacedText = text
                 .replacingOccurrences(of: "\(currentName)Listener", with: "\(newName)Listener")
@@ -264,7 +286,8 @@ private extension RenameCommand {
             guard let parentBuilderPath = paths.filter({ $0.contains("/" + parentName + "Builder.swift") }).first else {
                 fatalError("Not found \(parentName)Builder.swift".red.bold)
             }
-            
+    
+            print("\trename for \(parentBuilderPath.lastElementSplittedBySlash)")
             var text = try String.init(contentsOfFile: parentBuilderPath, encoding: .utf8)
             let replacedText = text
                 .replacingOccurrences(of: "\(parentName)Dependency\(currentName)", with: "\(parentName)Dependency\(newName)")
@@ -279,7 +302,8 @@ private extension RenameCommand {
             guard let componentExtensionPath = paths.filter({ $0.contains("\(parentName)/Dependencies/\(parentName)Component+\(currentName).swift") }).first else {
                 fatalError("Not found \(parentName)Component+\(currentName).swift".red.bold)
             }
-        
+    
+            print("\trename for \(componentExtensionPath.lastElementSplittedBySlash)")
             var text = try String.init(contentsOfFile: componentExtensionPath, encoding: .utf8)
             let replacedText = text
                 .replacingOccurrences(of: "\(parentName)Component+\(currentName).swift", with: "\(parentName)Component+\(newName).swift")
@@ -317,5 +341,11 @@ extension Array {
             return
         }
         print(jsonString)
+    }
+}
+
+extension String {
+    var lastElementSplittedBySlash: String {
+        String(self.split(separator: "/").last ?? "")
     }
 }
