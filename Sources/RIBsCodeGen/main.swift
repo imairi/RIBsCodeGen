@@ -20,7 +20,6 @@ func main() {
     let startMessage = "\nStart ".bold.underline + ribsCodeGenString + " operation.\n".bold.underline
     print(startMessage)
     
-    Path.current = "/Users/imairiyousuke/git/RIBsCodeGen"
     let arguments = [String](CommandLine.arguments.dropFirst())
 
     guard let setting = analyzeSettings() else {
