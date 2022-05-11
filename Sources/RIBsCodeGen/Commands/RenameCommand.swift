@@ -355,20 +355,14 @@ private extension RenameCommand {
     
     func renameDirectoriesAndFiles() throws {
         print("\n\tStart renaming directories and files.".bold)
+        
+        // for target RIB
         let targetRIBDirectoryPath = Path(interactorPath).parent()
         guard targetRIBDirectoryPath.isDirectory else {
             print("\t\tFailed to detect target RIB directory path.".red.bold)
             return
         }
-        
-        let targetRIBDependenciesDirectoryPath = try Path(targetRIBDirectoryPath.description + "/Dependencies")
-        guard targetRIBDependenciesDirectoryPath.isDirectory else {
-            print("\t\tFailed to detect target RIB Dependencies directory path.".red.bold)
-            return
-        }
-        
-        let targetRIBDependencyPaths = try targetRIBDependenciesDirectoryPath.children().map { $0.description }.filter { $0.contains("\(currentName)Component+") }
-        
+
         let newDirectoryPath = Path(targetRIBDirectoryPath.parent().description + "/\(newName)")
         try newDirectoryPath.mkdir()
         print("\t\tNew directory was created.")
@@ -396,18 +390,41 @@ private extension RenameCommand {
             print("\t\t\t\(newViewControllerPath.relativePath)".lightBlack)
         }
     
-        let newDependenciesDirectoryPath = Path(newDirectoryPath.description + "/Dependencies")
-        try newDependenciesDirectoryPath.mkdir()
-        print("\t\tNew directory was created.")
-        print("\t\t\t\(newDirectoryPath.relativePath)".lightBlack)
+        if let targetRIBDependenciesDirectoryPath = try? Path(targetRIBDirectoryPath.description + "/Dependencies") {
+            guard targetRIBDependenciesDirectoryPath.isDirectory else {
+                print("\t\tFailed to detect target RIB Dependencies directory path.".red.bold)
+                return
+            }
+            let targetRIBDependencyPaths = try targetRIBDependenciesDirectoryPath.children().map { $0.description }.filter { $0.contains("\(currentName)Component+") }
         
-        try targetRIBDependencyPaths.forEach { targetRIBDependencyPath in
-            let newDependencyPath = Path(newDependenciesDirectoryPath.description + "/" + targetRIBDependencyPath.lastElementSplittedBySlash.replacingOccurrences(of: "\(currentName)Component+", with: "\(newName)Component+"))
-            try Path(targetRIBDependencyPath).move(newDependencyPath)
-            print("\t\tComponent Extension file was renamed and moved to new directory.")
-            print("\t\t\t\(newDependencyPath.relativePath)".lightBlack)
-        }
+            let newDependenciesDirectoryPath = Path(newDirectoryPath.description + "/Dependencies")
+            try newDependenciesDirectoryPath.mkdir()
+            print("\t\tNew directory was created.")
+            print("\t\t\t\(newDirectoryPath.relativePath)".lightBlack)
+        
+            try targetRIBDependencyPaths.forEach { targetRIBDependencyPath in
+                let newDependencyPath = Path(newDependenciesDirectoryPath.description + "/" + targetRIBDependencyPath.lastElementSplittedBySlash.replacingOccurrences(of: "\(currentName)Component+", with: "\(newName)Component+"))
+                try Path(targetRIBDependencyPath).move(newDependencyPath)
+                print("\t\tComponent Extension file was renamed and moved to new directory.")
+                print("\t\t\t\(newDependencyPath.relativePath)".lightBlack)
+            }
     
+            if try targetRIBDependenciesDirectoryPath.children().isEmpty {
+                try targetRIBDependenciesDirectoryPath.delete()
+                print("\t\t\(currentName)/Dependencies directory was removed because its files no longer exists.")
+                print("\t\t\t\(targetRIBDependenciesDirectoryPath.relativePath)".lightBlack)
+            }
+        } else {
+            print("\t\tNot found \(targetRIBDirectoryPath.description + "/Dependencies") directory, skip to move Component Extension files".yellow)
+        }
+        
+        if try targetRIBDirectoryPath.children().isEmpty {
+            try targetRIBDirectoryPath.delete()
+            print("\t\t\(currentName) directory was removed because its files no longer exists.")
+            print("\t\t\t\(targetRIBDirectoryPath.relativePath)".lightBlack)
+        }
+        
+        // for parent RIBs
         try parents.forEach { parentName in
             guard let parentInteractorPath = paths.filter({ $0.contains("/" + parentName + "Interactor.swift") }).first else {
                 fatalError("Not found \(parentName)Interactor.swift.".red.bold)
@@ -436,34 +453,6 @@ private extension RenameCommand {
     }
 }
 
-extension Dictionary {
-    func prettyPrinted() {
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: self, options: [.prettyPrinted]) else {
-            print("JSON Serialization error")
-            return
-        }
-        guard let jsonString = String(data: jsonData, encoding: .utf8) else {
-            print("JSON Encoding error")
-            return
-        }
-        print(jsonString)
-    }
-}
-
-extension Array {
-    func prettyPrinted() {
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: self, options: [.prettyPrinted]) else {
-            print("JSON Serialization error")
-            return
-        }
-        guard let jsonString = String(data: jsonData, encoding: .utf8) else {
-            print("JSON Encoding error")
-            return
-        }
-        print(jsonString)
-    }
-}
-
 private extension String {
     var lastElementSplittedBySlash: String {
         String(self.split(separator: "/").last ?? "")
@@ -474,21 +463,4 @@ private extension Path {
     var relativePath: String {
         self.description.replacingOccurrences(of: ".*\(setting.targetDirectory)", with: setting.targetDirectory, options: .regularExpression)
     }
-}
-
-func shell(_ command: String) -> String {
-    let task = Process()
-    let pipe = Pipe()
-    
-    task.standardOutput = pipe
-    task.standardError = pipe
-    task.arguments = ["-c", command]
-    task.launchPath = "/bin/zsh"
-    task.standardInput = nil
-    task.launch()
-    
-    let data = pipe.fileHandleForReading.readDataToEndOfFile()
-    let output = String(data: data, encoding: .utf8)!
-    
-    return output
 }
