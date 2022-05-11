@@ -27,6 +27,9 @@ struct HelpCommand: Command {
         - link RIB
         ribscodegen link [target RIB name] --parent [parent RIB name]
 
+        - rename RIB
+        ribscodegen rename [target RIB name] [replace RIB name]
+
         cf. More details in https://github.com/imairi/RIBsCodeGen/
 
         """.lightBlue
