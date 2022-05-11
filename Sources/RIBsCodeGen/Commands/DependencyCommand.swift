@@ -169,7 +169,7 @@ private extension DependencyCommand {
         let parentRouterFile = File(path: parentRouterPath)!
         let parentRouterFileStructure = try! Structure(file: parentRouterFile)
 
-        let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().extractByKeyName("\(parent)Router")
+        let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().extractDictionaryContainsKeyName("\(parent)Router")
         let varInstanceArray = parentRouterStructure.getSubStructures().filterByKeyKind(.varInstance)
         let childBuildableInstanceArray = varInstanceArray.filterByKeyTypeName("\(child)Buildable")
         let hasChildBuilder = !childBuildableInstanceArray.isEmpty
@@ -200,8 +200,8 @@ private extension DependencyCommand {
         let parentRouterFile = File(path: parentRouterPath)!
         let parentRouterFileStructure = try Structure(file: parentRouterFile)
 
-        let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().extractByKeyName("\(parent)Router")
-        let initStructure = parentRouterStructure.getSubStructures().extractByKeyName("init")
+        let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().extractDictionaryContainsKeyName("\(parent)Router")
+        let initStructure = parentRouterStructure.getSubStructures().extractDictionaryContainsKeyName("init")
         let initArguments = initStructure.getSubStructures().filterByKeyKind(.varParameter)
 
         var initArgumentEndPosition = 0
@@ -224,9 +224,9 @@ private extension DependencyCommand {
         let parentRouterFile = File(path: parentRouterPath)!
         let parentRouterFileStructure = try Structure(file: parentRouterFile)
 
-        let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().extractByKeyName("\(parent)Router")
-        let initStructure = parentRouterStructure.getSubStructures().extractByKeyName("init")
-        let superInitStructure = initStructure.getSubStructures().extractByKeyName("super.init")
+        let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().extractDictionaryContainsKeyName("\(parent)Router")
+        let initStructure = parentRouterStructure.getSubStructures().extractDictionaryContainsKeyName("init")
+        let superInitStructure = initStructure.getSubStructures().extractDictionaryContainsKeyName("super.init")
         let superInitStartPosition = superInitStructure.getOuterLeadingPosition()
 
         var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
@@ -242,8 +242,8 @@ private extension DependencyCommand {
         let parentRouterFile = File(path: parentRouterPath)!
         let parentRouterFileStructure = try Structure(file: parentRouterFile)
 
-        let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().extractByKeyName("\(parent)Router")
-        let initStructure = parentRouterStructure.getSubStructures().extractByKeyName("init")
+        let parentRouterStructure = parentRouterFileStructure.dictionary.getSubStructures().extractDictionaryContainsKeyName("\(parent)Router")
+        let initStructure = parentRouterStructure.getSubStructures().extractDictionaryContainsKeyName("init")
         let attributes = initStructure.getAttributes()
         let shouldRemoveOverrideAttribute = !attributes.filterByAttribute(.override).isEmpty
 
@@ -352,8 +352,8 @@ private extension DependencyCommand {
             throw Error.failedToAddChildBuilder
         }
 
-        let initStructure = parentBuilderClass.getSubStructures().extractByKeyName("build")
-        let parentRouter = initStructure.getSubStructures().filterByKeyKind(.call).extractByKeyName("\(parent)Router")
+        let initStructure = parentBuilderClass.getSubStructures().extractDictionaryContainsKeyName("build")
+        let parentRouter = initStructure.getSubStructures().filterByKeyKind(.call).extractDictionaryContainsKeyName("\(parent)Router")
 
         let childBuilderArguments = parentRouter.getSubStructures().filterByKeyKind(.argument).filterByKeyName("\(child.lowercasedFirstLetter())Builder")
         guard childBuilderArguments.isEmpty else {

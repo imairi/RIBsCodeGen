@@ -19,7 +19,8 @@ func main() {
         + "Gen".lightBlue.bold.underline
     let startMessage = "\nStart ".bold.underline + ribsCodeGenString + " operation.\n".bold.underline
     print(startMessage)
-
+    
+    Path.current = "/Users/imairiyousuke/git/RIBsCodeGen"
     let arguments = [String](CommandLine.arguments.dropFirst())
 
     guard let setting = analyzeSettings() else {
@@ -77,6 +78,14 @@ func run(with commandLineArguments: [String]) {
             let resultDependency = makeDependencyCommand(edge: edge).run()
             showResult(resultDependency)
         }
+        exit(0)
+    case .rename:
+        let currentName = argument.actionTarget
+        guard let newName = argument.options.first?.value else {
+            return
+        }
+        let resultRenameCommand = makeRenameCommand(currentName: currentName, newName: newName).run()
+        showResult(resultRenameCommand)
         exit(0)
     default:
         let result = HelpCommand().run()
@@ -243,6 +252,11 @@ func makeEdges(argument: Argument) -> [Edge] {
     }
 
     return edges.reversed()
+}
+
+func makeRenameCommand(currentName: String, newName: String) -> Command {
+    let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
+    return RenameCommand(paths: paths, currentName: currentName, newName: newName)
 }
 
 main()

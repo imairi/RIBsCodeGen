@@ -9,10 +9,18 @@ import Foundation
 import SourceKittenFramework
 
 extension Collection where Iterator.Element == [String: SourceKitRepresentable] {
-    func extractByKeyName(_ targetKeyName: String) -> [String: SourceKitRepresentable] {
+    func extractDictionaryContainsKeyName(_ targetKeyName: String) -> [String: SourceKitRepresentable] {
         let targetStructures = self.filter { structure -> Bool in
             let keyName = structure["key.name"] as? String ?? ""
-            return keyName.contains(targetKeyName) // test(), test2() などで誤検知あり
+            return keyName.contains(targetKeyName)
+        }
+        return targetStructures.first ?? [String: SourceKitRepresentable]()
+    }
+    
+    func extractDictionaryByKeyName(_ targetKeyName: String) -> [String: SourceKitRepresentable] {
+        let targetStructures = self.filter { structure -> Bool in
+            let keyName = structure["key.name"] as? String ?? ""
+            return keyName == targetKeyName
         }
         return targetStructures.first ?? [String: SourceKitRepresentable]()
     }
