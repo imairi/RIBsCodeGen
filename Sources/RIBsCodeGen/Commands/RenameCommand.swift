@@ -390,11 +390,8 @@ private extension RenameCommand {
             print("\t\t\t\(newViewControllerPath.relativePath)".lightBlack)
         }
     
-        if let targetRIBDependenciesDirectoryPath = try? Path(targetRIBDirectoryPath.description + "/Dependencies") {
-            guard targetRIBDependenciesDirectoryPath.isDirectory else {
-                print("\t\tFailed to detect target RIB Dependencies directory path.".red.bold)
-                return
-            }
+        let targetRIBDependenciesDirectoryPath = try Path(targetRIBDirectoryPath.description + "/Dependencies")
+        if targetRIBDependenciesDirectoryPath.exists {
             let targetRIBDependencyPaths = try targetRIBDependenciesDirectoryPath.children().map { $0.description }.filter { $0.contains("\(currentName)Component+") }
         
             let newDependenciesDirectoryPath = Path(newDirectoryPath.description + "/Dependencies")
@@ -415,7 +412,8 @@ private extension RenameCommand {
                 print("\t\t\t\(targetRIBDependenciesDirectoryPath.relativePath)".lightBlack)
             }
         } else {
-            print("\t\tNot found \(targetRIBDirectoryPath.description + "/Dependencies") directory, skip to move Component Extension files".yellow)
+            print("\t\tNot found Dependencies directory, skip to move Component Extension files".yellow)
+            print("\t\t\t\(targetRIBDependenciesDirectoryPath.relativePath)".lightBlack)
         }
         
         if try targetRIBDirectoryPath.children().isEmpty {
