@@ -41,7 +41,7 @@ private enum RenameInheritedType: CaseIterable {
     case presentableInteractor, interactable, presentableListener
 }
 
-struct RenameCommand: Command {
+final class RenameCommand: Command {
     private let paths: [String]
     private let currentName: String
     private let newName: String
@@ -52,6 +52,8 @@ struct RenameCommand: Command {
     private let viewControllerPath: String?
     private let currentDependenciesPath: [String]
     private let parents: [String]
+    
+    private var replacedFilePaths = [String]()
     
     init(paths: [String], currentName: String, newName: String) {
         self.paths = paths
@@ -86,7 +88,7 @@ struct RenameCommand: Command {
     }
     
     func run() -> Result {
-        print("\nStart rename \(currentName) to \(newName).\n".bold)
+        print("\nStart rename ".bold + currentName.applyingBackgroundColor(.magenta).bold + " to ".bold + newName.applyingBackgroundColor(.blue).bold + ".\n".bold)
     
         var result: Result?
         
@@ -144,7 +146,13 @@ struct RenameCommand: Command {
             result = .failure(error: .failedToRename("Failed to rename operation for target parent Component Extensions."))
         }
         
-        return result ?? .success(message: "\nSuccessfully finished renaming \(currentName) to \(newName) for related files.".green.bold)
+        do {
+            try formatAllReplacedFiles()
+        } catch {
+            result = .failure(error: .failedFormat)
+        }
+        
+        return result ?? .success(message: "\nSuccessfully finished renaming ".green.bold + currentName.applyingBackgroundColor(.magenta).green.bold + " to ".green.bold + newName.applyingBackgroundColor(.blue).green.bold + " for related files.".green.bold)
     }
 }
 
@@ -152,7 +160,7 @@ struct RenameCommand: Command {
 private extension RenameCommand {
     func renameForInteractor() throws {
         print("\trename for \(interactorPath.lastElementSplittedBySlash)")
-        var text = try String.init(contentsOfFile: interactorPath, encoding: .utf8)
+        let text = try String.init(contentsOfFile: interactorPath, encoding: .utf8)
         let replacedText = text
             .replacingOccurrences(of: "\(currentName)Interactor.swift", with: "\(newName)Interactor.swift")
             .replacingOccurrences(of: "protocol \(currentName)Routing:", with: "protocol \(newName)Routing:")
@@ -168,11 +176,12 @@ private extension RenameCommand {
             .replacingOccurrences(of: "presenter: \(currentName)Presentable", with: "presenter: \(newName)Presentable")
             .replacingOccurrences(of: "// MARK: - \(currentName)PresentableListener", with: "// MARK: - \(newName)PresentableListener")
         try Path(interactorPath).write(replacedText)
+        replacedFilePaths.append(interactorPath)
     }
     
     func renameForRouter() throws {
         print("\trename for \(routerPath.lastElementSplittedBySlash)")
-        var text = try String.init(contentsOfFile: routerPath, encoding: .utf8)
+        let text = try String.init(contentsOfFile: routerPath, encoding: .utf8)
         let replacedText = text
             .replacingOccurrences(of: "\(currentName)Router.swift", with: "\(newName)Router.swift")
             .replacingOccurrences(of: "protocol \(currentName)Interactable:", with: "protocol \(newName)Interactable:")
@@ -189,11 +198,12 @@ private extension RenameCommand {
             .replacingOccurrences(of: "viewController: \(currentName)ViewControllable", with: "viewController: \(newName)ViewControllable")
             .replacingOccurrences(of: "// MARK: - \(currentName)Routing", with: "// MARK: - \(newName)Routing")
         try Path(routerPath).write(replacedText)
+        replacedFilePaths.append(routerPath)
     }
     
     func renameForBuilder() throws {
         print("\trename for \(builderPath.lastElementSplittedBySlash)")
-        var text = try String.init(contentsOfFile: builderPath, encoding: .utf8)
+        let text = try String.init(contentsOfFile: builderPath, encoding: .utf8)
         let replacedText = text
             .replacingOccurrences(of: "\(currentName)Builder.swift", with: "\(newName)Builder.swift")
             .replacingOccurrences(of: "\(currentName)Buildable", with: "\(newName)Buildable")
@@ -208,6 +218,7 @@ private extension RenameCommand {
             .replacingOccurrences(of: "\(currentName)Router", with: "\(newName)Router")
             .replacingOccurrences(of: "\(currentName)Interactor", with: "\(newName)Interactor")
         try Path(builderPath).write(replacedText)
+        replacedFilePaths.append(builderPath)
     }
     
     func renameForViewController() throws {
@@ -215,7 +226,7 @@ private extension RenameCommand {
             return
         }
         print("\trename for \(viewControllerPath.lastElementSplittedBySlash)")
-        var text = try String.init(contentsOfFile: viewControllerPath, encoding: .utf8)
+        let text = try String.init(contentsOfFile: viewControllerPath, encoding: .utf8)
         let replacedText = text
             .replacingOccurrences(of: "\(currentName)ViewController.swift", with: "\(newName)ViewController.swift")
             .replacingOccurrences(of: "\(currentName)Presentable", with: "\(newName)Presentable")
@@ -224,18 +235,20 @@ private extension RenameCommand {
             .replacingOccurrences(of: "extension \(currentName)ViewController", with: "extension \(newName)ViewController")
             .replacingOccurrences(of: "\(currentName)ViewControllable", with: "\(newName)ViewControllable")
         try Path(viewControllerPath).write(replacedText)
+        replacedFilePaths.append(viewControllerPath)
     }
     
     func renameForDependencies() throws {
         try currentDependenciesPath.forEach { dependencyPath in
             print("\trename for \(dependencyPath.lastElementSplittedBySlash)")
-            var text = try String.init(contentsOfFile: dependencyPath, encoding: .utf8)
+            let text = try String.init(contentsOfFile: dependencyPath, encoding: .utf8)
             let replacedText = text
                 .replacingOccurrences(of: "protocol \(currentName)Dependency", with: "protocol \(newName)Dependency")
                 .replacingOccurrences(of: "\(currentName)Component", with: "\(newName)Component")
                 .replacingOccurrences(of: "scope of \(currentName) to provide for the", with: "scope of \(newName) to provide for the")
                 .replacingOccurrences(of: " \(currentName.lowercasedFirstLetter())ViewController", with: " \(newName.lowercasedFirstLetter())ViewController")
             try Path(dependencyPath).write(replacedText)
+            replacedFilePaths.append(dependencyPath)
         }
     }
     
@@ -246,7 +259,7 @@ private extension RenameCommand {
             }
     
             print("\trename for \(parentInteractorPath.lastElementSplittedBySlash)")
-            var text = try String.init(contentsOfFile: parentInteractorPath, encoding: .utf8)
+            let text = try String.init(contentsOfFile: parentInteractorPath, encoding: .utf8)
             let replacedText = text
                 .replacingOccurrences(of: "\(currentName)Listener", with: "\(newName)Listener")
                 .replacingOccurrences(of: "routeTo\(currentName)", with: "routeTo\(newName)")
@@ -255,6 +268,7 @@ private extension RenameCommand {
                 .replacingOccurrences(of: "remove\(currentName)", with: "remove\(newName)")
                 .replacingOccurrences(of: "deactivate\(currentName)", with: "deactivate\(newName)")
             try Path(parentInteractorPath).write(replacedText)
+            replacedFilePaths.append(parentInteractorPath)
         }
     }
     
@@ -265,7 +279,7 @@ private extension RenameCommand {
             }
     
             print("\trename for \(parentRouterPath.lastElementSplittedBySlash)")
-            var text = try String.init(contentsOfFile: parentRouterPath, encoding: .utf8)
+            let text = try String.init(contentsOfFile: parentRouterPath, encoding: .utf8)
             let replacedText = text
                 .replacingOccurrences(of: "\(currentName)Listener", with: "\(newName)Listener")
                 .replacingOccurrences(of: "routeTo\(currentName)", with: "routeTo\(newName)")
@@ -278,6 +292,7 @@ private extension RenameCommand {
                 .replacingOccurrences(of: "detach\(currentName)(", with: "detach\(newName)(")
                 .replacingOccurrences(of: "remove\(currentName)(", with: "remove\(newName)(")
             try Path(parentRouterPath).write(replacedText)
+            replacedFilePaths.append(parentRouterPath)
         }
     }
     
@@ -288,12 +303,13 @@ private extension RenameCommand {
             }
     
             print("\trename for \(parentBuilderPath.lastElementSplittedBySlash)")
-            var text = try String.init(contentsOfFile: parentBuilderPath, encoding: .utf8)
+            let text = try String.init(contentsOfFile: parentBuilderPath, encoding: .utf8)
             let replacedText = text
                 .replacingOccurrences(of: "\(parentName)Dependency\(currentName)", with: "\(parentName)Dependency\(newName)")
                 .replacingOccurrences(of: "\(currentName.lowercasedFirstLetter())Builder = \(currentName)Builder", with: "\(newName.lowercasedFirstLetter())Builder = \(newName)Builder")
                 .replacingOccurrences(of: "\(currentName.lowercasedFirstLetter())Builder: \(currentName.lowercasedFirstLetter())Builder", with: "\(newName.lowercasedFirstLetter())Builder: \(newName.lowercasedFirstLetter())Builder")
             try Path(parentBuilderPath).write(replacedText)
+            replacedFilePaths.append(parentBuilderPath)
         }
     }
     
@@ -304,7 +320,7 @@ private extension RenameCommand {
             }
     
             print("\trename for \(componentExtensionPath.lastElementSplittedBySlash)")
-            var text = try String.init(contentsOfFile: componentExtensionPath, encoding: .utf8)
+            let text = try String.init(contentsOfFile: componentExtensionPath, encoding: .utf8)
             let replacedText = text
                 .replacingOccurrences(of: "\(parentName)Component+\(currentName).swift", with: "\(parentName)Component+\(newName).swift")
                 .replacingOccurrences(of: "scope of \(parentName) to provide for the \(currentName) scope.", with: "scope of \(parentName) to provide for the \(newName) scope.")
@@ -312,6 +328,16 @@ private extension RenameCommand {
                 .replacingOccurrences(of: ": \(currentName)Dependency", with: ": \(newName)Dependency")
                 .replacingOccurrences(of: "var \(currentName.lowercasedFirstLetter())ViewController: \(currentName)ViewControllable", with: "var \(newName.lowercasedFirstLetter())ViewController: \(newName)ViewControllable")
             try Path(componentExtensionPath).write(replacedText)
+            replacedFilePaths.append(componentExtensionPath)
+        }
+    }
+    
+    func formatAllReplacedFiles() throws {
+        print("\n\tStart format for all replaced files.")
+        try replacedFilePaths.forEach { replacedFilePath in
+            print("\t\tformat for \(replacedFilePath.lastElementSplittedBySlash)")
+            let formattedText = try Formatter.format(path: replacedFilePath)
+            try Path(replacedFilePath).write(formattedText)
         }
     }
 }
