@@ -156,6 +156,12 @@ final class RenameCommand: Command {
         } catch {
             result = .failure(error: .failedFormat)
         }
+    
+        do {
+            try renameDirectoriesAndFiles()
+        } catch {
+            result = .failure(error: .failedFormat)
+        }
         
         return result ?? .success(message: "\nSuccessfully finished renaming ".green.bold + currentName.applyingBackgroundColor(.magenta).green.bold + " to ".green.bold + newName.applyingBackgroundColor(.blue).green.bold + " for related files.".green.bold)
     }
@@ -345,6 +351,88 @@ private extension RenameCommand {
             try Path(replacedFilePath).write(formattedText)
         }
     }
+    
+    func renameDirectoriesAndFiles() throws {
+        print("\n\tStart renaming directories and files.")
+        let targetRIBDirectoryPath = Path(interactorPath).parent()
+        guard targetRIBDirectoryPath.isDirectory else {
+            print("\t\tFailed to detect target RIB directory path.".red.bold)
+            return
+        }
+        
+        let targetRIBDependenciesDirectoryPath = try Path(targetRIBDirectoryPath.description + "/Dependencies")
+        guard targetRIBDependenciesDirectoryPath.isDirectory else {
+            print("\t\tFailed to detect target RIB Dependencies directory path.".red.bold)
+            return
+        }
+        
+        let targetRIBDependencyPaths = try targetRIBDependenciesDirectoryPath.children().map { $0.description }.filter { $0.contains("\(currentName)Component+") }
+    
+        let newDirectoryPath = Path(targetRIBDirectoryPath.parent().description + "/\(newName)")
+        try newDirectoryPath.mkdir()
+        print("\t\tNew directory was created.")
+        print("\t\t\t\(newDirectoryPath)")
+        
+        let newInteractorPath = Path(newDirectoryPath.description + "/" + interactorPath.lastElementSplittedBySlash.replacingOccurrences(of: currentName, with: newName))
+        try Path(interactorPath).move(newInteractorPath)
+        print("\t\tInteractor file was renamed and moved to new directory.")
+        print("\t\t\t\(newInteractorPath)")
+        
+        let newRouterPath = Path(newDirectoryPath.description + "/" + routerPath.lastElementSplittedBySlash.replacingOccurrences(of: currentName, with: newName))
+        try Path(routerPath).move(newRouterPath)
+        print("\t\tRouter file was renamed and moved to new directory.")
+        print("\t\t\t\(newRouterPath)")
+        
+        let newBuilderPath = Path(newDirectoryPath.description + "/" + builderPath.lastElementSplittedBySlash.replacingOccurrences(of: currentName, with: newName))
+        try Path(builderPath).move(newBuilderPath)
+        print("\t\tBuilder file was renamed and moved to new directory.")
+        print("\t\t\t\(newBuilderPath)")
+        
+        if let viewControllerPath = viewControllerPath {
+            let newViewControllerPath = Path(newDirectoryPath.description + "/" + viewControllerPath.lastElementSplittedBySlash.replacingOccurrences(of: currentName, with: newName))
+            try Path(viewControllerPath).move(newViewControllerPath)
+            print("\t\tViewController file was renamed and moved to new directory.")
+            print("\t\t\t\(newViewControllerPath)")
+        }
+    
+        let newDependenciesDirectoryPath = Path(newDirectoryPath.description + "/Dependencies")
+        try newDependenciesDirectoryPath.mkdir()
+        print("\t\tNew directory was created.")
+        print("\t\t\t\(newDirectoryPath)")
+        
+        try targetRIBDependencyPaths.forEach { targetRIBDependencyPath in
+            let newDependencyPath = Path(newDependenciesDirectoryPath.description + "/" + targetRIBDependencyPath.lastElementSplittedBySlash.replacingOccurrences(of: "\(currentName)Component+", with: "\(newName)Component+"))
+            try Path(targetRIBDependencyPath).move(newDependencyPath)
+            print("\t\tComponent Extension file was renamed and moved to new directory.")
+            print("\t\t\t\(newDependencyPath)")
+        }
+    
+        try parents.forEach { parentName in
+            guard let parentInteractorPath = paths.filter({ $0.contains("/" + parentName + "Interactor.swift") }).first else {
+                fatalError("Not found \(parentName)Interactor.swift.".red.bold)
+            }
+            let parentRIBDirectoryPath = Path(parentInteractorPath).parent()
+            guard parentRIBDirectoryPath.isDirectory else {
+                print("Failed to detect target parent RIB \(parentName) directory path.".red.bold)
+                return
+            }
+    
+            let parentRIBDependenciesDirectoryPath = try Path(parentRIBDirectoryPath.description + "/Dependencies")
+            guard parentRIBDependenciesDirectoryPath.isDirectory else {
+                print("Failed to detect target parent RIB \(parentName) Dependencies directory path.".red.bold)
+                return
+            }
+    
+            let parentRIBDependencyPaths = try parentRIBDependenciesDirectoryPath.children().map { $0.description }.filter { $0.contains("Component+\(currentName).swift") }
+            try parentRIBDependencyPaths.forEach { parentRIBDependencyPath in
+                let newDependencyPath = Path(parentRIBDependenciesDirectoryPath.description + "/" + parentRIBDependencyPath.lastElementSplittedBySlash.replacingOccurrences(of: "Component+\(currentName).swift", with: "Component+\(newName).swift"))
+                try Path(parentRIBDependencyPath).move(newDependencyPath)
+                print("\t\tComponent Extension file was renamed and moved to new directory.")
+                print("\t\t\t\(newDependencyPath)")
+            }
+        }
+        
+    }
 }
 
 extension Dictionary {
@@ -379,4 +467,22 @@ extension String {
     var lastElementSplittedBySlash: String {
         String(self.split(separator: "/").last ?? "")
     }
+}
+
+
+func shell(_ command: String) -> String {
+    let task = Process()
+    let pipe = Pipe()
+    
+    task.standardOutput = pipe
+    task.standardError = pipe
+    task.arguments = ["-c", command]
+    task.launchPath = "/bin/zsh"
+    task.standardInput = nil
+    task.launch()
+    
+    let data = pipe.fileHandleForReading.readDataToEndOfFile()
+    let output = String(data: data, encoding: .utf8)!
+    
+    return output
 }
