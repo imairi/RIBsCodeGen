@@ -18,8 +18,9 @@ Let's save time to create RIBs as much as possible.
 - [x] Add child listener and builder to parent Router and Builder file
 - [x] Bulk generation following RIBs tree
 - [ ] Remove the RIB and the related codes
-- [ ] Rename the RIB and the related codes
+- [x] Rename the RIB and the related codes
 - [ ] Customise file header
+- [ ] Customise rename targets
 
 # Settings
 
@@ -131,6 +132,16 @@ And the below files would be updated for resolving dependency.
 
 - SampleParent/SampleParentRouter.swift
 - SampleParent/SampleParentBuilder.swift
+
+## Rename
+
+`rename` command, it is renaming RIB name. Related protocols, classes, methods and some codes are renamed. Additionally, the directory and file name is renamed as well.
+
+```
+swift run ribscodegen rename Sample NewSample
+```
+
+This command uses `replacingOccurrences` method, there's no guarantee to rename perfectly.
 
 ## Help
 
