@@ -18,9 +18,10 @@ Let's save time to create RIBs as much as possible.
 - [x] Add child listener and builder to parent Router and Builder file
 - [x] Bulk generation following RIBs tree
 - [ ] Remove the RIB and the related codes
-- [x] Rename the RIB and the related codes
+- [x] Rename the RIB directories, files and the related codes
+  - [x] Customise rename targets
 - [ ] Customise file header
-- [ ] Customise rename targets
+
 
 # Settings
 
@@ -154,7 +155,7 @@ interactor:
 
 RIBsCodeGen reads SampleInteractor.swift file, search `protocol SampleRouting:` and replace it with `protocol NewSampleRouting:` .
 
-`.ribscodegen_rename` setting example is here.
+`.ribscodegen_rename` setting example is [here](.ribscodegen_rename).
 
 ## Help
 
