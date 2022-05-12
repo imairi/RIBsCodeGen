@@ -205,9 +205,10 @@ private extension RenameCommand {
             .replacingOccurrences(of: "viewController: \(currentName)ViewControllable", with: "viewController: \(newName)ViewControllable")
             .replacingOccurrences(of: "ViewableRouter<\(currentName)Interactable, \(currentName)ViewControllable>", with: "ViewableRouter<\(newName)Interactable, \(newName)ViewControllable>")
             .replacingOccurrences(of: ", \(currentName)Routing", with: ", \(newName)Routing")
+            .replacingOccurrences(of: " \(currentName)Routing,", with: " \(newName)Routing,")
             .replacingOccurrences(of: "Router<\(currentName)Interactable>", with: "Router<\(newName)Interactable>")
-            .replacingOccurrences(of: "viewController: \(currentName)ViewControllable", with: "viewController: \(newName)ViewControllable")
             .replacingOccurrences(of: "// MARK: - \(currentName)Routing", with: "// MARK: - \(newName)Routing")
+            .replacingOccurrences(of: "\(currentName)Presentable", with: "\(newName)Presentable")
         try Path(routerPath).write(replacedText)
         replacedFilePaths.append(routerPath)
     }
@@ -274,7 +275,7 @@ private extension RenameCommand {
             print("\t\trename for \(parentInteractorPath.lastElementSplittedBySlash)")
             let text = try String.init(contentsOfFile: parentInteractorPath, encoding: .utf8)
             let replacedText = text
-                .replacingOccurrences(of: "\(currentName)Listener", with: "\(newName)Listener")
+                .replacingOccurrences(of: "// MARK: - \(currentName)Listener", with: "// MARK: - \(newName)Listener")
                 .replacingOccurrences(of: "routeTo\(currentName)", with: "routeTo\(newName)")
                 .replacingOccurrences(of: "switchTo\(currentName)", with: "switchTo\(newName)")
                 .replacingOccurrences(of: "detach\(currentName)", with: "detach\(newName)")
@@ -296,7 +297,7 @@ private extension RenameCommand {
             print("\t\trename for \(parentRouterPath.lastElementSplittedBySlash)")
             let text = try String.init(contentsOfFile: parentRouterPath, encoding: .utf8)
             let replacedText = text
-                .replacingOccurrences(of: "\(currentName)Listener", with: "\(newName)Listener")
+                .replacingOccurrences(of: " \(currentName)Listener", with: " \(newName)Listener")
                 .replacingOccurrences(of: "routeTo\(currentName)", with: "routeTo\(newName)")
                 .replacingOccurrences(of: "switchTo\(currentName)", with: "switchTo\(newName)")
                 .replacingOccurrences(of: "\(currentName.lowercasedFirstLetter())Builder: \(currentName)Buildable", with: "\(newName.lowercasedFirstLetter())Builder: \(newName)Buildable")
