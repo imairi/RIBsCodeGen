@@ -79,11 +79,14 @@ func run(with commandLineArguments: [String]) {
         }
         exit(0)
     case .rename:
+        guard let renameSetting = analyzeRenameSettings() else {
+            return
+        }
         let currentName = argument.actionTarget
         guard let newName = argument.options.first?.value else {
             return
         }
-        let resultRenameCommand = makeRenameCommand(currentName: currentName, newName: newName).run()
+        let resultRenameCommand = makeRenameCommand(renameSetting: renameSetting, currentName: currentName, newName: newName).run()
         showResult(resultRenameCommand)
         exit(0)
     default:
@@ -161,6 +164,27 @@ func analyzeSettings() -> Setting? {
         return try decoder.decode(Setting.self, from: settingFileString)
     } catch {
         print("Failed to decode .ribscodegen. Check the setting values.".red.bold)
+        return nil
+    }
+}
+
+func analyzeRenameSettings() -> RenameSetting? {
+    guard let settingFilePath = Path.current.glob(".ribscodegen_rename").first else {
+        print("Not found setting file, add .ribscodegen_rename at current directory".red.bold)
+        return nil
+    }
+    
+    let settingFile: String? = try? settingFilePath.read()
+    guard let settingFileString = settingFile else {
+        print("Failed to read .ribscodegen_rename.".red.bold)
+        return nil
+    }
+    
+    let decoder = YAMLDecoder()
+    do {
+        return try decoder.decode(RenameSetting.self, from: settingFileString)
+    } catch {
+        print("Failed to decode .ribscodegen_rename. Check the setting values.".red.bold)
         return nil
     }
 }
@@ -253,9 +277,9 @@ func makeEdges(argument: Argument) -> [Edge] {
     return edges.reversed()
 }
 
-func makeRenameCommand(currentName: String, newName: String) -> Command {
+func makeRenameCommand(renameSetting: RenameSetting, currentName: String, newName: String) -> Command {
     let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
-    return RenameCommand(paths: paths, currentName: currentName, newName: newName)
+    return RenameCommand(paths: paths, renameSetting: renameSetting, currentName: currentName, newName: newName)
 }
 
 main()

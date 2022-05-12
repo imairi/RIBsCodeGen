@@ -11,3 +11,15 @@ struct Setting: Codable {
     var targetDirectory: String
     var templateDirectory: String
 }
+
+struct RenameSetting: Codable {
+    var interactor: [String]
+    var builder: [String]
+    var router: [String]
+    var viewController: [String]
+    var componentExtension: [String]
+    var parentInteractor: [String]
+    var parentBuilder: [String]
+    var parentRouter: [String]
+    var parentComponentExtension: [String]
+}

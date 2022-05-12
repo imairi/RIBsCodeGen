@@ -43,6 +43,7 @@ private enum RenameInheritedType: CaseIterable {
 
 final class RenameCommand: Command {
     private let paths: [String]
+    private let renameSetting: RenameSetting
     private let currentName: String
     private let newName: String
     
@@ -55,8 +56,9 @@ final class RenameCommand: Command {
     
     private var replacedFilePaths = [String]()
     
-    init(paths: [String], currentName: String, newName: String) {
+    init(paths: [String], renameSetting: RenameSetting, currentName: String, newName: String) {
         self.paths = paths
+        self.renameSetting = renameSetting
         self.currentName = currentName
         self.newName = newName
         
@@ -172,20 +174,12 @@ private extension RenameCommand {
     func renameForInteractor() throws {
         print("\t\trename for \(interactorPath.lastElementSplittedBySlash)")
         let text = try String.init(contentsOfFile: interactorPath, encoding: .utf8)
-        let replacedText = text
-            .replacingOccurrences(of: "\(currentName)Interactor.swift", with: "\(newName)Interactor.swift")
-            .replacingOccurrences(of: "protocol \(currentName)Routing:", with: "protocol \(newName)Routing:")
-            .replacingOccurrences(of: "protocol \(currentName)Presentable:", with: "protocol \(newName)Presentable:")
-            .replacingOccurrences(of: "protocol \(currentName)Listener:", with: "protocol \(newName)Listener:")
-            .replacingOccurrences(of: "class \(currentName)Interactor", with: "class \(newName)Interactor")
-            .replacingOccurrences(of: "extension \(currentName)Interactor", with: "extension \(newName)Interactor")
-            .replacingOccurrences(of: "PresentableInteractor<\(currentName)Presentable>", with: "PresentableInteractor<\(newName)Presentable>")
-            .replacingOccurrences(of: "\(currentName)Interactable", with: "\(newName)Interactable")
-            .replacingOccurrences(of: "\(currentName)PresentableListener", with: "\(newName)PresentableListener")
-            .replacingOccurrences(of: "router: \(currentName)Routing?", with: "router: \(newName)Routing?")
-            .replacingOccurrences(of: "listener: \(currentName)Listener?", with: "listener: \(newName)Listener?")
-            .replacingOccurrences(of: "presenter: \(currentName)Presentable", with: "presenter: \(newName)Presentable")
-            .replacingOccurrences(of: "deactivate\(currentName)", with: "deactivate\(newName)")
+        let replacedText = renameSetting.interactor.reduce(text) { (result, interactorSearchText) in
+            let searchText = replacePlaceHolder(for: interactorSearchText, with: currentName)
+            let replaceText = replacePlaceHolder(for: interactorSearchText, with: newName)
+            return result.replacingOccurrences(of: searchText, with: replaceText)
+        }
+     
         try Path(interactorPath).write(replacedText)
         replacedFilePaths.append(interactorPath)
     }
@@ -193,22 +187,11 @@ private extension RenameCommand {
     func renameForRouter() throws {
         print("\t\trename for \(routerPath.lastElementSplittedBySlash)")
         let text = try String.init(contentsOfFile: routerPath, encoding: .utf8)
-        let replacedText = text
-            .replacingOccurrences(of: "\(currentName)Router.swift", with: "\(newName)Router.swift")
-            .replacingOccurrences(of: "protocol \(currentName)Interactable:", with: "protocol \(newName)Interactable:")
-            .replacingOccurrences(of: "protocol \(currentName)ViewControllable:", with: "protocol \(newName)ViewControllable:")
-            .replacingOccurrences(of: "class \(currentName)Router:", with: "class \(newName)Router:")
-            .replacingOccurrences(of: "extension \(currentName)Router", with: "extension \(newName)Router")
-            .replacingOccurrences(of: "router: \(currentName)Routing?", with: "router: \(newName)Routing?")
-            .replacingOccurrences(of: "listener: \(currentName)Listener?", with: "listener: \(newName)Listener?")
-            .replacingOccurrences(of: "interactor: \(currentName)Interactable", with: "interactor: \(newName)Interactable")
-            .replacingOccurrences(of: "viewController: \(currentName)ViewControllable", with: "viewController: \(newName)ViewControllable")
-            .replacingOccurrences(of: "ViewableRouter<\(currentName)Interactable, \(currentName)ViewControllable>", with: "ViewableRouter<\(newName)Interactable, \(newName)ViewControllable>")
-            .replacingOccurrences(of: ", \(currentName)Routing", with: ", \(newName)Routing")
-            .replacingOccurrences(of: " \(currentName)Routing,", with: " \(newName)Routing,")
-            .replacingOccurrences(of: "Router<\(currentName)Interactable>", with: "Router<\(newName)Interactable>")
-            .replacingOccurrences(of: "// MARK: - \(currentName)Routing", with: "// MARK: - \(newName)Routing")
-            .replacingOccurrences(of: "\(currentName)Presentable", with: "\(newName)Presentable")
+        let replacedText = renameSetting.router.reduce(text) { (result, routerSearchText) in
+            let searchText = replacePlaceHolder(for: routerSearchText, with: currentName)
+            let replaceText = replacePlaceHolder(for: routerSearchText, with: newName)
+            return result.replacingOccurrences(of: searchText, with: replaceText)
+        }
         try Path(routerPath).write(replacedText)
         replacedFilePaths.append(routerPath)
     }
@@ -216,19 +199,12 @@ private extension RenameCommand {
     func renameForBuilder() throws {
         print("\t\trename for \(builderPath.lastElementSplittedBySlash)")
         let text = try String.init(contentsOfFile: builderPath, encoding: .utf8)
-        let replacedText = text
-            .replacingOccurrences(of: "\(currentName)Builder.swift", with: "\(newName)Builder.swift")
-            .replacingOccurrences(of: "\(currentName)Buildable", with: "\(newName)Buildable")
-            .replacingOccurrences(of: "class \(currentName)Builder:", with: "class \(newName)Builder:")
-            .replacingOccurrences(of: "\(currentName)Dependency", with: "\(newName)Dependency")
-            .replacingOccurrences(of: "\(currentName)Component", with: "\(newName)Component")
-            .replacingOccurrences(of: "\(currentName)ViewController", with: "\(newName)ViewController")
-            .replacingOccurrences(of: "\(currentName.lowercasedFirstLetter())ViewController", with: "\(newName.lowercasedFirstLetter())ViewController")
-            .replacingOccurrences(of: "\(currentName)ViewControllable", with: "\(newName)ViewControllable")
-            .replacingOccurrences(of: "\(currentName)Listener", with: "\(newName)Listener")
-            .replacingOccurrences(of: "\(currentName)Routing", with: "\(newName)Routing")
-            .replacingOccurrences(of: "\(currentName)Router", with: "\(newName)Router")
-            .replacingOccurrences(of: "\(currentName)Interactor", with: "\(newName)Interactor")
+        let replacedText = renameSetting.builder.reduce(text) { (result, builderSearchText) in
+            let searchText = replacePlaceHolder(for: builderSearchText, with: currentName)
+            let replaceText = replacePlaceHolder(for: builderSearchText, with: newName)
+            return result.replacingOccurrences(of: searchText, with: replaceText)
+        }
+        
         try Path(builderPath).write(replacedText)
         replacedFilePaths.append(builderPath)
     }
@@ -239,13 +215,12 @@ private extension RenameCommand {
         }
         print("\t\trename for \(viewControllerPath.lastElementSplittedBySlash)")
         let text = try String.init(contentsOfFile: viewControllerPath, encoding: .utf8)
-        let replacedText = text
-            .replacingOccurrences(of: "\(currentName)ViewController.swift", with: "\(newName)ViewController.swift")
-            .replacingOccurrences(of: "\(currentName)Presentable", with: "\(newName)Presentable")
-            .replacingOccurrences(of: "protocol \(currentName)PresentableListener", with: "protocol \(newName)PresentableListener")
-            .replacingOccurrences(of: "class \(currentName)ViewController:", with: "class \(newName)ViewController:")
-            .replacingOccurrences(of: "extension \(currentName)ViewController", with: "extension \(newName)ViewController")
-            .replacingOccurrences(of: "\(currentName)ViewControllable", with: "\(newName)ViewControllable")
+        let replacedText = renameSetting.viewController.reduce(text) { (result, viewControllerSearchText) in
+            let searchText = replacePlaceHolder(for: viewControllerSearchText, with: currentName)
+            let replaceText = replacePlaceHolder(for: viewControllerSearchText, with: newName)
+            return result.replacingOccurrences(of: searchText, with: replaceText)
+        }
+        
         try Path(viewControllerPath).write(replacedText)
         replacedFilePaths.append(viewControllerPath)
     }
@@ -254,11 +229,12 @@ private extension RenameCommand {
         try currentDependenciesPath.forEach { dependencyPath in
             print("\t\trename for \(dependencyPath.lastElementSplittedBySlash)")
             let text = try String.init(contentsOfFile: dependencyPath, encoding: .utf8)
-            let replacedText = text
-                .replacingOccurrences(of: "protocol \(currentName)Dependency", with: "protocol \(newName)Dependency")
-                .replacingOccurrences(of: "\(currentName)Component", with: "\(newName)Component")
-                .replacingOccurrences(of: "scope of \(currentName) to provide for the", with: "scope of \(newName) to provide for the")
-                .replacingOccurrences(of: " \(currentName.lowercasedFirstLetter())ViewController", with: " \(newName.lowercasedFirstLetter())ViewController")
+            let replacedText = renameSetting.componentExtension.reduce(text) { (result, componentExtensionSearchText) in
+                let searchText = replacePlaceHolder(for: componentExtensionSearchText, with: currentName)
+                let replaceText = replacePlaceHolder(for: componentExtensionSearchText, with: newName)
+                return result.replacingOccurrences(of: searchText, with: replaceText)
+            }
+            
             try Path(dependencyPath).write(replacedText)
             replacedFilePaths.append(dependencyPath)
         }
@@ -274,13 +250,12 @@ private extension RenameCommand {
     
             print("\t\trename for \(parentInteractorPath.lastElementSplittedBySlash)")
             let text = try String.init(contentsOfFile: parentInteractorPath, encoding: .utf8)
-            let replacedText = text
-                .replacingOccurrences(of: "// MARK: - \(currentName)Listener", with: "// MARK: - \(newName)Listener")
-                .replacingOccurrences(of: "routeTo\(currentName)", with: "routeTo\(newName)")
-                .replacingOccurrences(of: "switchTo\(currentName)", with: "switchTo\(newName)")
-                .replacingOccurrences(of: "detach\(currentName)", with: "detach\(newName)")
-                .replacingOccurrences(of: "remove\(currentName)", with: "remove\(newName)")
-                .replacingOccurrences(of: "deactivate\(currentName)", with: "deactivate\(newName)")
+            let replacedText = renameSetting.parentInteractor.reduce(text) { (result, parentInteractorSearchText) in
+                let searchText = replacePlaceHolder(for: parentInteractorSearchText, with: currentName, and: parentName)
+                let replaceText = replacePlaceHolder(for: parentInteractorSearchText, with: newName, and: parentName)
+                return result.replacingOccurrences(of: searchText, with: replaceText)
+            }
+            
             try Path(parentInteractorPath).write(replacedText)
             replacedFilePaths.append(parentInteractorPath)
         }
@@ -296,17 +271,12 @@ private extension RenameCommand {
     
             print("\t\trename for \(parentRouterPath.lastElementSplittedBySlash)")
             let text = try String.init(contentsOfFile: parentRouterPath, encoding: .utf8)
-            let replacedText = text
-                .replacingOccurrences(of: " \(currentName)Listener", with: " \(newName)Listener")
-                .replacingOccurrences(of: "routeTo\(currentName)", with: "routeTo\(newName)")
-                .replacingOccurrences(of: "switchTo\(currentName)", with: "switchTo\(newName)")
-                .replacingOccurrences(of: "\(currentName.lowercasedFirstLetter())Builder: \(currentName)Buildable", with: "\(newName.lowercasedFirstLetter())Builder: \(newName)Buildable")
-                .replacingOccurrences(of: "self.\(currentName.lowercasedFirstLetter())Builder = \(currentName.lowercasedFirstLetter())Builder", with: "self.\(newName.lowercasedFirstLetter())Builder = \(newName.lowercasedFirstLetter())Builder")
-                .replacingOccurrences(of: "\(currentName.lowercasedFirstLetter())Builder.build", with: "\(newName.lowercasedFirstLetter())Builder.build")
-                .replacingOccurrences(of: "is \(currentName)Routing", with: "is \(newName)Routing")
-                .replacingOccurrences(of: " \(currentName)ViewControllable", with: " \(newName)ViewControllable")
-                .replacingOccurrences(of: "detach\(currentName)(", with: "detach\(newName)(")
-                .replacingOccurrences(of: "remove\(currentName)(", with: "remove\(newName)(")
+            let replacedText = renameSetting.parentRouter.reduce(text) { (result, parentRouterSearchText) in
+                let searchText = replacePlaceHolder(for: parentRouterSearchText, with: currentName, and: parentName)
+                let replaceText = replacePlaceHolder(for: parentRouterSearchText, with: newName, and: parentName)
+                return result.replacingOccurrences(of: searchText, with: replaceText)
+            }
+            
             try Path(parentRouterPath).write(replacedText)
             replacedFilePaths.append(parentRouterPath)
         }
@@ -322,10 +292,12 @@ private extension RenameCommand {
     
             print("\t\trename for \(parentBuilderPath.lastElementSplittedBySlash)")
             let text = try String.init(contentsOfFile: parentBuilderPath, encoding: .utf8)
-            let replacedText = text
-                .replacingOccurrences(of: "\(parentName)Dependency\(currentName)", with: "\(parentName)Dependency\(newName)")
-                .replacingOccurrences(of: "\(currentName.lowercasedFirstLetter())Builder = \(currentName)Builder", with: "\(newName.lowercasedFirstLetter())Builder = \(newName)Builder")
-                .replacingOccurrences(of: "\(currentName.lowercasedFirstLetter())Builder: \(currentName.lowercasedFirstLetter())Builder", with: "\(newName.lowercasedFirstLetter())Builder: \(newName.lowercasedFirstLetter())Builder")
+            let replacedText = renameSetting.parentBuilder.reduce(text) { (result, parentBuilderSearchText) in
+                let searchText = replacePlaceHolder(for: parentBuilderSearchText, with: currentName, and: parentName)
+                let replaceText = replacePlaceHolder(for: parentBuilderSearchText, with: newName, and: parentName)
+                return result.replacingOccurrences(of: searchText, with: replaceText)
+            }
+            
             try Path(parentBuilderPath).write(replacedText)
             replacedFilePaths.append(parentBuilderPath)
         }
@@ -341,12 +313,12 @@ private extension RenameCommand {
     
             print("\t\trename for \(componentExtensionPath.lastElementSplittedBySlash)")
             let text = try String.init(contentsOfFile: componentExtensionPath, encoding: .utf8)
-            let replacedText = text
-                .replacingOccurrences(of: "\(parentName)Component+\(currentName).swift", with: "\(parentName)Component+\(newName).swift")
-                .replacingOccurrences(of: "scope of \(parentName) to provide for the \(currentName) scope.", with: "scope of \(parentName) to provide for the \(newName) scope.")
-                .replacingOccurrences(of: "\(parentName)Dependency\(currentName)", with: "\(parentName)Dependency\(newName)")
-                .replacingOccurrences(of: ": \(currentName)Dependency", with: ": \(newName)Dependency")
-                .replacingOccurrences(of: "var \(currentName.lowercasedFirstLetter())ViewController: \(currentName)ViewControllable", with: "var \(newName.lowercasedFirstLetter())ViewController: \(newName)ViewControllable")
+            let replacedText = renameSetting.parentComponentExtension.reduce(text) { (result, parentComponentExtensionSearchText) in
+                let searchText = replacePlaceHolder(for: parentComponentExtensionSearchText, with: currentName, and: parentName)
+                let replaceText = replacePlaceHolder(for: parentComponentExtensionSearchText, with: newName, and: parentName)
+                return result.replacingOccurrences(of: searchText, with: replaceText)
+            }
+            
             try Path(componentExtensionPath).write(replacedText)
             replacedFilePaths.append(componentExtensionPath)
         }
@@ -458,6 +430,22 @@ private extension RenameCommand {
             }
         }
         
+    }
+}
+
+// MARK: - Internal extensions
+private extension RenameCommand {
+    func replacePlaceHolder(for target: String, with ribName: String) -> String {
+        target
+            .replacingOccurrences(of: "__RIB_NAME_LOWER_CASED_FIRST_LETTER__", with: ribName.lowercasedFirstLetter())
+            .replacingOccurrences(of: "__RIB_NAME__", with: ribName)
+    }
+    
+    func replacePlaceHolder(for target: String, with ribName: String, and parentRIBName: String) -> String {
+        target
+            .replacingOccurrences(of: "__RIB_NAME_LOWER_CASED_FIRST_LETTER__", with: ribName.lowercasedFirstLetter())
+            .replacingOccurrences(of: "__PARENT_RIB_NAME__", with: parentRIBName)
+            .replacingOccurrences(of: "__RIB_NAME__", with: ribName)
     }
 }
 
