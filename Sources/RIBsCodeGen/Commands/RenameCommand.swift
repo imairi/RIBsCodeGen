@@ -62,19 +62,18 @@ final class RenameCommand: Command {
         
         guard !paths.filter({ $0.contains("/" + currentName + "/") }).isEmpty else {
             fatalError("Not found \(currentName) RIB directory.Might be wrong the target name.".red.bold)
-            return
         }
         
         guard let interactorPath = paths.filter({ $0.contains("/" + currentName + "Interactor.swift") }).first else {
-            fatalError("Not found \(currentName)Interactor.swift".red.bold)
+            fatalError("Not found \(currentName)Interactor.swift in \(currentName) RIB directory.".red.bold)
         }
         
         guard let routerPath = paths.filter({ $0.contains("/" + currentName + "Router.swift") }).first else {
-            fatalError("Not found \(currentName)Router.swift".red.bold)
+            fatalError("Not found \(currentName)Router.swift in \(currentName) RIB directory.".red.bold)
         }
         
         guard let builderPath = paths.filter({ $0.contains("/" + currentName + "Builder.swift") }).first else {
-            fatalError("Not found \(currentName)Builder.swift".red.bold)
+            fatalError("Not found \(currentName)Builder.swift in \(currentName) RIB directory.".red.bold)
         }
         
         self.interactorPath = interactorPath
@@ -267,7 +266,9 @@ private extension RenameCommand {
     func renameForParentsInteractor() throws {
         try parents.forEach { parentName in
             guard let parentInteractorPath = paths.filter({ $0.contains("/" + parentName + "Interactor.swift") }).first else {
-                fatalError("Not found \(parentName)Interactor.swift".red.bold)
+                print("Not found \(parentName)Interactor.swift in \(parentName) RIB directory.".red.bold)
+                print("Skip to rename codes in \(parentName)Interactor.swift.".yellow.bold)
+                return
             }
     
             print("\t\trename for \(parentInteractorPath.lastElementSplittedBySlash)")
@@ -287,7 +288,9 @@ private extension RenameCommand {
     func renameForParentsRouter() throws {
         try parents.forEach { parentName in
             guard let parentRouterPath = paths.filter({ $0.contains("/" + parentName + "Router.swift") }).first else {
-                fatalError("Not found \(parentName)Router.swift".red.bold)
+                print("Not found \(parentName)Router.swift in \(parentName) RIB directory.".red.bold)
+                print("Skip to rename codes in \(parentName)Router.swift.".yellow.bold)
+                return
             }
     
             print("\t\trename for \(parentRouterPath.lastElementSplittedBySlash)")
@@ -311,7 +314,9 @@ private extension RenameCommand {
     func renameForParentsBuilder() throws {
         try parents.forEach { parentName in
             guard let parentBuilderPath = paths.filter({ $0.contains("/" + parentName + "Builder.swift") }).first else {
-                fatalError("Not found \(parentName)Builder.swift".red.bold)
+                print("Not found \(parentName)Builder.swift in \(parentName) RIB directory.".red.bold)
+                print("Skip to rename codes in \(parentName)Builder.swift.".yellow.bold)
+                return
             }
     
             print("\t\trename for \(parentBuilderPath.lastElementSplittedBySlash)")
@@ -328,7 +333,9 @@ private extension RenameCommand {
     func renameForParentsComponentExtensions() throws {
         try parents.forEach { parentName in
             guard let componentExtensionPath = paths.filter({ $0.contains("\(parentName)/Dependencies/\(parentName)Component+\(currentName).swift") }).first else {
-                fatalError("Not found \(parentName)Component+\(currentName).swift".red.bold)
+                print("Not found \(parentName)Component+\(currentName).swift in \(parentName)/Dependencies RIB directory.".red.bold)
+                print("Skip to rename codes in \(parentName)Component+\(currentName).swift.".yellow.bold)
+                return
             }
     
             print("\t\trename for \(componentExtensionPath.lastElementSplittedBySlash)")
@@ -425,7 +432,9 @@ private extension RenameCommand {
         // for parent RIBs
         try parents.forEach { parentName in
             guard let parentInteractorPath = paths.filter({ $0.contains("/" + parentName + "Interactor.swift") }).first else {
-                fatalError("Not found \(parentName)Interactor.swift.".red.bold)
+                print("Not found \(parentName)Interactor.swift in \(parentName) RIB directory.".red.bold)
+                print("Skip to rename codes in \(parentName)Interactor.swift.".yellow.bold)
+                return
             }
             let parentRIBDirectoryPath = Path(parentInteractorPath).parent()
             guard parentRIBDirectoryPath.isDirectory else {
