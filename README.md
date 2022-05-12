@@ -141,7 +141,20 @@ And the below files would be updated for resolving dependency.
 swift run ribscodegen rename Sample NewSample
 ```
 
-This command uses `replacingOccurrences` method, there's no guarantee to rename perfectly.
+This command uses `replacingOccurrences` method, there's no guarantee to rename perfectly. ( regular expression option is NOT used. )
+
+The replaced text is managed by `.ribscodegen_rename` file.
+
+if run `ribscodegen rename Sample NewSample` command with the below condition,
+
+```
+interactor:
+  - "protocol __RIB_NAME__Routing:"
+```
+
+RIBsCodeGen reads SampleInteractor.swift file, search `protocol SampleRouting:` and replace it with `protocol NewSampleRouting:` .
+
+`.ribscodegen_rename` setting example is here.
 
 ## Help
 
