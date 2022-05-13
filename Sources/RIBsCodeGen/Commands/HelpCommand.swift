@@ -30,7 +30,10 @@ struct HelpCommand: Command {
         - rename RIB
         ribscodegen rename [target RIB name] [replace RIB name]
 
-        - rename RIB
+        - unlink RIB
+        ribscodegen unlink [target RIB name] --parent [parent RIB name]
+        
+        - remove RIB
         ribscodegen remove [target RIB name]
         
         cf. More details in https://github.com/imairi/RIBsCodeGen/

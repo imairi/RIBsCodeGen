@@ -21,7 +21,6 @@ func main() {
     print(startMessage)
     
     let arguments = [String](CommandLine.arguments.dropFirst())
-
     guard let setting = analyzeSettings() else {
         print("")
         print("\nRIBsCodeGen operation failed. Check the above error logs.".red)
@@ -89,6 +88,12 @@ func run(with commandLineArguments: [String]) {
         let resultRenameCommand = makeRenameCommand(renameSetting: renameSetting, currentName: currentName, newName: newName).run()
         showResult(resultRenameCommand)
         exit(0)
+    case .unlink:
+        let resultUnlink = makeUnlink(argument: argument).run()
+        showResult(resultUnlink)
+        exit(0)
+    case .remove:
+        break
     default:
         let result = HelpCommand().run()
         showResult(result)
@@ -280,6 +285,15 @@ func makeEdges(argument: Argument) -> [Edge] {
 func makeRenameCommand(renameSetting: RenameSetting, currentName: String, newName: String) -> Command {
     let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
     return RenameCommand(paths: paths, renameSetting: renameSetting, currentName: currentName, newName: newName)
+}
+
+func makeUnlink(argument: Argument) -> Command {
+    let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
+    return UnlinkCommand(
+        paths: paths,
+        targetName: argument.actionTarget,
+        parentName: argument.parent
+    )
 }
 
 main()
