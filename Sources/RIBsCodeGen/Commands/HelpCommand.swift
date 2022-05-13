@@ -30,6 +30,9 @@ struct HelpCommand: Command {
         - rename RIB
         ribscodegen rename [target RIB name] [replace RIB name]
 
+        - rename RIB
+        ribscodegen remove [target RIB name]
+        
         cf. More details in https://github.com/imairi/RIBsCodeGen/
 
         """.lightBlue

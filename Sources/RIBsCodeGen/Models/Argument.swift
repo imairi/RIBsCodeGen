@@ -8,7 +8,7 @@
 import Foundation
 
 enum Action {
-    case add(String), link(String), scaffold(String), rename(String), help
+    case add(String), link(String), scaffold(String), rename(String), remove(String), help
 
     init(name: String, target: String?) {
         switch name {
@@ -33,6 +33,12 @@ enum Action {
         case "rename":
             if let target = target {
                 self = .rename(target)
+            } else {
+                self = .help
+            }
+        case "remove":
+            if let target = target {
+                self = .remove(target)
             } else {
                 self = .help
             }
@@ -78,6 +84,8 @@ extension Argument {
         case let .scaffold(target):
             return target
         case let .rename(target):
+            return target
+        case let .remove(target):
             return target
         case .help:
             return ""
