@@ -75,9 +75,10 @@ private extension UnlinkCommand {
             return
         }
     
+        let text = try String.init(contentsOfFile: builderFilePath, encoding: .utf8)
+        var replacedText = ""
         if inheritedTypes.count == 1 {
-            // Dependencyに置換
-            print("★1")
+            replacedText = text.replacingOccurrences(of: "\(parentName)Dependency\(targetName)", with: "Dependency")
         } else {
             guard let lastValue = try? inheritedTypes.last?["key.name"].represented().string else {
                 print("Failed to detect \(parentName)Dependency inherited types.".red.bold)
@@ -86,11 +87,16 @@ private extension UnlinkCommand {
             }
             if lastValue == "\(parentName)Dependency\(targetName)" {
                 // 「\,\n\s+親Dependency子」or「\,\s+親Dependency子」を削除
-                print("★2")
+                replacedText = text
+                    .replacingOccurrences(of: "\\,\n\\s+\(parentName)Dependency\(targetName)", with: "", options: .regularExpression)
+                    .replacingOccurrences(of: "\\,\\s+\(parentName)Dependency\(targetName)", with: "", options: .regularExpression)
             } else {
                 // 「親Dependency子\,\n」or「親Dependency子\,\s」を削除
-                print("★3")
+                replacedText = text
+                    .replacingOccurrences(of: "\(parentName)Dependency\(targetName)\\,\\n\\s+", with: "", options: .regularExpression)
+                    .replacingOccurrences(of: "\(parentName)Dependency\(targetName)\\,\\s", with: "", options: .regularExpression)
             }
         }
+        print(replacedText)
     }
 }
