@@ -28,7 +28,13 @@ struct UnlinkCommand: Command {
         var result: Result?
         
         do {
-            try deleteRelatedCodesInBuilder(for: parentName)
+            try deleteDependencyInParentBuilder(for: parentName)
+        } catch {
+            result = .failure(error: .unknown) // TODO: 正しいエラー
+        }
+    
+        do {
+            try deleteTargetBuilderInParentBuilder(for: parentName)
         } catch {
             result = .failure(error: .unknown) // TODO: 正しいエラー
         }
@@ -49,7 +55,7 @@ private extension UnlinkCommand {
         try Path(componentExtensionFilePath).delete()
     }
     
-    func deleteRelatedCodesInBuilder(for parentName: String) throws {
+    func deleteDependencyInParentBuilder(for parentName: String) throws {
         let targetFileName = "/\(parentName)/\(parentName)Builder.swift"
         guard let builderFilePath = paths.filter({ $0.contains("/\(parentName)/\(parentName)Builder.swift") }).first else {
             print("Not found \(targetFileName.dropFirst()). \(targetName) RIB has already unlinked to \(parentName) RIB.".yellow.bold)
@@ -97,6 +103,21 @@ private extension UnlinkCommand {
                     .replacingOccurrences(of: "\(parentName)Dependency\(targetName)\\,\\s", with: "", options: .regularExpression)
             }
         }
-        print(replacedText)
+//        try Path(builderFilePath).write(replacedText)
+    }
+    
+    func deleteTargetBuilderInParentBuilder(for parentName: String) throws {
+        let targetFileName = "/\(parentName)/\(parentName)Builder.swift"
+        guard let builderFilePath = paths.filter({ $0.contains("/\(parentName)/\(parentName)Builder.swift") }).first else {
+            print("Not found \(targetFileName.dropFirst()). \(targetName) RIB has already unlinked to \(parentName) RIB.".yellow.bold)
+            return
+        }
+        
+        let text = try String.init(contentsOfFile: builderFilePath, encoding: .utf8)
+        let replacedText = text
+            .replacingOccurrences(of: "let\\s+\(targetName.lowercasedFirstLetter())Builder\\s+\\=\\s+\(targetName)Builder.*\\n\\s+", with: "", options: .regularExpression)
+            .replacingOccurrences(of: "acceptedOrderBuilder\\:\\s+acceptedOrderBuilder\\,\\n", with: "", options: .regularExpression)
+            .replacingOccurrences(of: "\\,\\n\\s+\(targetName.lowercasedFirstLetter())Builder\\:\\s+\(targetName.lowercasedFirstLetter())Builder", with: "", options: .regularExpression)
+//        try Path(builderFilePath).write(replacedText)
     }
 }
