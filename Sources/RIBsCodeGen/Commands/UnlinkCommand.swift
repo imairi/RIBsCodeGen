@@ -39,6 +39,12 @@ struct UnlinkCommand: Command {
             result = .failure(error: .unknown) // TODO: 正しいエラー
         }
     
+        do {
+            try deleteTargetListenerInParentRouter(for: parentName)
+        } catch {
+            result = .failure(error: .unknown) // TODO: 正しいエラー
+        }
+    
         return result ?? .success(message: "Successfully finished unlinking \(targetName) RIB from its parents.".green.bold)
     }
 }
@@ -119,5 +125,20 @@ private extension UnlinkCommand {
             .replacingOccurrences(of: "acceptedOrderBuilder\\:\\s+acceptedOrderBuilder\\,\\n", with: "", options: .regularExpression)
             .replacingOccurrences(of: "\\,\\n\\s+\(targetName.lowercasedFirstLetter())Builder\\:\\s+\(targetName.lowercasedFirstLetter())Builder", with: "", options: .regularExpression)
 //        try Path(builderFilePath).write(replacedText)
+    }
+    
+    func deleteTargetListenerInParentRouter(for parentName: String) throws {
+        let targetFileName = "/\(parentName)/\(parentName)Builder.swift"
+        guard let routerFilePath = paths.filter({ $0.contains("/\(parentName)/\(parentName)Router.swift") }).first else {
+            print("Not found \(targetFileName.dropFirst()). \(targetName) RIB has already unlinked to \(parentName) RIB.".yellow.bold)
+            return
+        }
+    
+        let text = try String.init(contentsOfFile: routerFilePath, encoding: .utf8)
+        let replacedText = text
+            .replacingOccurrences(of: "\\,\\s+\(targetName)Listener", with: "", options: .regularExpression)
+        
+        print(replacedText)
+//        try Path(routerFilePath).write(replacedText)
     }
 }
