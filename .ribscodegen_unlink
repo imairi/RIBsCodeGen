@@ -1,0 +1,22 @@
+parentBuilder:
+ - "\\,\\n\\s+__PARENT_RIB_NAME__Dependency__RIB_NAME__"
+ - "__PARENT_RIB_NAME__Dependency__RIB_NAME__\\,\\n\\s+"
+ - "let\\s+__RIB_NAME_LOWER_CASED_FIRST_LETTER__Builder\\s+\\=\\s+__RIB_NAME__Builder.*\\n\\s+"
+ - "\\,\\n\\s+__RIB_NAME_LOWER_CASED_FIRST_LETTER__Builder\\:\\s+__RIB_NAME_LOWER_CASED_FIRST_LETTER__Builder"
+parentRouter:
+ - "\\,\\n\\s+__RIB_NAME__ViewControllable"
+ - "__RIB_NAME__ViewControllable\\,\\n\\s+"
+ - "\\,\\n\\s+__RIB_NAME__Listener"
+ - "\\n.*let\\s+__RIB_NAME_LOWER_CASED_FIRST_LETTER__Builder\\:\\s+__RIB_NAME__Buildable"
+ - "\\n.*var\\s+__RIB_NAME_LOWER_CASED_FIRST_LETTER__\\:\\s+Routing\\?"
+ - "\\,\\n\\s+__RIB_NAME_LOWER_CASED_FIRST_LETTER__Builder\\:\\s+__RIB_NAME__Buildable"
+ - "\\n\\s+self\\.__RIB_NAME_LOWER_CASED_FIRST_LETTER__Builder\\s+\\=\\s+__RIB_NAME_LOWER_CASED_FIRST_LETTER__Builder"
+ - "\\s{4}func\\s+routeTo__RIB_NAME__\\([\\s\\S]*?\\n\\s{4}\\}\\n"
+ - "\\s{4}func\\s+switchTo__RIB_NAME__\\([\\s\\S]*?\\n\\s{4}\\}\\n"
+ - "\\s{4}func\\s+remove__RIB_NAME__\\([\\s\\S]*?\\n\\s{4}\\}\\n"
+ - "\\s{4}func\\s+detach__RIB_NAME__\\([\\s\\S]*?\\n\\s{4}\\}\\n"
+parentInteractor:
+ - "\\n\\s+func\\s+routeTo__RIB_NAME__\\([\\s\\S]*?\\).*"
+ - "\\n\\s+func\\s+switchTo__RIB_NAME__\\([\\s\\S]*?\\).*"
+ - "\\n\\s+func\\s+remove__RIB_NAME__\\([\\s\\S]*?\\).*"
+ - "\\n\\s+func\\s+detach__RIB_NAME__\\([\\s\\S]*?\\).*"
