@@ -142,6 +142,10 @@ private extension UnlinkCommand {
             .replacingOccurrences(of: "\\n.*var\\s+\(targetName.lowercasedFirstLetter())\\:\\s+Routing\\?", with: "", options: .regularExpression)
             .replacingOccurrences(of: "\\,\\n\\s+\(targetName.lowercasedFirstLetter())Builder\\:\\s+\(targetName)Buildable", with: "", options: .regularExpression)
             .replacingOccurrences(of: "\\n\\s+self\\.\(targetName.lowercasedFirstLetter())Builder\\s+\\=\\s+\(targetName.lowercasedFirstLetter())Builder", with: "", options: .regularExpression)
+            .replacingOccurrences(of: "\\s{4}func\\s+routeTo\(targetName)\\(.*\\{\\n[\\s\\S]*?\\n\\s{4}\\}\\n", with: "", options: .regularExpression)
+            .replacingOccurrences(of: "\\s{4}func\\s+switchTo\(targetName)\\(.*\\{\\n[\\s\\S]*?\\n\\s{4}\\}\\n", with: "", options: .regularExpression)
+            .replacingOccurrences(of: "\\s{4}func\\s+remove\(targetName)\\(.*\\{\\n[\\s\\S]*?\\n\\s{4}\\}\\n", with: "", options: .regularExpression)
+            .replacingOccurrences(of: "\\s{4}func\\s+detach\(targetName)\\(.*\\{\\n[\\s\\S]*?\\n\\s{4}\\}\\n", with: "", options: .regularExpression)
         
         print("★ router")
         print(replacedText)
