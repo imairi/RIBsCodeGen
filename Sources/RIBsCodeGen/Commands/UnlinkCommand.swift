@@ -51,6 +51,12 @@ struct UnlinkCommand: Command {
             result = .failure(error: .unknown) // TODO: 正しいエラー
         }
     
+        do {
+            try deleteTargetViewControllableInParentRouter(for: parentName)
+        } catch {
+            result = .failure(error: .unknown) // TODO: 正しいエラー
+        }
+    
         return result ?? .success(message: "Successfully finished unlinking \(targetName) RIB from its parents.".green.bold)
     }
 }
@@ -161,6 +167,45 @@ private extension UnlinkCommand {
             .replacingOccurrences(of: "\\,\\n\\s+\(targetName.lowercasedFirstLetter())Builder\\:\\s+\(targetName)Buildable", with: "", options: .regularExpression)
             .replacingOccurrences(of: "\\n\\s+self\\.\(targetName.lowercasedFirstLetter())Builder\\s+\\=\\s+\(targetName.lowercasedFirstLetter())Builder", with: "", options: .regularExpression)
 
+//        try Path(routerFilePath).write(replacedText)
+    }
+    
+    func deleteTargetViewControllableInParentRouter(for parentName: String) throws {
+        let targetFileName = "/\(parentName)/\(parentName)Router.swift"
+        guard let routerFilePath = paths.filter({ $0.contains(targetFileName) }).first else {
+            print("Not found \(targetFileName.dropFirst()). \(targetName) RIB has already unlinked to \(parentName) RIB.".yellow.bold)
+            return
+        }
+    
+        let routerFile = File(path: routerFilePath)!
+        let routerFileStructure = try! Structure(file: routerFile)
+        let routerDictionary = routerFileStructure.dictionary
+        let subStructures = routerDictionary.getSubStructures()
+        let protocols = subStructures.filterByKeyKind(.protocol)
+        let targetProtocolDictionary = protocols.extractDictionaryByKeyName("\(parentName)ViewControllable")
+        guard !targetProtocolDictionary.isEmpty else {
+            print("\(parentName)ViewControllable protocol is not found.".red.bold)
+            print("Skip to delete related codes for \(parentName)ViewControllable.".yellow.bold)
+            return
+        }
+    
+        let inheritedTypes = targetProtocolDictionary.getInheritedTypes()
+        guard !inheritedTypes.isEmpty else {
+            print("No protocols conforms to \(parentName)ViewControllable.".red.bold)
+            print("Skip to delete related codes for \(parentName)ViewControllable.".yellow.bold)
+            return
+        }
+    
+        let text = try String.init(contentsOfFile: routerFilePath, encoding: .utf8)
+        let replacedText: String
+        if inheritedTypes.count == 1 {
+            replacedText = text.replacingOccurrences(of: "\(targetName)ViewControllable", with: "ViewControllable")
+        } else {
+            replacedText = text
+                .replacingOccurrences(of: "\\,\\n\\s+\(targetName)ViewControllable", with: "", options: .regularExpression)
+                .replacingOccurrences(of: "\(targetName)ViewControllable\\,\\n\\s+", with: "", options: .regularExpression)
+        }
+        
 //        try Path(routerFilePath).write(replacedText)
     }
 }
