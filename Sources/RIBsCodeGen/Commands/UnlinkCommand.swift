@@ -28,31 +28,13 @@ struct UnlinkCommand: Command {
         var result: Result?
         
         do {
-            try deleteDependencyInParentBuilder(for: parentName)
+            try deleteRelatedCodesInParentBuilder(for: parentName)
         } catch {
             result = .failure(error: .unknown) // TODO: 正しいエラー
         }
     
         do {
-            try deleteTargetBuilderInParentBuilder(for: parentName)
-        } catch {
-            result = .failure(error: .unknown) // TODO: 正しいエラー
-        }
-    
-        do {
-            try deleteTargetListenerInParentRouter(for: parentName)
-        } catch {
-            result = .failure(error: .unknown) // TODO: 正しいエラー
-        }
-    
-        do {
-            try deleteTargetBuilderInParentRouter(for: parentName)
-        } catch {
-            result = .failure(error: .unknown) // TODO: 正しいエラー
-        }
-    
-        do {
-            try deleteTargetViewControllableInParentRouter(for: parentName)
+            try deleteRelatedCodesInParentRouter(for: parentName)
         } catch {
             result = .failure(error: .unknown) // TODO: 正しいエラー
         }
@@ -73,7 +55,7 @@ private extension UnlinkCommand {
         try Path(componentExtensionFilePath).delete()
     }
     
-    func deleteDependencyInParentBuilder(for parentName: String) throws {
+    func deleteRelatedCodesInParentBuilder(for parentName: String) throws {
         let targetFileName = "/\(parentName)/\(parentName)Builder.swift"
         guard let builderFilePath = paths.filter({ $0.contains(targetFileName) }).first else {
             print("Not found \(targetFileName.dropFirst()). \(targetName) RIB has already unlinked to \(parentName) RIB.".yellow.bold)
@@ -121,56 +103,17 @@ private extension UnlinkCommand {
                     .replacingOccurrences(of: "\(parentName)Dependency\(targetName)\\,\\s", with: "", options: .regularExpression)
             }
         }
-//        try Path(builderFilePath).write(replacedText)
-    }
     
-    func deleteTargetBuilderInParentBuilder(for parentName: String) throws {
-        let targetFileName = "/\(parentName)/\(parentName)Builder.swift"
-        guard let builderFilePath = paths.filter({ $0.contains(targetFileName) }).first else {
-            print("Not found \(targetFileName.dropFirst()). \(targetName) RIB has already unlinked to \(parentName) RIB.".yellow.bold)
-            return
-        }
-        
-        let text = try String.init(contentsOfFile: builderFilePath, encoding: .utf8)
-        let replacedText = text
+        replacedText = replacedText
             .replacingOccurrences(of: "let\\s+\(targetName.lowercasedFirstLetter())Builder\\s+\\=\\s+\(targetName)Builder.*\\n\\s+", with: "", options: .regularExpression)
-            .replacingOccurrences(of: "acceptedOrderBuilder\\:\\s+acceptedOrderBuilder\\,\\n", with: "", options: .regularExpression)
             .replacingOccurrences(of: "\\,\\n\\s+\(targetName.lowercasedFirstLetter())Builder\\:\\s+\(targetName.lowercasedFirstLetter())Builder", with: "", options: .regularExpression)
+        
+        print("★ for builder")
+        print(replacedText)
 //        try Path(builderFilePath).write(replacedText)
     }
     
-    func deleteTargetListenerInParentRouter(for parentName: String) throws {
-        let targetFileName = "/\(parentName)/\(parentName)Router.swift"
-        guard let routerFilePath = paths.filter({ $0.contains(targetFileName) }).first else {
-            print("Not found \(targetFileName.dropFirst()). \(targetName) RIB has already unlinked to \(parentName) RIB.".yellow.bold)
-            return
-        }
-    
-        let text = try String.init(contentsOfFile: routerFilePath, encoding: .utf8)
-        let replacedText = text
-            .replacingOccurrences(of: "\\,\\n\\s+\(targetName)Listener", with: "", options: .regularExpression)
-        
-//        try Path(routerFilePath).write(replacedText)
-    }
-    
-    func deleteTargetBuilderInParentRouter(for parentName: String) throws {
-        let targetFileName = "/\(parentName)/\(parentName)Router.swift"
-        guard let routerFilePath = paths.filter({ $0.contains(targetFileName) }).first else {
-            print("Not found \(targetFileName.dropFirst()). \(targetName) RIB has already unlinked to \(parentName) RIB.".yellow.bold)
-            return
-        }
-        
-        let text = try String.init(contentsOfFile: routerFilePath, encoding: .utf8)
-        let replacedText = text
-            .replacingOccurrences(of: "\\n.*let\\s+\(targetName.lowercasedFirstLetter())Builder\\:\\s+\(targetName)Buildable", with: "", options: .regularExpression)
-            .replacingOccurrences(of: "\\n.*var\\s+\(targetName.lowercasedFirstLetter())\\:\\s+Routing\\?", with: "", options: .regularExpression)
-            .replacingOccurrences(of: "\\,\\n\\s+\(targetName.lowercasedFirstLetter())Builder\\:\\s+\(targetName)Buildable", with: "", options: .regularExpression)
-            .replacingOccurrences(of: "\\n\\s+self\\.\(targetName.lowercasedFirstLetter())Builder\\s+\\=\\s+\(targetName.lowercasedFirstLetter())Builder", with: "", options: .regularExpression)
-
-//        try Path(routerFilePath).write(replacedText)
-    }
-    
-    func deleteTargetViewControllableInParentRouter(for parentName: String) throws {
+    func deleteRelatedCodesInParentRouter(for parentName: String) throws {
         let targetFileName = "/\(parentName)/\(parentName)Router.swift"
         guard let routerFilePath = paths.filter({ $0.contains(targetFileName) }).first else {
             print("Not found \(targetFileName.dropFirst()). \(targetName) RIB has already unlinked to \(parentName) RIB.".yellow.bold)
@@ -197,7 +140,7 @@ private extension UnlinkCommand {
         }
     
         let text = try String.init(contentsOfFile: routerFilePath, encoding: .utf8)
-        let replacedText: String
+        var replacedText: String
         if inheritedTypes.count == 1 {
             replacedText = text.replacingOccurrences(of: "\(targetName)ViewControllable", with: "ViewControllable")
         } else {
@@ -206,6 +149,15 @@ private extension UnlinkCommand {
                 .replacingOccurrences(of: "\(targetName)ViewControllable\\,\\n\\s+", with: "", options: .regularExpression)
         }
         
+        replacedText = replacedText
+            .replacingOccurrences(of: "\\,\\n\\s+\(targetName)Listener", with: "", options: .regularExpression)
+            .replacingOccurrences(of: "\\n.*let\\s+\(targetName.lowercasedFirstLetter())Builder\\:\\s+\(targetName)Buildable", with: "", options: .regularExpression)
+            .replacingOccurrences(of: "\\n.*var\\s+\(targetName.lowercasedFirstLetter())\\:\\s+Routing\\?", with: "", options: .regularExpression)
+            .replacingOccurrences(of: "\\,\\n\\s+\(targetName.lowercasedFirstLetter())Builder\\:\\s+\(targetName)Buildable", with: "", options: .regularExpression)
+            .replacingOccurrences(of: "\\n\\s+self\\.\(targetName.lowercasedFirstLetter())Builder\\s+\\=\\s+\(targetName.lowercasedFirstLetter())Builder", with: "", options: .regularExpression)
+        
+        print("★ router")
+        print(replacedText)
 //        try Path(routerFilePath).write(replacedText)
     }
 }
