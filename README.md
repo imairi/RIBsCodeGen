@@ -134,6 +134,24 @@ And the below files would be updated for resolving dependency.
 - SampleParent/SampleParentRouter.swift
 - SampleParent/SampleParentBuilder.swift
 
+## Unlink
+
+`unlink` command, it is deleting dependency from the parent. 
+
+```
+swift run ribscodegen unlink Demo --parent SampleParent
+```
+
+This command uses `replacingOccurrences` method, there's no guarantee to delete perfectly. ( regular expression option is used. )
+
+The deleting codes are managed by `.ribscodegen_unlink` file. The example is [here](.ribscodegen_unlink).
+
+The below words are replaced to concrete RIB name.
+- __PARENT_RIB_NAME__
+- __RIB_NAME__
+- __RIB_NAME_LOWER_CASED_FIRST_LETTER__
+
+
 ## Rename
 
 `rename` command, it is renaming RIB name. Related protocols, classes, methods and some codes are renamed. Additionally, the directory and file name is renamed as well.
