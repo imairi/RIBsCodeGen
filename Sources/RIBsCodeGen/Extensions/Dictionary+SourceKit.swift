@@ -101,4 +101,12 @@ extension Dictionary where Key == String {
     func getKeyOffset() -> Int {
         Int(self["key.offset"] as? Int64 ?? 0)
     }
+    
+    func getKeyBodyOffset() -> Int {
+        Int(self["key.bodyoffset"] as? Int64 ?? 0)
+    }
+    
+    func getKeyBodyLength() -> Int {
+        Int(self["key.bodylength"] as? Int64 ?? 0)
+    }
 }

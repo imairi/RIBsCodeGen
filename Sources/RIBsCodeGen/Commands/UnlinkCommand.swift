@@ -38,6 +38,12 @@ struct UnlinkCommand: Command {
         } catch {
             result = .failure(error: .unknown) // TODO: 正しいエラー
         }
+        
+        do {
+            try deleteRelatedCodesInParentInteractor(for: parentName)
+        } catch {
+            result = .failure(error: .unknown) // TODO: 正しいエラー
+        }
     
         return result ?? .success(message: "Successfully finished unlinking \(targetName) RIB from its parents.".green.bold)
     }
@@ -142,13 +148,46 @@ private extension UnlinkCommand {
             .replacingOccurrences(of: "\\n.*var\\s+\(targetName.lowercasedFirstLetter())\\:\\s+Routing\\?", with: "", options: .regularExpression)
             .replacingOccurrences(of: "\\,\\n\\s+\(targetName.lowercasedFirstLetter())Builder\\:\\s+\(targetName)Buildable", with: "", options: .regularExpression)
             .replacingOccurrences(of: "\\n\\s+self\\.\(targetName.lowercasedFirstLetter())Builder\\s+\\=\\s+\(targetName.lowercasedFirstLetter())Builder", with: "", options: .regularExpression)
-            .replacingOccurrences(of: "\\s{4}func\\s+routeTo\(targetName)\\(.*\\{\\n[\\s\\S]*?\\n\\s{4}\\}\\n", with: "", options: .regularExpression)
-            .replacingOccurrences(of: "\\s{4}func\\s+switchTo\(targetName)\\(.*\\{\\n[\\s\\S]*?\\n\\s{4}\\}\\n", with: "", options: .regularExpression)
-            .replacingOccurrences(of: "\\s{4}func\\s+remove\(targetName)\\(.*\\{\\n[\\s\\S]*?\\n\\s{4}\\}\\n", with: "", options: .regularExpression)
-            .replacingOccurrences(of: "\\s{4}func\\s+detach\(targetName)\\(.*\\{\\n[\\s\\S]*?\\n\\s{4}\\}\\n", with: "", options: .regularExpression)
+            .replacingOccurrences(of: "\\s{4}func\\s+routeTo\(targetName)\\([\\s\\S]*?\\n\\s{4}\\}\\n", with: "", options: .regularExpression)
+            .replacingOccurrences(of: "\\s{4}func\\s+switchTo\(targetName)\\([\\s\\S]*?\\n\\s{4}\\}\\n", with: "", options: .regularExpression)
+            .replacingOccurrences(of: "\\s{4}func\\s+remove\(targetName)\\([\\s\\S]*?\\n\\s{4}\\}\\n", with: "", options: .regularExpression)
+            .replacingOccurrences(of: "\\s{4}func\\s+detach\(targetName)\\([\\s\\S]*?\\n\\s{4}\\}\\n", with: "", options: .regularExpression)
         
         print("★ router")
         print(replacedText)
 //        try Path(routerFilePath).write(replacedText)
+    }
+    
+    func deleteRelatedCodesInParentInteractor(for parentName: String) throws {
+        let targetFileName = "/\(parentName)/\(parentName)Interactor.swift"
+        guard let interactorFilePath = paths.filter({ $0.contains(targetFileName) }).first else {
+            print("Not found \(targetFileName.dropFirst()). \(targetName) RIB has already unlinked to \(parentName) RIB.".yellow.bold)
+            return
+        }
+    
+        let interactorFile = File(path: interactorFilePath)!
+        let interactorFileStructure = try! Structure(file: interactorFile)
+        let interactorDictionary = interactorFileStructure.dictionary
+        let subStructures = interactorDictionary.getSubStructures()
+        let protocols = subStructures.filterByKeyKind(.protocol)
+        let targetProtocolDictionary = protocols.extractDictionaryByKeyName("\(parentName)Routing")
+    
+        let start = targetProtocolDictionary.getKeyBodyOffset()
+        let end = targetProtocolDictionary.getKeyBodyOffset() + targetProtocolDictionary.getKeyBodyLength()
+        
+        let range = String.Index(encodedOffset: start)..<String.Index(encodedOffset: end)
+        
+        
+        let text = try String.init(contentsOfFile: interactorFilePath, encoding: .utf8)
+        let replacedText = text
+            .replacingOccurrences(of: "\\n\\s+func\\s+routeTo\(targetName)\\([\\s\\S]*\\)", with: "", options: .regularExpression)
+            .replacingOccurrences(of: "\\n\\s+func\\s+switchTo\(targetName)\\([\\s\\S]*\\)", with: "", options: .regularExpression)
+            .replacingOccurrences(of: "\\n\\s+func\\s+remove\(targetName)\\([\\s\\S]*\\)", with: "", options: .regularExpression)
+            .replacingOccurrences(of: "\\n\\s+func\\s+detach\(targetName)\\([\\s\\S]*\\)", with: "", options: .regularExpression)
+        
+        
+        print("★ interactor")
+        print(replacedText)
+//        try Path(interactorFilePath).write(replacedText)
     }
 }
