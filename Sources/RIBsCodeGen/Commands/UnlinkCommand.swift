@@ -100,10 +100,8 @@ private extension UnlinkCommand {
         replacedText = replacedText
             .replacingOccurrences(of: "let\\s+\(targetName.lowercasedFirstLetter())Builder\\s+\\=\\s+\(targetName)Builder.*\\n\\s+", with: "", options: .regularExpression)
             .replacingOccurrences(of: "\\,\\n\\s+\(targetName.lowercasedFirstLetter())Builder\\:\\s+\(targetName.lowercasedFirstLetter())Builder", with: "", options: .regularExpression)
-        
-        print("★ for builder")
-        print(replacedText)
-//        try Path(builderFilePath).write(replacedText)
+
+        try Path(builderFilePath).write(replacedText)
     }
     
     func deleteRelatedCodesInParentRouter(for parentName: String) throws {
@@ -153,9 +151,8 @@ private extension UnlinkCommand {
             .replacingOccurrences(of: "\\s{4}func\\s+remove\(targetName)\\([\\s\\S]*?\\n\\s{4}\\}\\n", with: "", options: .regularExpression)
             .replacingOccurrences(of: "\\s{4}func\\s+detach\(targetName)\\([\\s\\S]*?\\n\\s{4}\\}\\n", with: "", options: .regularExpression)
         
-        print("★ router")
         print(replacedText)
-//        try Path(routerFilePath).write(replacedText)
+        try Path(routerFilePath).write(replacedText)
     }
     
     func deleteRelatedCodesInParentInteractor(for parentName: String) throws {
@@ -164,30 +161,33 @@ private extension UnlinkCommand {
             print("Not found \(targetFileName.dropFirst()). \(targetName) RIB has already unlinked to \(parentName) RIB.".yellow.bold)
             return
         }
-    
-        let interactorFile = File(path: interactorFilePath)!
-        let interactorFileStructure = try! Structure(file: interactorFile)
-        let interactorDictionary = interactorFileStructure.dictionary
-        let subStructures = interactorDictionary.getSubStructures()
-        let protocols = subStructures.filterByKeyKind(.protocol)
-        let targetProtocolDictionary = protocols.extractDictionaryByKeyName("\(parentName)Routing")
-    
-        let start = targetProtocolDictionary.getKeyBodyOffset()
-        let end = targetProtocolDictionary.getKeyBodyOffset() + targetProtocolDictionary.getKeyBodyLength()
-        
-        let range = String.Index(encodedOffset: start)..<String.Index(encodedOffset: end)
-        
         
         let text = try String.init(contentsOfFile: interactorFilePath, encoding: .utf8)
         let replacedText = text
-            .replacingOccurrences(of: "\\n\\s+func\\s+routeTo\(targetName)\\([\\s\\S]*\\)", with: "", options: .regularExpression)
-            .replacingOccurrences(of: "\\n\\s+func\\s+switchTo\(targetName)\\([\\s\\S]*\\)", with: "", options: .regularExpression)
-            .replacingOccurrences(of: "\\n\\s+func\\s+remove\(targetName)\\([\\s\\S]*\\)", with: "", options: .regularExpression)
-            .replacingOccurrences(of: "\\n\\s+func\\s+detach\(targetName)\\([\\s\\S]*\\)", with: "", options: .regularExpression)
+            .replacingOccurrences(of: "\\n\\s+func\\s+routeTo\(targetName)\\([\\s\\S]*?\\).*", with: "", options: .regularExpression)
+            .replacingOccurrences(of: "\\n\\s+func\\s+switchTo\(targetName)\\([\\s\\S]*?\\).*", with: "", options: .regularExpression)
+            .replacingOccurrences(of: "\\n\\s+func\\s+remove\(targetName)\\([\\s\\S]*?\\).*", with: "", options: .regularExpression)
+            .replacingOccurrences(of: "\\n\\s+func\\s+detach\(targetName)\\([\\s\\S]*?\\).*", with: "", options: .regularExpression)
+    
+        var replacedTextArray = [String]()
+        replacedText.enumerateLines { line, stop in
+            if line.contains(pattern: "router\\?\\..*\(targetName)\\(") {
+                replacedTextArray.append("// \(targetName) RIB has been deleted. The below codes seem not to be worked.")
+            }
+            replacedTextArray.append(line)
+        }
         
-        
-        print("★ interactor")
-        print(replacedText)
-//        try Path(interactorFilePath).write(replacedText)
+        let result = replacedTextArray.joined(separator: "\n")
+
+        try Path(interactorFilePath).write(replacedText)
+    }
+}
+
+extension String {
+    func contains(pattern: String) -> Bool {
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options()) else {
+            return false
+        }
+        return regex.firstMatch(in: self, options: NSRegularExpression.MatchingOptions(), range: NSMakeRange(0, count)) != nil
     }
 }
