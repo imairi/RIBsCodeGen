@@ -21,7 +21,6 @@ func main() {
     print(startMessage)
     
     let arguments = [String](CommandLine.arguments.dropFirst())
-
     guard let setting = analyzeSettings() else {
         print("")
         print("\nRIBsCodeGen operation failed. Check the above error logs.".red)
@@ -89,6 +88,15 @@ func run(with commandLineArguments: [String]) {
         let resultRenameCommand = makeRenameCommand(renameSetting: renameSetting, currentName: currentName, newName: newName).run()
         showResult(resultRenameCommand)
         exit(0)
+    case .unlink:
+        guard let unlinkSetting = analyzeUnlinkSettings() else {
+            return
+        }
+        let resultUnlink = makeUnlink(argument: argument, unlinkSetting: unlinkSetting).run()
+        showResult(resultUnlink)
+        exit(0)
+    case .remove:
+        break
     default:
         let result = HelpCommand().run()
         showResult(result)
@@ -189,6 +197,27 @@ func analyzeRenameSettings() -> RenameSetting? {
     }
 }
 
+func analyzeUnlinkSettings() -> UnlinkSetting? {
+    guard let settingFilePath = Path.current.glob(".ribscodegen_unlink").first else {
+        print("Not found setting file, add .ribscodegen_unlink at current directory".red.bold)
+        return nil
+    }
+    
+    let settingFile: String? = try? settingFilePath.read()
+    guard let settingFileString = settingFile else {
+        print("Failed to read .ribscodegen_unlink.".red.bold)
+        return nil
+    }
+    
+    let decoder = YAMLDecoder()
+    do {
+        return try decoder.decode(UnlinkSetting.self, from: settingFileString)
+    } catch {
+        print("Failed to decode .ribscodegen_unlink. Check the setting values.".red.bold)
+        return nil
+    }
+}
+
 // MARK: - Make command methods
 func makeCreateRIBCommand(argument: Argument) -> Command {
     let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
@@ -280,6 +309,16 @@ func makeEdges(argument: Argument) -> [Edge] {
 func makeRenameCommand(renameSetting: RenameSetting, currentName: String, newName: String) -> Command {
     let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
     return RenameCommand(paths: paths, renameSetting: renameSetting, currentName: currentName, newName: newName)
+}
+
+func makeUnlink(argument: Argument, unlinkSetting: UnlinkSetting) -> Command {
+    let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
+    return UnlinkCommand(
+        paths: paths,
+        targetName: argument.actionTarget,
+        parentName: argument.parent,
+        unlinkSetting: unlinkSetting
+    )
 }
 
 main()
