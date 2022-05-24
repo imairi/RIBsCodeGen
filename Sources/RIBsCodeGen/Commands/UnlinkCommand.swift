@@ -86,22 +86,9 @@ private extension UnlinkCommand {
         if inheritedTypes.count == 1 {
             replacedText = text.replacingOccurrences(of: "\(parentName)Dependency\(targetName)", with: "Dependency")
         } else {
-            guard let lastValue = try? inheritedTypes.last?["key.name"].represented().string else {
-                print("Failed to detect \(parentName)Dependency inherited types.".red.bold)
-                print("Skip to delete related codes in \(parentName)Builder.swift".yellow.bold)
-                return
-            }
-            if lastValue == "\(parentName)Dependency\(targetName)" {
-                // 「\,\n\s+親Dependency子」or「\,\s+親Dependency子」を削除
-                replacedText = text
-                    .replacingOccurrences(of: "\\,\n\\s+\(parentName)Dependency\(targetName)", with: "", options: .regularExpression)
-                    .replacingOccurrences(of: "\\,\\s+\(parentName)Dependency\(targetName)", with: "", options: .regularExpression)
-            } else {
-                // 「親Dependency子\,\n」or「親Dependency子\,\s」を削除
-                replacedText = text
-                    .replacingOccurrences(of: "\(parentName)Dependency\(targetName)\\,\\n\\s+", with: "", options: .regularExpression)
-                    .replacingOccurrences(of: "\(parentName)Dependency\(targetName)\\,\\s", with: "", options: .regularExpression)
-            }
+            replacedText = text
+                .replacingOccurrences(of: "\\,\\n\\s+\(parentName)Dependency\(targetName)", with: "", options: .regularExpression)
+                .replacingOccurrences(of: "\(parentName)Dependency\(targetName)\\,\\n\\s+", with: "", options: .regularExpression)
         }
     
         replacedText = replacedText
