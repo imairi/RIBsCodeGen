@@ -28,6 +28,12 @@ struct UnlinkCommand: Command {
         var result: Result?
         
         do {
+            try deleteComponentExtensions(for: parentName)
+        } catch {
+            result = .failure(error: .unknown) // TODO: 正しいエラー
+        }
+        
+        do {
             try deleteRelatedCodesInParentBuilder(for: parentName)
         } catch {
             result = .failure(error: .unknown) // TODO: 正しいエラー
@@ -58,7 +64,7 @@ private extension UnlinkCommand {
             return
         }
         
-        try Path(componentExtensionFilePath).delete()
+        try delete(path: componentExtensionFilePath)
     }
     
     func deleteRelatedCodesInParentBuilder(for parentName: String) throws {
@@ -100,8 +106,8 @@ private extension UnlinkCommand {
         replacedText = replacedText
             .replacingOccurrences(of: "let\\s+\(targetName.lowercasedFirstLetter())Builder\\s+\\=\\s+\(targetName)Builder.*\\n\\s+", with: "", options: .regularExpression)
             .replacingOccurrences(of: "\\,\\n\\s+\(targetName.lowercasedFirstLetter())Builder\\:\\s+\(targetName.lowercasedFirstLetter())Builder", with: "", options: .regularExpression)
-
-        try Path(builderFilePath).write(replacedText)
+        
+        try write(text: replacedText, for: builderFilePath)
     }
     
     func deleteRelatedCodesInParentRouter(for parentName: String) throws {
@@ -151,8 +157,7 @@ private extension UnlinkCommand {
             .replacingOccurrences(of: "\\s{4}func\\s+remove\(targetName)\\([\\s\\S]*?\\n\\s{4}\\}\\n", with: "", options: .regularExpression)
             .replacingOccurrences(of: "\\s{4}func\\s+detach\(targetName)\\([\\s\\S]*?\\n\\s{4}\\}\\n", with: "", options: .regularExpression)
         
-        print(replacedText)
-        try Path(routerFilePath).write(replacedText)
+        try write(text: replacedText, for: routerFilePath)
     }
     
     func deleteRelatedCodesInParentInteractor(for parentName: String) throws {
@@ -178,8 +183,19 @@ private extension UnlinkCommand {
         }
         
         let result = replacedTextArray.joined(separator: "\n")
+        
+        try write(text: result, for: interactorFilePath)
+    }
+}
 
-        try Path(interactorFilePath).write(replacedText)
+// MARK: - file operations
+extension UnlinkCommand {
+    func delete(path: String) throws {
+        try Path(path).delete()
+    }
+    
+    func write(text: String, for path: String) throws {
+        try Path(path).write(text)
     }
 }
 
