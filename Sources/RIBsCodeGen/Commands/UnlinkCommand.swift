@@ -10,11 +10,13 @@ struct UnlinkCommand: Command {
     private let targetName: String
     private let parentName: String
     private let paths: [String]
+    private let unlinkSetting: UnlinkSetting
     
-    init(paths: [String], targetName: String, parentName: String) {
+    init(paths: [String], targetName: String, parentName: String, unlinkSetting: UnlinkSetting) {
         self.paths = paths
         self.targetName = targetName
         self.parentName = parentName
+        self.unlinkSetting = unlinkSetting
     }
     
     func run() -> Result {
@@ -99,13 +101,12 @@ private extension UnlinkCommand {
             replacedText = text.replacingOccurrences(of: "\(parentName)Dependency\(targetName)", with: "Dependency")
         } else {
             replacedText = text
-                .replacingOccurrences(of: "\\,\\n\\s+\(parentName)Dependency\(targetName)", with: "", options: .regularExpression)
-                .replacingOccurrences(of: "\(parentName)Dependency\(targetName)\\,\\n\\s+", with: "", options: .regularExpression)
         }
     
-        replacedText = replacedText
-            .replacingOccurrences(of: "let\\s+\(targetName.lowercasedFirstLetter())Builder\\s+\\=\\s+\(targetName)Builder.*\\n\\s+", with: "", options: .regularExpression)
-            .replacingOccurrences(of: "\\,\\n\\s+\(targetName.lowercasedFirstLetter())Builder\\:\\s+\(targetName.lowercasedFirstLetter())Builder", with: "", options: .regularExpression)
+        replacedText = unlinkSetting.parentBuilder.reduce(replacedText) { (result, builderSearchText) in
+            let searchText = replacePlaceHolder(for: builderSearchText, with: targetName, and: parentName)
+            return result.replacingOccurrences(of: searchText, with: "", options: .regularExpression)
+        }
         
         try write(text: replacedText, for: builderFilePath)
     }
@@ -142,20 +143,12 @@ private extension UnlinkCommand {
             replacedText = text.replacingOccurrences(of: "\(targetName)ViewControllable", with: "ViewControllable")
         } else {
             replacedText = text
-                .replacingOccurrences(of: "\\,\\n\\s+\(targetName)ViewControllable", with: "", options: .regularExpression)
-                .replacingOccurrences(of: "\(targetName)ViewControllable\\,\\n\\s+", with: "", options: .regularExpression)
         }
-        
-        replacedText = replacedText
-            .replacingOccurrences(of: "\\,\\n\\s+\(targetName)Listener", with: "", options: .regularExpression)
-            .replacingOccurrences(of: "\\n.*let\\s+\(targetName.lowercasedFirstLetter())Builder\\:\\s+\(targetName)Buildable", with: "", options: .regularExpression)
-            .replacingOccurrences(of: "\\n.*var\\s+\(targetName.lowercasedFirstLetter())\\:\\s+Routing\\?", with: "", options: .regularExpression)
-            .replacingOccurrences(of: "\\,\\n\\s+\(targetName.lowercasedFirstLetter())Builder\\:\\s+\(targetName)Buildable", with: "", options: .regularExpression)
-            .replacingOccurrences(of: "\\n\\s+self\\.\(targetName.lowercasedFirstLetter())Builder\\s+\\=\\s+\(targetName.lowercasedFirstLetter())Builder", with: "", options: .regularExpression)
-            .replacingOccurrences(of: "\\s{4}func\\s+routeTo\(targetName)\\([\\s\\S]*?\\n\\s{4}\\}\\n", with: "", options: .regularExpression)
-            .replacingOccurrences(of: "\\s{4}func\\s+switchTo\(targetName)\\([\\s\\S]*?\\n\\s{4}\\}\\n", with: "", options: .regularExpression)
-            .replacingOccurrences(of: "\\s{4}func\\s+remove\(targetName)\\([\\s\\S]*?\\n\\s{4}\\}\\n", with: "", options: .regularExpression)
-            .replacingOccurrences(of: "\\s{4}func\\s+detach\(targetName)\\([\\s\\S]*?\\n\\s{4}\\}\\n", with: "", options: .regularExpression)
+    
+        replacedText = unlinkSetting.parentRouter.reduce(replacedText) { (result, routerSearchText) in
+            let searchText = replacePlaceHolder(for: routerSearchText, with: targetName, and: parentName)
+            return result.replacingOccurrences(of: searchText, with: "", options: .regularExpression)
+        }
         
         try write(text: replacedText, for: routerFilePath)
     }
@@ -168,12 +161,12 @@ private extension UnlinkCommand {
         }
         
         let text = try String.init(contentsOfFile: interactorFilePath, encoding: .utf8)
-        let replacedText = text
-            .replacingOccurrences(of: "\\n\\s+func\\s+routeTo\(targetName)\\([\\s\\S]*?\\).*", with: "", options: .regularExpression)
-            .replacingOccurrences(of: "\\n\\s+func\\s+switchTo\(targetName)\\([\\s\\S]*?\\).*", with: "", options: .regularExpression)
-            .replacingOccurrences(of: "\\n\\s+func\\s+remove\(targetName)\\([\\s\\S]*?\\).*", with: "", options: .regularExpression)
-            .replacingOccurrences(of: "\\n\\s+func\\s+detach\(targetName)\\([\\s\\S]*?\\).*", with: "", options: .regularExpression)
     
+        let replacedText = unlinkSetting.parentInteractor.reduce(text) { (result, interactorSearchText) in
+            let searchText = replacePlaceHolder(for: interactorSearchText, with: targetName, and: parentName)
+            return result.replacingOccurrences(of: searchText, with: "", options: .regularExpression)
+        }
+        
         var replacedTextArray = [String]()
         replacedText.enumerateLines { line, stop in
             if line.contains(pattern: "router\\?\\..*\(targetName)\\(") {
@@ -196,6 +189,16 @@ extension UnlinkCommand {
     
     func write(text: String, for path: String) throws {
         try Path(path).write(text)
+    }
+}
+
+// MARK: - Internal
+extension UnlinkCommand {
+    func replacePlaceHolder(for target: String, with ribName: String, and parentRIBName: String) -> String {
+        target
+            .replacingOccurrences(of: "__RIB_NAME_LOWER_CASED_FIRST_LETTER__", with: ribName.lowercasedFirstLetter())
+            .replacingOccurrences(of: "__PARENT_RIB_NAME__", with: parentRIBName)
+            .replacingOccurrences(of: "__RIB_NAME__", with: ribName)
     }
 }
 

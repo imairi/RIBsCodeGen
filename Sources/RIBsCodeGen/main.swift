@@ -89,7 +89,10 @@ func run(with commandLineArguments: [String]) {
         showResult(resultRenameCommand)
         exit(0)
     case .unlink:
-        let resultUnlink = makeUnlink(argument: argument).run()
+        guard let unlinkSetting = analyzeUnlinkSettings() else {
+            return
+        }
+        let resultUnlink = makeUnlink(argument: argument, unlinkSetting: unlinkSetting).run()
         showResult(resultUnlink)
         exit(0)
     case .remove:
@@ -194,6 +197,27 @@ func analyzeRenameSettings() -> RenameSetting? {
     }
 }
 
+func analyzeUnlinkSettings() -> UnlinkSetting? {
+    guard let settingFilePath = Path.current.glob(".ribscodegen_unlink").first else {
+        print("Not found setting file, add .ribscodegen_unlink at current directory".red.bold)
+        return nil
+    }
+    
+    let settingFile: String? = try? settingFilePath.read()
+    guard let settingFileString = settingFile else {
+        print("Failed to read .ribscodegen_unlink.".red.bold)
+        return nil
+    }
+    
+    let decoder = YAMLDecoder()
+    do {
+        return try decoder.decode(UnlinkSetting.self, from: settingFileString)
+    } catch {
+        print("Failed to decode .ribscodegen_unlink. Check the setting values.".red.bold)
+        return nil
+    }
+}
+
 // MARK: - Make command methods
 func makeCreateRIBCommand(argument: Argument) -> Command {
     let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
@@ -287,12 +311,13 @@ func makeRenameCommand(renameSetting: RenameSetting, currentName: String, newNam
     return RenameCommand(paths: paths, renameSetting: renameSetting, currentName: currentName, newName: newName)
 }
 
-func makeUnlink(argument: Argument) -> Command {
+func makeUnlink(argument: Argument, unlinkSetting: UnlinkSetting) -> Command {
     let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
     return UnlinkCommand(
         paths: paths,
         targetName: argument.actionTarget,
-        parentName: argument.parent
+        parentName: argument.parent,
+        unlinkSetting: unlinkSetting
     )
 }
 

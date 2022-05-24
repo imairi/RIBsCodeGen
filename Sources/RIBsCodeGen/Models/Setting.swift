@@ -23,3 +23,9 @@ struct RenameSetting: Codable {
     var parentRouter: [String]
     var parentComponentExtension: [String]
 }
+
+struct UnlinkSetting: Codable {
+    var parentInteractor: [String]
+    var parentBuilder: [String]
+    var parentRouter: [String]
+}
