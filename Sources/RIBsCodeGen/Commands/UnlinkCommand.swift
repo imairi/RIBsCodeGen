@@ -32,25 +32,25 @@ struct UnlinkCommand: Command {
         do {
             try deleteComponentExtensions(for: parentName)
         } catch {
-            result = .failure(error: .unknown) // TODO: 正しいエラー
+            result = .failure(error: .failedToUnlink("Failed to delete Component Extension file."))
         }
         
         do {
             try deleteRelatedCodesInParentBuilder(for: parentName)
         } catch {
-            result = .failure(error: .unknown) // TODO: 正しいエラー
+            result = .failure(error: .failedToUnlink("Failed to delete related codes in parent Builder file."))
         }
     
         do {
             try deleteRelatedCodesInParentRouter(for: parentName)
         } catch {
-            result = .failure(error: .unknown) // TODO: 正しいエラー
+            result = .failure(error: .failedToUnlink("Failed to delete related codes in parent Router file."))
         }
         
         do {
             try deleteRelatedCodesInParentInteractor(for: parentName)
         } catch {
-            result = .failure(error: .unknown) // TODO: 正しいエラー
+            result = .failure(error: .failedToUnlink("Failed to delete related codes in parent Interactor file."))
         }
     
         return result ?? .success(message: "Successfully finished unlinking \(targetName) RIB from its parents.".green.bold)
