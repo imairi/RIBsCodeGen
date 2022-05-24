@@ -147,9 +147,9 @@ This command uses `replacingOccurrences` method, there's no guarantee to delete 
 The deleting codes are managed by `.ribscodegen_unlink` file. The example is [here](.ribscodegen_unlink).
 
 The below words are replaced to concrete RIB name.
-- __PARENT_RIB_NAME__
-- __RIB_NAME__
-- __RIB_NAME_LOWER_CASED_FIRST_LETTER__
+- `__PARENT_RIB_NAME__`
+- `__RIB_NAME__`
+- `__RIB_NAME_LOWER_CASED_FIRST_LETTER__`
 
 
 ## Rename
