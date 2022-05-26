@@ -18,6 +18,7 @@ enum Error: Swift.Error {
     case failedToAddChildBuilder
     case failedToRename(String)
     case failedToUnlink(String)
+    case failedToDelete(String)
 
     var message: String {
         switch self {
@@ -40,6 +41,8 @@ enum Error: Swift.Error {
         case let .failedToRename(reason):
             return reason
         case let .failedToUnlink(reason):
+            return reason
+        case let .failedToDelete(reason):
             return reason
         }
     }

@@ -92,11 +92,29 @@ func run(with commandLineArguments: [String]) {
         guard let unlinkSetting = analyzeUnlinkSettings() else {
             return
         }
-        let resultUnlink = makeUnlink(argument: argument, unlinkSetting: unlinkSetting).run()
+        let resultUnlink = makeUnlink(targetName: argument.actionTarget, parentName: argument.parent, unlinkSetting: unlinkSetting).run()
         showResult(resultUnlink)
         exit(0)
     case .remove:
-        break
+        guard let unlinkSetting = analyzeUnlinkSettings() else {
+            return
+        }
+        let targetName = argument.actionTarget
+        let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
+        let parents = paths
+            .filter({ $0.contains("Component+\(targetName).swift") })
+            .flatMap { $0.split(separator: "/") }
+            .filter({ $0.contains("Component+\(targetName).swift") })
+            .compactMap { $0.split(separator: "+").first }
+            .map { $0.dropLast("Component".count) }
+            .map { String($0) }
+        parents.forEach { parentName in
+            let resultUnlink = makeUnlink(targetName: targetName, parentName: parentName, unlinkSetting: unlinkSetting).run()
+            showResult(resultUnlink)
+        }
+        let resultDeleteRIB = makeDeleteRIBCommand(argument: argument).run()
+        showResult(resultDeleteRIB)
+        exit(0)
     default:
         let result = HelpCommand().run()
         showResult(result)
@@ -311,13 +329,21 @@ func makeRenameCommand(renameSetting: RenameSetting, currentName: String, newNam
     return RenameCommand(paths: paths, renameSetting: renameSetting, currentName: currentName, newName: newName)
 }
 
-func makeUnlink(argument: Argument, unlinkSetting: UnlinkSetting) -> Command {
+func makeUnlink(targetName: String, parentName: String, unlinkSetting: UnlinkSetting) -> Command {
     let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
     return UnlinkCommand(
         paths: paths,
-        targetName: argument.actionTarget,
-        parentName: argument.parent,
+        targetName: targetName,
+        parentName: parentName,
         unlinkSetting: unlinkSetting
+    )
+}
+
+func makeDeleteRIBCommand(argument: Argument) -> Command {
+    let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
+    return DeleteRIBCommand(
+        paths: paths,
+        targetName: argument.actionTarget
     )
 }
 
