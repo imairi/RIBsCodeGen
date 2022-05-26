@@ -17,10 +17,9 @@ Let's save time to create RIBs as much as possible.
 - [x] Generate ComponentExtension following template
 - [x] Add child listener and builder to parent Router and Builder file
 - [x] Bulk generation following RIBs tree
-- [ ] Remove the RIB and the related codes
+- [x] Remove the RIB and the related codes
 - [x] Rename the RIB directories, files and the related codes
   - [x] Customise rename targets
-- [ ] Customise file header
 
 
 # Settings
@@ -174,6 +173,17 @@ interactor:
 RIBsCodeGen reads SampleInteractor.swift file, search `protocol SampleRouting:` and replace it with `protocol NewSampleRouting:` .
 
 `.ribscodegen_rename` setting example is [here](.ribscodegen_rename).
+
+## Remove
+
+`remove` command, it is deleting the target RIB after deleting the dependencies for its all parent.
+
+```
+swift run ribscodegen remove Sample
+```
+
+`unlink` command is used in `remove`. Deleting the dependencies for it all parent, remove the target RIB directory and files.
+
 
 ## Help
 
