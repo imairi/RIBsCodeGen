@@ -3,8 +3,6 @@
 //
 
 import Foundation
-
-import Foundation
 import SourceKittenFramework
 import PathKit
 
