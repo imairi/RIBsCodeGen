@@ -117,7 +117,7 @@ private extension UnlinkCommand {
         var replacedText = ""
         let parentIsNeedle = validateBuilderIsNeedle(builderFilePath: parentBuilderPath)
         if parentIsNeedle {
-            var replacedText = text
+            replacedText = text
         } else {
             if inheritedTypes.count == 1 {
                 print("\t\t\(parentName)Dependency conforms to only one protocol, replace '\(parentName)Dependency\(targetName)' with 'Dependency'".yellow)
