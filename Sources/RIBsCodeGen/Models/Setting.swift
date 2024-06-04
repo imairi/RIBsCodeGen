@@ -27,6 +27,7 @@ struct RenameSetting: Codable {
 
 struct UnlinkSetting: Codable {
     var parentInteractor: [String]
-    var parentBuilder: [String]
+    var parentNormalBuilder: [String]
+    var parentNeedleBuilder: [String]
     var parentRouter: [String]
 }

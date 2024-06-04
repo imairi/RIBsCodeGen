@@ -11,12 +11,18 @@ struct UnlinkCommand: Command {
     private let parentName: String
     private let paths: [String]
     private let unlinkSetting: UnlinkSetting
-    
+    private let parentBuilderPath: String
+
     init(paths: [String], targetName: String, parentName: String, unlinkSetting: UnlinkSetting) {
+        guard let parentBuilderPath = paths.filter({ $0.contains("/" + parentName + "Builder.swift") }).first else {
+            fatalError("Not found \(parentName)Builder.swift in \(parentName) RIB directory.".red.bold)
+        }
+
         self.paths = paths
         self.targetName = targetName
         self.parentName = parentName
         self.unlinkSetting = unlinkSetting
+        self.parentBuilderPath = parentBuilderPath
     }
     
     func run() -> Result {
@@ -106,7 +112,9 @@ private extension UnlinkCommand {
             replacedText = text
         }
     
-        replacedText = unlinkSetting.parentBuilder.reduce(replacedText) { (result, builderSearchText) in
+        let parentBuilderIsNeedle = validateBuilderIsNeedle(builderFilePath: parentBuilderPath)
+        let parentBuilder = parentBuilderIsNeedle ? unlinkSetting.parentNeedleBuilder : unlinkSetting.parentNormalBuilder
+        replacedText = parentBuilder.reduce(replacedText) { (result, builderSearchText) in
             let searchText = replacePlaceHolder(for: builderSearchText, with: targetName, and: parentName)
             print("\t\tdelete codes matching with " + "\(searchText)".lightBlack + ".")
             return result.replacingOccurrences(of: searchText, with: "", options: .regularExpression)
