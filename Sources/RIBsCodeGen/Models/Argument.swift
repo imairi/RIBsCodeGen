@@ -81,6 +81,10 @@ extension Argument {
         options["noview"] != nil // "--noview の存在有無"
     }
 
+    var needle: Bool {
+        options["needle"] != nil // "--needleの存在有無"
+    }
+
     var actionTarget: String {
         switch action {
         case let .add(target):
