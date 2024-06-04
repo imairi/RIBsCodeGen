@@ -8,6 +8,7 @@
 import Foundation
 import PathKit
 import Yams
+import SourceKittenFramework
 
 var setting: Setting!
 
@@ -345,6 +346,17 @@ func makeDeleteRIBCommand(argument: Argument) -> Command {
         paths: paths,
         targetName: argument.actionTarget
     )
+}
+
+func validateBuilderIsNeedle(builderFilePath: String) -> Bool {
+    var ribName = builderFilePath.lastElementSplittedBySlash
+    ribName.removeLast("Builder.swift".count)
+
+    let builderFile = File(path: builderFilePath)!
+    let builderFileStructure = try! Structure(file: builderFile)
+    let builderClasses = builderFileStructure.dictionary.getSubStructures().filterByKeyKind(.class)
+
+    return builderClasses.filterByKeyName("\(ribName)Component").first != nil
 }
 
 main()
