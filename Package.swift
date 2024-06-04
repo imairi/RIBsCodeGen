@@ -12,7 +12,7 @@ let package = Package(
         .package(url: "https://github.com/onevcat/Rainbow", from: "3.2.0")
     ],
     targets: [
-        .target(
+        .executableTarget(
             name: "RIBsCodeGen", 
             dependencies: [
                 .product(name: "SourceKittenFramework", package: "SourceKitten"),
