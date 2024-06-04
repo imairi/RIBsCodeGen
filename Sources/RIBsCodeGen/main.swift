@@ -243,7 +243,8 @@ func makeCreateRIBCommand(argument: Argument) -> Command {
     return CreateRIBCommand(paths: paths,
                             setting: setting,
                             target: argument.actionTarget,
-                            isOwnsView: !argument.noView)
+                            isOwnsView: !argument.noView,
+                            isNeedle: argument.needle)
 }
 
 func makeCreateRIBCommand(edge: Edge) -> Command {
@@ -251,7 +252,8 @@ func makeCreateRIBCommand(edge: Edge) -> Command {
     return CreateRIBCommand(paths: paths,
                             setting: setting,
                             target: edge.target,
-                            isOwnsView: edge.isOwnsView)
+                            isOwnsView: edge.isOwnsView,
+                            isNeedle: true) // TODO: EdgeでNeedleを保持できるようになった時に修正する
 }
 
 func makeCreateComponentExtension(argument: Argument) -> Command {
