@@ -15,11 +15,13 @@ struct CreateRIBCommand: Command {
     let templateDirectory: String
     let target: String
     let isOwnsView: Bool
+    let isNeedle: Bool
 
     init(paths: [String],
          setting: Setting,
          target: String,
-         isOwnsView: Bool) {
+         isOwnsView: Bool,
+         isNeedle: Bool) {
         var targetPaths = [String?]()
 
         let targetRouterPath = paths.filter({ $0.contains("/" + target + "Router.swift") }).first
@@ -39,10 +41,13 @@ struct CreateRIBCommand: Command {
         needsCreateTargetFile = targetPaths.contains(nil)
 
         targetDirectory = setting.targetDirectory
-        templateDirectory = isOwnsView ? setting.templateDirectory + "/OwnsView" : setting.templateDirectory + "/Default"
+        let parentDirectory = isNeedle ? setting.templateDirectory + "/Needle" : setting.templateDirectory + "/Normal"
+        templateDirectory = isOwnsView ? parentDirectory + "/OwnsView" : parentDirectory + "/Default"
+
         
         self.target = target
         self.isOwnsView = isOwnsView
+        self.isNeedle = isNeedle
     }
 
     func run() -> Result {
