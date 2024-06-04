@@ -72,11 +72,16 @@ parentRouter:
   - " __RIB_NAME__ViewControllable"
   - "detach__RIB_NAME__("
   - "remove__RIB_NAME__("
-parentBuilder:
+parentNormalBuilder:
   - "__PARENT_RIB_NAME__Dependency__RIB_NAME__"
   - "__RIB_NAME_LOWER_CASED_FIRST_LETTER__Builder = __RIB_NAME__Builder"
   - "__RIB_NAME_LOWER_CASED_FIRST_LETTER__Builder: __RIB_NAME_LOWER_CASED_FIRST_LETTER__Builder"
-parentComponentExtension:
+parentNeedleBuilder:
+  - "__RIB_NAME_LOWER_CASED_FIRST_LETTER__Builder = __RIB_NAME__Builder"
+  - "__RIB_NAME_LOWER_CASED_FIRST_LETTER__Builder: __RIB_NAME_LOWER_CASED_FIRST_LETTER__Builder"
+  - "__RIB_NAME_LOWER_CASED_FIRST_LETTER__Component"
+  - "__RIB_NAME__Component"
+  parentComponentExtension:
   - "__PARENT_RIB_NAME__Component+__RIB_NAME__.swift"
   - "scope of __PARENT_RIB_NAME__ to provide for the __RIB_NAME__ scope."
   - "__PARENT_RIB_NAME__Dependency__RIB_NAME__"
