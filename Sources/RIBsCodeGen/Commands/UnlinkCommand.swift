@@ -11,12 +11,24 @@ struct UnlinkCommand: Command {
     private let parentName: String
     private let paths: [String]
     private let unlinkSetting: UnlinkSetting
-    
+    private let builderPath: String
+    private let parentBuilderPath: String
+
     init(paths: [String], targetName: String, parentName: String, unlinkSetting: UnlinkSetting) {
+        guard let builderPath = paths.filter({ $0.contains("/" + targetName + "Builder.swift") }).first else {
+            fatalError("Not found \(targetName)Builder.swift in \(targetName) RIB directory.".red.bold)
+        }
+
+        guard let parentBuilderPath = paths.filter({ $0.contains("/" + parentName + "Builder.swift") }).first else {
+            fatalError("Not found \(parentName)Builder.swift in \(parentName) RIB directory.".red.bold)
+        }
+
         self.paths = paths
         self.targetName = targetName
         self.parentName = parentName
         self.unlinkSetting = unlinkSetting
+        self.builderPath = builderPath
+        self.parentBuilderPath = parentBuilderPath
     }
     
     func run() -> Result {
@@ -26,15 +38,19 @@ struct UnlinkCommand: Command {
         }
         
         print("\nStart unlinking \(targetName) RIB from \(parentName) RIB.".bold)
-        
+
+        let builderIsNeedle = validateBuilderIsNeedle(builderFilePath: builderPath)
+
         var result: Result?
         
-        do {
-            try deleteComponentExtensions(for: parentName)
-        } catch {
-            result = .failure(error: .failedToUnlink("Failed to delete Component Extension file."))
+        if builderIsNeedle {
+            do {
+                try deleteComponentExtensions(for: parentName)
+            } catch {
+                result = .failure(error: .failedToUnlink("Failed to delete Component Extension file."))
+            }
         }
-        
+
         do {
             try deleteRelatedCodesInParentBuilder(for: parentName)
         } catch {
@@ -96,17 +112,24 @@ private extension UnlinkCommand {
             print("Skip to delete related codes in \(parentName)Builder.swift".yellow.bold)
             return
         }
-    
+
         let text = try String.init(contentsOfFile: builderFilePath, encoding: .utf8)
         var replacedText = ""
-        if inheritedTypes.count == 1 {
-            print("\t\t\(parentName)Dependency conforms to only one protocol, replace '\(parentName)Dependency\(targetName)' with 'Dependency'".yellow)
-            replacedText = text.replacingOccurrences(of: "\(parentName)Dependency\(targetName)", with: "Dependency")
+        let parentIsNeedle = validateBuilderIsNeedle(builderFilePath: parentBuilderPath)
+        if parentIsNeedle {
+            var replacedText = text
         } else {
-            replacedText = text
+            if inheritedTypes.count == 1 {
+                print("\t\t\(parentName)Dependency conforms to only one protocol, replace '\(parentName)Dependency\(targetName)' with 'Dependency'".yellow)
+                replacedText = text.replacingOccurrences(of: "\(parentName)Dependency\(targetName)", with: "Dependency")
+            } else {
+                replacedText = text
+            }
         }
-    
-        replacedText = unlinkSetting.parentBuilder.reduce(replacedText) { (result, builderSearchText) in
+
+        let parentBuilderIsNeedle = validateBuilderIsNeedle(builderFilePath: parentBuilderPath)
+        let parentBuilder = parentBuilderIsNeedle ? unlinkSetting.parentNeedleBuilder : unlinkSetting.parentNormalBuilder
+        replacedText = parentBuilder.reduce(replacedText) { (result, builderSearchText) in
             let searchText = replacePlaceHolder(for: builderSearchText, with: targetName, and: parentName)
             print("\t\tdelete codes matching with " + "\(searchText)".lightBlack + ".")
             return result.replacingOccurrences(of: searchText, with: "", options: .regularExpression)
