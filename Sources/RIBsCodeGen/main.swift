@@ -284,7 +284,7 @@ func makeCreateRIBCommand(edge: Edge) -> Command {
                             setting: setting,
                             target: edge.target,
                             isOwnsView: edge.isOwnsView,
-                            isNeedle: true) // TODO: EdgeでNeedleを保持できるようになった時に修正する
+                            isNeedle: edge.isNeedle)
 }
 
 func makeCreateComponentExtension(argument: Argument) -> Command {
@@ -326,6 +326,8 @@ func makeEdges(argument: Argument) -> [Edge] {
         fatalError("Failed to read file: \(treePath)".red.bold)
     }
 
+    let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
+
     let argumentParentRIBName = argument.parent
 
     let treeArray = treeString.components(separatedBy: "\n")
@@ -348,11 +350,18 @@ func makeEdges(argument: Argument) -> [Edge] {
     for (index, node) in nodes.enumerated() {
         let filteredNodes = nodes[index..<nodes.count]
 
+        guard let nodeBuilderPath = paths.filter({ $0.contains("/" + node.ribName + "Builder.swift") }).first else {
+            fatalError("Not found \(node.ribName)Builder.swift in \(node.ribName) RIB directory.".red.bold)
+        }
+
+        let nodeIsNeedle = validateBuilderIsNeedle(builderFilePath: nodeBuilderPath)
+
         guard let parentNode = filteredNodes.filter({ $0.spaceCount < node.spaceCount }).first else {
-            edges.append(Edge(parent: argumentParentRIBName, target: node.ribName, isOwnsView: node.isOwnsView))
+            edges.append(Edge(parent: argumentParentRIBName, target: node.ribName, isOwnsView: node.isOwnsView, isNeedle: nodeIsNeedle))
             continue
         }
-        edges.append(Edge(parent: parentNode.ribName, target: node.ribName, isOwnsView: node.isOwnsView))
+
+        edges.append(Edge(parent: parentNode.ribName, target: node.ribName, isOwnsView: node.isOwnsView, isNeedle: nodeIsNeedle))
     }
 
     return edges.reversed()
