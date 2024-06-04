@@ -449,12 +449,6 @@ private extension RenameCommand {
     }
 }
 
-private extension String {
-    var lastElementSplittedBySlash: String {
-        String(self.split(separator: "/").last ?? "")
-    }
-}
-
 private extension Path {
     var relativePath: String {
         self.description.replacingOccurrences(of: ".*\(setting.targetDirectory)", with: setting.targetDirectory, options: .regularExpression)
