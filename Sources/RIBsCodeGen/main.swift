@@ -82,8 +82,9 @@ func run(with commandLineArguments: [String]) {
             exit(0)
         }
 
+        let processAsNeedle = targetIsNeedle && parentIsNeedle
 
-        if !argument.needle {
+        if !processAsNeedle {
             let resultCreateComponentExtension = makeCreateComponentExtension(argument: argument).run()
             showResult(resultCreateComponentExtension)
         }
