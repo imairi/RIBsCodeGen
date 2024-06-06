@@ -423,7 +423,9 @@ private extension DependencyCommand {
             throw Error.failedToAddChildBuilder
         }
 
-        let initStructure = parentBuilderClass.getSubStructures().extractDictionaryContainsKeyName("build")
+        let isNeedle = validateBuilderIsNeedle(builderFilePath: parentBuilderPath)
+
+        let initStructure = isNeedle ? parentBuilderClass.getSubStructures().extractDictionaryContainsKeyNameLast("build") :  parentBuilderClass.getSubStructures().extractDictionaryContainsKeyName("build")
         let parentRouter = initStructure.getSubStructures().filterByKeyKind(.call).extractDictionaryContainsKeyName("\(parent)Router")
 
         let childBuilderArguments = parentRouter.getSubStructures().filterByKeyKind(.argument).filterByKeyName("\(child.lowercasedFirstLetter())Builder")
