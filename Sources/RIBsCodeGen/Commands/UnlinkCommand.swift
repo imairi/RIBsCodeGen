@@ -32,18 +32,19 @@ struct UnlinkCommand: Command {
     }
     
     func run() -> Result {
-        guard !paths.filter({ $0.contains("/\(parentName)Component+\(targetName).swift") }).isEmpty else {
-            print("\(parentName)Component+\(targetName).swift file is not found. Please check the target and parent RIB name.".red.bold)
-            return .failure(error: .unknown) // TODO: 正しいエラー
-        }
-        
-        print("\nStart unlinking \(targetName) RIB from \(parentName) RIB.".bold)
-
         let builderIsNeedle = validateBuilderIsNeedle(builderFilePath: builderPath)
+        if !builderIsNeedle {
+            guard !paths.filter({ $0.contains("/\(parentName)Component+\(targetName).swift") }).isEmpty else {
+                print("\(parentName)Component+\(targetName).swift file is not found. Please check the target and parent RIB name.".red.bold)
+                return .failure(error: .unknown) // TODO: 正しいエラー
+            }
+        }
+
+        print("\nStart unlinking \(targetName) RIB from \(parentName) RIB.".bold)
 
         var result: Result?
         
-        if builderIsNeedle {
+        if !builderIsNeedle {
             do {
                 try deleteComponentExtensions(for: parentName)
             } catch {
@@ -115,8 +116,8 @@ private extension UnlinkCommand {
 
         let text = try String.init(contentsOfFile: builderFilePath, encoding: .utf8)
         var replacedText = ""
-        let parentIsNeedle = validateBuilderIsNeedle(builderFilePath: parentBuilderPath)
-        if parentIsNeedle {
+        let parentBuilderIsNeedle = validateBuilderIsNeedle(builderFilePath: parentBuilderPath)
+        if parentBuilderIsNeedle {
             replacedText = text
         } else {
             if inheritedTypes.count == 1 {
@@ -127,7 +128,6 @@ private extension UnlinkCommand {
             }
         }
 
-        let parentBuilderIsNeedle = validateBuilderIsNeedle(builderFilePath: parentBuilderPath)
         let parentBuilder = parentBuilderIsNeedle ? unlinkSetting.parentNeedleBuilder : unlinkSetting.parentNormalBuilder
         replacedText = parentBuilder.reduce(replacedText) { (result, builderSearchText) in
             let searchText = replacePlaceHolder(for: builderSearchText, with: targetName, and: parentName)
