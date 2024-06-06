@@ -45,14 +45,21 @@ func run(with commandLineArguments: [String]) {
         showResult(result)
         exit(0)
     case .add where !argument.hasParent:
-        let result = makeCreateRIBCommand(argument: argument).run()
+        let result = makeCreateRIBCommand(argument: argument, isNeedle: argument.needle).run()
         showResult(result)
         exit(0)
     case .add where argument.hasParent:
-        let resultCreateRIB = makeCreateRIBCommand(argument: argument).run()
+        // hasParentなのでParentは必ず取れる
+        guard let parentBuilderPath = extractBuilderPathFrom(targetName: argument.parent) else {
+            showResult(.failure(error: .failedToDetectBuilderFile))
+            exit(0)
+        }
+        let parentIsNeedle = validateBuilderIsNeedle(builderFilePath: parentBuilderPath)
+
+        let resultCreateRIB = makeCreateRIBCommand(argument: argument, isNeedle: parentIsNeedle).run()
         showResult(resultCreateRIB)
 
-        if !argument.needle {
+        if !parentIsNeedle {
             let resultCreateComponentExtension = makeCreateComponentExtension(argument: argument).run()
             showResult(resultCreateComponentExtension)
         }
@@ -61,6 +68,21 @@ func run(with commandLineArguments: [String]) {
         showResult(resultDependency)
         exit(0)
     case .link:
+        guard let targetBuilderPath = extractBuilderPathFrom(targetName: argument.actionTarget),
+              let parentBuilderPath = extractBuilderPathFrom(targetName: argument.parent) else {
+            showResult(.failure(error: .failedToDetectBuilderFile))
+            exit(0)
+        }
+        let targetIsNeedle = validateBuilderIsNeedle(builderFilePath: targetBuilderPath)
+        let parentIsNeedle = validateBuilderIsNeedle(builderFilePath: parentBuilderPath)
+
+        // NeedleではないRIBの下に、NeedleのRIBを繋ぐことはできない
+        guard !(targetIsNeedle && !parentIsNeedle) else {
+            showResult(.failure(error: .failedToLink("Needle RIB Can not link Non-Needle RIB's Child.")))
+            exit(0)
+        }
+
+
         if !argument.needle {
             let resultCreateComponentExtension = makeCreateComponentExtension(argument: argument).run()
             showResult(resultCreateComponentExtension)
@@ -269,13 +291,13 @@ func analyzeUnlinkSettings() -> UnlinkSetting? {
 }
 
 // MARK: - Make command methods
-func makeCreateRIBCommand(argument: Argument) -> Command {
+func makeCreateRIBCommand(argument: Argument, isNeedle: Bool) -> Command {
     let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
     return CreateRIBCommand(paths: paths,
                             setting: setting,
                             target: argument.actionTarget,
                             isOwnsView: !argument.noView,
-                            isNeedle: argument.needle)
+                            isNeedle: isNeedle)
 }
 
 func makeCreateRIBCommand(edge: Edge) -> Command {
