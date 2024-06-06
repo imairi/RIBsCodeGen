@@ -17,7 +17,7 @@ final class ___VARIABLE_productName___Component: NeedleFoundation.Component<___V
         return dependency.___VARIABLE_productName_lowercased___ViewController
     }
 
-    init(parent: Scope) {
+    override init(parent: Scope) {
         super.init(parent: parent)
     }
 }

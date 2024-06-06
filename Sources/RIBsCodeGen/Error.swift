@@ -19,6 +19,8 @@ enum Error: Swift.Error {
     case failedToRename(String)
     case failedToUnlink(String)
     case failedToDelete(String)
+    case failedToDetectBuilderFile
+    case failedToLink(String)
 
     var message: String {
         switch self {
@@ -44,6 +46,10 @@ enum Error: Swift.Error {
             return reason
         case let .failedToDelete(reason):
             return reason
+        case .failedToDetectBuilderFile:
+            return "Failed to Detect Builder file."
+        case let .failedToLink(reason):
+            return "Failed to link - \(reason)"
         }
     }
 
