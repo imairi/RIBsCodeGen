@@ -401,4 +401,10 @@ func validateBuilderIsNeedle(builderFilePath: String) -> Bool {
     return builderClasses.filterByKeyName("\(ribName)Component").first != nil
 }
 
+func extractBuilderPathFrom(targetName: String) -> String? {
+    let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
+
+    return paths.filter({ $0.contains("/" + targetName + "Builder.swift") }).first
+}
+
 main()
