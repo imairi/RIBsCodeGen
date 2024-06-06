@@ -11,7 +11,7 @@ protocol ___VARIABLE_productName___Dependency: NeedleFoundation.Dependency {
 }
 
 final class ___VARIABLE_productName___Component: NeedleFoundation.Component<___VARIABLE_productName___Dependency> {
-    init(parent: Scope) {
+    override init(parent: Scope) {
         super.init(parent: parent)
     }
 }
