@@ -413,14 +413,7 @@ func makeDeleteRIBCommand(argument: Argument) -> Command {
 }
 
 func validateBuilderIsNeedle(builderFilePath: String) -> Bool {
-    var ribName = builderFilePath.lastElementSplittedBySlash
-    ribName.removeLast("Builder.swift".count)
-
-    let builderFile = File(path: builderFilePath)!
-    let builderFileStructure = try! Structure(file: builderFile)
-    let builderClasses = builderFileStructure.dictionary.getSubStructures().filterByKeyKind(.class)
-
-    return builderClasses.filterByKeyName("\(ribName)Component").first != nil
+    return try! String(contentsOfFile: builderFilePath).contains("NeedleFoundation")
 }
 
 func extractBuilderPathFrom(targetName: String) -> String? {
