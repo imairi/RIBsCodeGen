@@ -82,8 +82,9 @@ func run(with commandLineArguments: [String]) {
             exit(0)
         }
 
+        let processAsNeedle = targetIsNeedle && parentIsNeedle
 
-        if !argument.needle {
+        if !processAsNeedle {
             let resultCreateComponentExtension = makeCreateComponentExtension(argument: argument).run()
             showResult(resultCreateComponentExtension)
         }
@@ -129,7 +130,8 @@ func run(with commandLineArguments: [String]) {
         let targetName = argument.actionTarget
         let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
         let parents: [String]
-        if argument.needle {
+        let targetIsNeedle = validateBuilderIsNeedle(builderFilePath: extractBuilderPathFrom(targetName: argument.actionTarget)!)
+        if targetIsNeedle {
             parents = paths
                 .filter({ $0.contains("Builder.swift") })
                 .filter({ $0.lastElementSplittedBySlash != "\(targetName)Builder.swift" })
@@ -413,14 +415,7 @@ func makeDeleteRIBCommand(argument: Argument) -> Command {
 }
 
 func validateBuilderIsNeedle(builderFilePath: String) -> Bool {
-    var ribName = builderFilePath.lastElementSplittedBySlash
-    ribName.removeLast("Builder.swift".count)
-
-    let builderFile = File(path: builderFilePath)!
-    let builderFileStructure = try! Structure(file: builderFile)
-    let builderClasses = builderFileStructure.dictionary.getSubStructures().filterByKeyKind(.class)
-
-    return builderClasses.filterByKeyName("\(ribName)Component").first != nil
+    return try! String(contentsOfFile: builderFilePath).contains("NeedleFoundation")
 }
 
 func extractBuilderPathFrom(targetName: String) -> String? {

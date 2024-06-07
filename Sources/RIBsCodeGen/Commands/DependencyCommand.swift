@@ -114,10 +114,10 @@ private extension DependencyCommand {
     }
 
     func resolveDependencyForBuilder() -> Result {
-        let parentIsNeedle = validateBuilderIsNeedle(builderFilePath: parentBuilderPath)
+        let childIsNeedle = validateBuilderIsNeedle(builderFilePath: childBuilderPath)
 
         do {
-            if parentIsNeedle {
+            if childIsNeedle {
                 try addChildComponentInitialize(parentBuilderPath: parentBuilderPath)
             } else {
                 try addChildDependency(parentBuilderPath: parentBuilderPath)
@@ -373,9 +373,9 @@ private extension DependencyCommand {
 
         let dependencyInsertIndex = text.utf8.index(text.startIndex, offsetBy: insertPosition)
 
-        let parentIsNeedle = validateBuilderIsNeedle(builderFilePath: parentBuilderPath)
+        let childIsNeedle = validateBuilderIsNeedle(builderFilePath: childBuilderPath)
 
-        if parentIsNeedle {
+        if childIsNeedle {
             let initArguments = try getChildComponentInitArguments(childBuilderPath: childBuilderPath)
             if initArguments.isEmpty {
                 text.insert(contentsOf: "let \(child.lowercasedFirstLetter())Builder = \(child)Builder {\n component.\(child.lowercasedFirstLetter())Component\n}\n", at: dependencyInsertIndex)
