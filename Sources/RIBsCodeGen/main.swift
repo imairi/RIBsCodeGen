@@ -130,7 +130,8 @@ func run(with commandLineArguments: [String]) {
         let targetName = argument.actionTarget
         let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
         let parents: [String]
-        if argument.needle {
+        let targetIsNeedle = validateBuilderIsNeedle(builderFilePath: extractBuilderPathFrom(targetName: argument.actionTarget)!)
+        if targetIsNeedle {
             parents = paths
                 .filter({ $0.contains("Builder.swift") })
                 .filter({ $0.lastElementSplittedBySlash != "\(targetName)Builder.swift" })
