@@ -173,13 +173,26 @@ final class RenameCommand: Command {
 // MARK: - Run
 private extension RenameCommand {
     func getParents() {
-        parents = paths
-            .filter({ $0.contains("Component+\(currentName).swift") })
-            .flatMap { $0.split(separator: "/") }
-            .filter({ $0.contains("Component+\(currentName).swift") })
-            .compactMap { $0.split(separator: "+").first }
-            .map { $0.dropLast("Component".count) }
-            .map { String($0) }
+        let childIsNeedle = validateBuilderIsNeedle(builderFilePath: extractBuilderPathFrom(targetName: currentName)!)
+        if childIsNeedle {
+            parents = paths
+                .filter({ $0.contains("Builder.swift") })
+                .filter({ $0.lastElementSplittedBySlash != "\(currentName)Builder.swift" })
+                .filter({ [weak self] builderFilePath in
+                    self?.hasChildConponent(parentBuilderPath: builderFilePath) ?? false
+                })
+                .map { $0.lastElementSplittedBySlash }
+                .map { $0.dropLast("Builder.swift".count) }
+                .map { String($0) }
+        } else {
+            parents = paths
+                .filter({ $0.contains("Component+\(currentName).swift") })
+                .flatMap { $0.split(separator: "/") }
+                .filter({ $0.contains("Component+\(currentName).swift") })
+                .compactMap { $0.split(separator: "+").first }
+                .map { $0.dropLast("Component".count) }
+                .map { String($0) }
+        }
     }
 
     func hasChildConponent(parentBuilderPath: String) -> Bool {
