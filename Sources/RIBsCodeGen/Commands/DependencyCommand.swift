@@ -317,11 +317,11 @@ private extension DependencyCommand {
 
         let initArguments = try getChildComponentInitArguments(childBuilderPath: childBuilderPath)
         if initArguments.isEmpty {
-            text.insert(contentsOf: "var \(child.lowercasedFirstLetter())Component: \(child)Component {\n\(child)Component(parent: self)\n}\n", at: dependencyInsertIndex)
+            text.insert(contentsOf: "\nvar \(child.lowercasedFirstLetter())Component: \(child)Component {\n\(child)Component(parent: self)\n}\n", at: dependencyInsertIndex)
         } else {
             let arguments = initArguments.map { "\($0.name): \($0.type)" }.joined(separator: ", ")
             let innerArguments = initArguments.map { $0.name }.map { "\($0): \($0)" }.joined(separator: ", ")
-            text.insert(contentsOf: "func \(child.lowercasedFirstLetter())Component(\(arguments)) -> \(child)Component {\n\(child)Component(parent: self, \(innerArguments))\n}\n", at: dependencyInsertIndex)
+            text.insert(contentsOf: "\nfunc \(child.lowercasedFirstLetter())Component(\(arguments)) -> \(child)Component {\n\(child)Component(parent: self, \(innerArguments))\n}\n", at: dependencyInsertIndex)
         }
 
         write(text: text, toPath: parentBuilderPath)
