@@ -8,6 +8,7 @@
 import Foundation
 import PathKit
 import Yams
+import SourceKittenFramework
 
 var setting: Setting!
 
@@ -21,13 +22,13 @@ func main() {
     print(startMessage)
     
     let arguments = [String](CommandLine.arguments.dropFirst())
-    guard let setting = analyzeSettings() else {
+    guard let analaizedSettings = analyzeSettings() else {
         print("")
         print("\nRIBsCodeGen operation failed. Check the above error logs.".red)
         print("")
         exit(1)
     }
-    RIBsCodeGen.setting = setting
+    setting = analaizedSettings
 
     run(with: arguments)
 }
@@ -44,22 +45,49 @@ func run(with commandLineArguments: [String]) {
         showResult(result)
         exit(0)
     case .add where !argument.hasParent:
-        let result = makeCreateRIBCommand(argument: argument).run()
+        let result = makeCreateRIBCommand(argument: argument, isNeedle: argument.needle).run()
         showResult(result)
         exit(0)
     case .add where argument.hasParent:
-        let resultCreateRIB = makeCreateRIBCommand(argument: argument).run()
+        // hasParentなのでParentは必ず取れる
+        guard let parentBuilderPath = extractBuilderPathFrom(targetName: argument.parent) else {
+            showResult(.failure(error: .failedToDetectBuilderFile))
+            exit(0)
+        }
+        let parentIsNeedle = validateBuilderIsNeedle(builderFilePath: parentBuilderPath)
+
+        let resultCreateRIB = makeCreateRIBCommand(argument: argument, isNeedle: parentIsNeedle).run()
         showResult(resultCreateRIB)
 
-        let resultCreateComponentExtension = makeCreateComponentExtension(argument: argument).run()
-        showResult(resultCreateComponentExtension)
+        if !parentIsNeedle {
+            let resultCreateComponentExtension = makeCreateComponentExtension(argument: argument).run()
+            showResult(resultCreateComponentExtension)
+        }
 
         let resultDependency = makeDependencyCommand(argument: argument).run()
         showResult(resultDependency)
         exit(0)
     case .link:
-        let resultCreateComponentExtension = makeCreateComponentExtension(argument: argument).run()
-        showResult(resultCreateComponentExtension)
+        guard let targetBuilderPath = extractBuilderPathFrom(targetName: argument.actionTarget),
+              let parentBuilderPath = extractBuilderPathFrom(targetName: argument.parent) else {
+            showResult(.failure(error: .failedToDetectBuilderFile))
+            exit(0)
+        }
+        let targetIsNeedle = validateBuilderIsNeedle(builderFilePath: targetBuilderPath)
+        let parentIsNeedle = validateBuilderIsNeedle(builderFilePath: parentBuilderPath)
+
+        // NeedleではないRIBの下に、NeedleのRIBを繋ぐことはできない
+        guard !(targetIsNeedle && !parentIsNeedle) else {
+            showResult(.failure(error: .failedToLink("Needle RIB Can not link Non-Needle RIB's Child.")))
+            exit(0)
+        }
+
+        let processAsNeedle = targetIsNeedle && parentIsNeedle
+
+        if !processAsNeedle {
+            let resultCreateComponentExtension = makeCreateComponentExtension(argument: argument).run()
+            showResult(resultCreateComponentExtension)
+        }
 
         let resultDependency = makeDependencyCommand(argument: argument).run()
         showResult(resultDependency)
@@ -101,13 +129,41 @@ func run(with commandLineArguments: [String]) {
         }
         let targetName = argument.actionTarget
         let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
-        let parents = paths
-            .filter({ $0.contains("Component+\(targetName).swift") })
-            .flatMap { $0.split(separator: "/") }
-            .filter({ $0.contains("Component+\(targetName).swift") })
-            .compactMap { $0.split(separator: "+").first }
-            .map { $0.dropLast("Component".count) }
-            .map { String($0) }
+        let parents: [String]
+        let targetIsNeedle = validateBuilderIsNeedle(builderFilePath: extractBuilderPathFrom(targetName: argument.actionTarget)!)
+        if targetIsNeedle {
+            parents = paths
+                .filter({ $0.contains("Builder.swift") })
+                .filter({ $0.lastElementSplittedBySlash != "\(targetName)Builder.swift" })
+                .filter({ builderFilePath in
+                    let parentBuilderFile = File(path: builderFilePath)!
+                    let parentBuilderFileStructure = try! Structure(file: parentBuilderFile)
+                    print(builderFilePath.lastElementSplittedBySlash)
+                    var parent = builderFilePath.lastElementSplittedBySlash
+                    parent.removeLast("Builder.swift".count)
+
+                    let parentBuilderClasses = parentBuilderFileStructure.dictionary.getSubStructures().filterByKeyKind(.class)
+
+                    if let parentComponentClass = parentBuilderClasses.filterByKeyName("\(parent)Component").first,
+                       let _ = parentComponentClass.getSubStructures().filterByKeyTypeName("\(targetName)Component").first  {
+                        return true
+                    } else {
+                        return false
+                    }
+                })
+                .map { $0.lastElementSplittedBySlash }
+                .map { $0.dropLast("Builder.swift".count) }
+                .map { String($0) }
+        } else {
+            parents = paths
+                .filter({ $0.contains("Component+\(targetName).swift") })
+                .flatMap { $0.split(separator: "/") }
+                .filter({ $0.contains("Component+\(targetName).swift") })
+                .compactMap { $0.split(separator: "+").first }
+                .map { $0.dropLast("Component".count) }
+                .map { String($0) }
+        }
+
         parents.forEach { parentName in
             let resultUnlink = makeUnlink(targetName: targetName, parentName: parentName, unlinkSetting: unlinkSetting).run()
             showResult(resultUnlink)
@@ -237,12 +293,13 @@ func analyzeUnlinkSettings() -> UnlinkSetting? {
 }
 
 // MARK: - Make command methods
-func makeCreateRIBCommand(argument: Argument) -> Command {
+func makeCreateRIBCommand(argument: Argument, isNeedle: Bool) -> Command {
     let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
     return CreateRIBCommand(paths: paths,
                             setting: setting,
                             target: argument.actionTarget,
-                            isOwnsView: !argument.noView)
+                            isOwnsView: !argument.noView,
+                            isNeedle: isNeedle)
 }
 
 func makeCreateRIBCommand(edge: Edge) -> Command {
@@ -250,7 +307,8 @@ func makeCreateRIBCommand(edge: Edge) -> Command {
     return CreateRIBCommand(paths: paths,
                             setting: setting,
                             target: edge.target,
-                            isOwnsView: edge.isOwnsView)
+                            isOwnsView: edge.isOwnsView,
+                            isNeedle: edge.isNeedle)
 }
 
 func makeCreateComponentExtension(argument: Argument) -> Command {
@@ -292,6 +350,8 @@ func makeEdges(argument: Argument) -> [Edge] {
         fatalError("Failed to read file: \(treePath)".red.bold)
     }
 
+    let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
+
     let argumentParentRIBName = argument.parent
 
     let treeArray = treeString.components(separatedBy: "\n")
@@ -314,11 +374,18 @@ func makeEdges(argument: Argument) -> [Edge] {
     for (index, node) in nodes.enumerated() {
         let filteredNodes = nodes[index..<nodes.count]
 
+        guard let nodeBuilderPath = paths.filter({ $0.contains("/" + node.ribName + "Builder.swift") }).first else {
+            fatalError("Not found \(node.ribName)Builder.swift in \(node.ribName) RIB directory.".red.bold)
+        }
+
+        let nodeIsNeedle = validateBuilderIsNeedle(builderFilePath: nodeBuilderPath)
+
         guard let parentNode = filteredNodes.filter({ $0.spaceCount < node.spaceCount }).first else {
-            edges.append(Edge(parent: argumentParentRIBName, target: node.ribName, isOwnsView: node.isOwnsView))
+            edges.append(Edge(parent: argumentParentRIBName, target: node.ribName, isOwnsView: node.isOwnsView, isNeedle: nodeIsNeedle))
             continue
         }
-        edges.append(Edge(parent: parentNode.ribName, target: node.ribName, isOwnsView: node.isOwnsView))
+
+        edges.append(Edge(parent: parentNode.ribName, target: node.ribName, isOwnsView: node.isOwnsView, isNeedle: nodeIsNeedle))
     }
 
     return edges.reversed()
@@ -345,6 +412,16 @@ func makeDeleteRIBCommand(argument: Argument) -> Command {
         paths: paths,
         targetName: argument.actionTarget
     )
+}
+
+func validateBuilderIsNeedle(builderFilePath: String) -> Bool {
+    return try! String(contentsOfFile: builderFilePath).contains("NeedleFoundation")
+}
+
+func extractBuilderPathFrom(targetName: String) -> String? {
+    let paths = allSwiftSourcePaths(directoryPath: setting.targetDirectory)
+
+    return paths.filter({ $0.contains("/" + targetName + "Builder.swift") }).first
 }
 
 main()

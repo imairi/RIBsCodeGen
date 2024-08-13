@@ -11,4 +11,8 @@ extension String {
     func lowercasedFirstLetter() -> String {
         prefix(1).lowercased() + dropFirst()
     }
+
+    var lastElementSplittedBySlash: String {
+        String(self.split(separator: "/").last ?? "")
+    }
 }

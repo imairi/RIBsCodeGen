@@ -16,7 +16,15 @@ extension Collection where Iterator.Element == [String: SourceKitRepresentable] 
         }
         return targetStructures.first ?? [String: SourceKitRepresentable]()
     }
-    
+
+    func extractDictionaryContainsKeyNameLast(_ targetKeyName: String) -> [String: SourceKitRepresentable] {
+        let targetStructures = self.filter { structure -> Bool in
+            let keyName = structure["key.name"] as? String ?? ""
+            return keyName.contains(targetKeyName)
+        }
+        return targetStructures.last ?? [String: SourceKitRepresentable]()
+    }
+
     func extractDictionaryByKeyName(_ targetKeyName: String) -> [String: SourceKitRepresentable] {
         let targetStructures = self.filter { structure -> Bool in
             let keyName = structure["key.name"] as? String ?? ""

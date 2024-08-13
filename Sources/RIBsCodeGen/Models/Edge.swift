@@ -11,6 +11,7 @@ struct Edge: CustomStringConvertible {
     let parent: String
     let target: String
     let isOwnsView: Bool
+    let isNeedle: Bool
 
     var description: String {
         let viewState = isOwnsView ? "" : "(noView)"

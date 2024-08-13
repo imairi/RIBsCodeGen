@@ -93,6 +93,13 @@ The below files are generated.
 
 If wants to create viewless RIB, add `--noview` command.
 
+RIBsCodeGen is also support Needle.
+
+https://github.com/uber/needle
+
+If you needs to specify Needle dependency injection type, you can specify that via pass `--needle` parameter.
+
+If passed `--needle`, will create RIBs use Needle as dependency injection.
 
 ## Add with parent
 

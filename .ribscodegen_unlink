@@ -1,13 +1,18 @@
-parentBuilder:
+parentNormalBuilder:
  - "\\,\\n\\s+__PARENT_RIB_NAME__Dependency__RIB_NAME__"
  - "__PARENT_RIB_NAME__Dependency__RIB_NAME__\\,\\n\\s+"
  - "let\\s+__RIB_NAME_LOWER_CASED_FIRST_LETTER__Builder\\s+\\=\\s+__RIB_NAME__Builder.*\\n\\s+"
+ - "\\,\\n\\s+__RIB_NAME_LOWER_CASED_FIRST_LETTER__Builder\\:\\s+__RIB_NAME_LOWER_CASED_FIRST_LETTER__Builder"
+parentNeedleBuilder:
+ - "\\s+var\\s+__RIB_NAME_LOWER_CASED_FIRST_LETTER__Component[\\s\\S]*?\\n\\s{4}\\}"
+ - "\\s+func\\s+__RIB_NAME_LOWER_CASED_FIRST_LETTER__Component\\([\\s\\S]*?\\n\\s{4}\\}"
+ - "\\s+let\\s+__RIB_NAME_LOWER_CASED_FIRST_LETTER__Builder\\s+\\=\\s+__RIB_NAME__Builder[\\s\\S]*?\\n\\s{8}\\}"
  - "\\,\\n\\s+__RIB_NAME_LOWER_CASED_FIRST_LETTER__Builder\\:\\s+__RIB_NAME_LOWER_CASED_FIRST_LETTER__Builder"
 parentRouter:
  - "\\,\\n\\s+__RIB_NAME__ViewControllable"
  - "__RIB_NAME__ViewControllable\\,\\n\\s+"
  - "\\,\\n\\s+__RIB_NAME__Listener"
- - "\\n.*let\\s+__RIB_NAME_LOWER_CASED_FIRST_LETTER__Builder\\:\\s+__RIB_NAME__Buildable"
+ - "\\n.*let\\s+__RIB_NAME_LOWER_CASED_FIRST_LETTER__Builder\\:\\s+__RIB_NAME__Buildable\\n"
  - "\\n.*var\\s+__RIB_NAME_LOWER_CASED_FIRST_LETTER__\\:\\s+Routing\\?"
  - "\\,\\n\\s+__RIB_NAME_LOWER_CASED_FIRST_LETTER__Builder\\:\\s+__RIB_NAME__Buildable"
  - "\\n\\s+self\\.__RIB_NAME_LOWER_CASED_FIRST_LETTER__Builder\\s+\\=\\s+__RIB_NAME_LOWER_CASED_FIRST_LETTER__Builder"
