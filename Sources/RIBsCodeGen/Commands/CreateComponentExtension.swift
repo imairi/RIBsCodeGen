@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SourceKittenFramework
 import PathKit
 
 struct CreateComponentExtension: Command {

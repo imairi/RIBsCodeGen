@@ -8,7 +8,6 @@
 import Foundation
 import PathKit
 import Yams
-import SourceKittenFramework
 
 var setting: Setting!
 
@@ -20,7 +19,7 @@ func main() {
         + "Gen".lightBlue.bold.underline
     let startMessage = "\nStart ".bold.underline + ribsCodeGenString + " operation.\n".bold.underline
     print(startMessage)
-    
+
     let arguments = [String](CommandLine.arguments.dropFirst())
     guard let analaizedSettings = analyzeSettings() else {
         print("")

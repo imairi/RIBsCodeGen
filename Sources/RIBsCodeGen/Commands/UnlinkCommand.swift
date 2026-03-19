@@ -3,7 +3,6 @@
 //
 
 import Foundation
-import SourceKittenFramework
 import PathKit
 
 struct UnlinkCommand: Command {

@@ -3,9 +3,6 @@
 //
 
 import Foundation
-
-import Foundation
-import SourceKittenFramework
 import PathKit
 
 struct DeleteRIBCommand: Command {

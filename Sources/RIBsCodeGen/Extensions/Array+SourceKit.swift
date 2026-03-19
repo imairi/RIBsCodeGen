@@ -6,78 +6,45 @@
 //
 
 import Foundation
-import SourceKittenFramework
 
-extension Collection where Iterator.Element == [String: SourceKitRepresentable] {
-    func extractDictionaryContainsKeyName(_ targetKeyName: String) -> [String: SourceKitRepresentable] {
-        let targetStructures = self.filter { structure -> Bool in
-            let keyName = structure["key.name"] as? String ?? ""
-            return keyName.contains(targetKeyName)
-        }
-        return targetStructures.first ?? [String: SourceKitRepresentable]()
+extension Collection where Iterator.Element == SwiftNode {
+    func extractDictionaryContainsKeyName(_ targetKeyName: String) -> SwiftNode {
+        first(where: { $0.name.contains(targetKeyName) }) ?? .empty
     }
 
-    func extractDictionaryContainsKeyNameLast(_ targetKeyName: String) -> [String: SourceKitRepresentable] {
-        let targetStructures = self.filter { structure -> Bool in
-            let keyName = structure["key.name"] as? String ?? ""
-            return keyName.contains(targetKeyName)
-        }
-        return targetStructures.last ?? [String: SourceKitRepresentable]()
+    func extractDictionaryContainsKeyNameLast(_ targetKeyName: String) -> SwiftNode {
+        reversed().first(where: { $0.name.contains(targetKeyName) }) ?? .empty
     }
 
-    func extractDictionaryByKeyName(_ targetKeyName: String) -> [String: SourceKitRepresentable] {
-        let targetStructures = self.filter { structure -> Bool in
-            let keyName = structure["key.name"] as? String ?? ""
-            return keyName == targetKeyName
-        }
-        return targetStructures.first ?? [String: SourceKitRepresentable]()
+    func extractDictionaryByKeyName(_ targetKeyName: String) -> SwiftNode {
+        first(where: { $0.name == targetKeyName }) ?? .empty
     }
 
-    func filterByKeyName(_ targetKeyName: String) -> [[String: SourceKitRepresentable]] {
-        let targetStructures = self.filter { structure -> Bool in
-            let keyName = structure["key.name"] as? String ?? ""
-            return keyName.contains(targetKeyName)
-        }
-        return targetStructures
+    func filterByKeyName(_ targetKeyName: String) -> [SwiftNode] {
+        filter { $0.name.contains(targetKeyName) }
     }
 
-    func filterByAttribute(_ targetKind: SwiftDeclarationAttributeKind) -> [[String: SourceKitRepresentable]] {
-        let targetStructures = self.filter { structure -> Bool in
-            let keyAttributes = structure["key.attribute"] as? String ?? ""
-            let attributeKind = SwiftDeclarationAttributeKind(rawValue: keyAttributes)
-
-            return attributeKind == targetKind
-        }
-        return targetStructures
+    func filterByKeyKind(_ targetKind: SwiftDeclarationKind) -> [SwiftNode] {
+        filter { SwiftDeclarationKind(rawValue: $0.kind) == targetKind }
     }
 
-    func filterByKeyKind(_ targetKind: SwiftDeclarationKind) -> [[String: SourceKitRepresentable]] {
-        let targetStructures = self.filter { initStructure -> Bool in
-            guard let kindValue = initStructure["key.kind"] as? String else {
-                return false
-            }
-            let kind = SwiftDeclarationKind(rawValue: kindValue)
-            return kind == targetKind
-        }
-        return targetStructures
+    func filterByKeyKind(_ targetKind: SwiftExpressionKind) -> [SwiftNode] {
+        filter { SwiftExpressionKind(rawValue: $0.kind) == targetKind }
     }
 
-    func filterByKeyKind(_ targetKind: SwiftExpressionKind) -> [[String: SourceKitRepresentable]] {
-        let targetStructures = self.filter { initStructure -> Bool in
-            guard let kindValue = initStructure["key.kind"] as? String else {
-                return false
-            }
-            let kind = SwiftExpressionKind(rawValue: kindValue)
-            return kind == targetKind
-        }
-        return targetStructures
+    func filterByKeyTypeName(_ targetTypeName: String) -> [SwiftNode] {
+        filter { $0.typeName.contains(targetTypeName) }
     }
+}
 
-    func filterByKeyTypeName(_ targetTypeName: String) -> [[String: SourceKitRepresentable]] {
-        let targetStructures = self.filter { structure -> Bool in
-            let keyTypeName = structure["key.typename"] as? String ?? ""
-            return keyTypeName.contains(targetTypeName)
-        }
-        return targetStructures
+extension Collection where Iterator.Element == SwiftAttribute {
+    func filterByAttribute(_ targetKind: SwiftDeclarationAttributeKind) -> [SwiftAttribute] {
+        filter { $0.kind == targetKind }
+    }
+}
+
+extension Collection where Iterator.Element == SwiftInheritedType {
+    func filterByKeyName(_ targetKeyName: String) -> [SwiftInheritedType] {
+        filter { $0.name.contains(targetKeyName) }
     }
 }
