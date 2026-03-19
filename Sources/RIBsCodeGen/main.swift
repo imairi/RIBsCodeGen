@@ -144,7 +144,7 @@ func run(with commandLineArguments: [String]) {
                     let parentBuilderClasses = parentBuilderFileStructure.dictionary.getSubStructures().filterByKeyKind(.class)
 
                     if let parentComponentClass = parentBuilderClasses.filterByKeyName("\(parent)Component").first,
-                       let _ = parentComponentClass.getSubStructures().filterByKeyTypeName("\(targetName)Component").first  {
+                       let _ = parentComponentClass.getSubStructures().filterByKeyTypeName("\(targetName)Component").first {
                         return true
                     } else {
                         return false
@@ -213,7 +213,7 @@ func analyzeArguments(commandLineArguments: [String]) -> Argument? {
 
     let optionArguments = commandLineArgumentsLackOfFirst.dropFirst()
 
-    var otherArguments = [String:String]()
+    var otherArguments = [String: String]()
     var latestOptionKey = ""
     optionArguments.forEach { argument in
         if argument.contains("--") {
@@ -254,13 +254,13 @@ func analyzeRenameSettings() -> RenameSetting? {
         print("Not found setting file, add .ribscodegen_rename at current directory".red.bold)
         return nil
     }
-    
+
     let settingFile: String? = try? settingFilePath.read()
     guard let settingFileString = settingFile else {
         print("Failed to read .ribscodegen_rename.".red.bold)
         return nil
     }
-    
+
     let decoder = YAMLDecoder()
     do {
         return try decoder.decode(RenameSetting.self, from: settingFileString)
@@ -275,13 +275,13 @@ func analyzeUnlinkSettings() -> UnlinkSetting? {
         print("Not found setting file, add .ribscodegen_unlink at current directory".red.bold)
         return nil
     }
-    
+
     let settingFile: String? = try? settingFilePath.read()
     guard let settingFileString = settingFile else {
         print("Failed to read .ribscodegen_unlink.".red.bold)
         return nil
     }
-    
+
     let decoder = YAMLDecoder()
     do {
         return try decoder.decode(UnlinkSetting.self, from: settingFileString)

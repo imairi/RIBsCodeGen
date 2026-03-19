@@ -81,4 +81,3 @@ private extension CreateComponentExtension {
         try Path(filePath).write(replacedText)
     }
 }
-

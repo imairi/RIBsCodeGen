@@ -23,7 +23,7 @@ struct DependencyCommand: Command {
     init(paths: [String], parent: String, child: String) {
         self.parent = parent
         self.child = child
-        
+
         guard let parentInteractorPath = paths.filter({ $0.contains("/" + parent + "Interactor.swift") }).first else {
             fatalError("Not found \(parent)Interactor.swift".red.bold)
         }
@@ -55,7 +55,7 @@ struct DependencyCommand: Command {
         self.childRouterPath = childRouterPath
         self.childBuilderPath = childBuilderPath
     }
-    
+
     func run() -> Result {
         print("\nStart adding dependency and builder initialize".bold)
 

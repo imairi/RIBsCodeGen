@@ -266,7 +266,7 @@ private enum SwiftFileFormatter {
 
         if trimmedLine.startsTypeDeclaration,
            let colonIndex = line.firstIndex(of: ":"),
-           (!trimmedLine.contains("{") || trimmedLine.hasSuffix(",")) {
+           !trimmedLine.contains("{") || trimmedLine.hasSuffix(",") {
             let firstInheritedColumn = line.distance(from: line.startIndex, to: colonIndex) + 2
             return firstInheritedColumn
         }

@@ -22,7 +22,6 @@ private enum FormatterError: Swift.Error {
     }
 }
 
-
 enum Formatter {
     static func format(path: String) throws -> String {
         guard let parentRouterFile = File(path: path) else {

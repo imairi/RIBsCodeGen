@@ -29,7 +29,7 @@ struct UnlinkCommand: Command {
         self.builderPath = builderPath
         self.parentBuilderPath = parentBuilderPath
     }
-    
+
     func run() -> Result {
         let builderIsNeedle = validateBuilderIsNeedle(builderFilePath: builderPath)
         if !builderIsNeedle {
@@ -42,7 +42,7 @@ struct UnlinkCommand: Command {
         print("\nStart unlinking \(targetName) RIB from \(parentName) RIB.".bold)
 
         var result: Result?
-        
+
         if !builderIsNeedle {
             do {
                 try deleteComponentExtensions(for: parentName)
@@ -56,19 +56,19 @@ struct UnlinkCommand: Command {
         } catch {
             result = .failure(error: .failedToUnlink("Failed to delete related codes in parent Builder file."))
         }
-    
+
         do {
             try deleteRelatedCodesInParentRouter(for: parentName)
         } catch {
             result = .failure(error: .failedToUnlink("Failed to delete related codes in parent Router file."))
         }
-        
+
         do {
             try deleteRelatedCodesInParentInteractor(for: parentName)
         } catch {
             result = .failure(error: .failedToUnlink("Failed to delete related codes in parent Interactor file."))
         }
-    
+
         return result ?? .success(message: "\nSuccessfully finished unlinking \(targetName) RIB from its parents.".green.bold)
     }
 }
@@ -82,10 +82,10 @@ private extension UnlinkCommand {
             print("Not found \(targetFileName). Skip to delete Component Extension files.".yellow.bold)
             return
         }
-        
+
         try delete(path: componentExtensionFilePath)
     }
-    
+
     func deleteRelatedCodesInParentBuilder(for parentName: String) throws {
         print("\n\tDelete related codes in \(parentName)Builder.swift.".bold)
         let targetFileName = "/\(parentName)/\(parentName)Builder.swift"
@@ -93,7 +93,7 @@ private extension UnlinkCommand {
             print("Not found \(targetFileName.dropFirst()). \(targetName) RIB has already unlinked to \(parentName) RIB.".yellow.bold)
             return
         }
-        
+
         let builderFile = File(path: builderFilePath)!
         let builderFileStructure = try! Structure(file: builderFile)
         let builderDictionary = builderFileStructure.dictionary
@@ -105,7 +105,7 @@ private extension UnlinkCommand {
             print("Skip to delete related codes in \(parentName)Builder.swift".yellow.bold)
             return
         }
-        
+
         let inheritedTypes = targetProtocolDictionary.getInheritedTypes()
         guard !inheritedTypes.isEmpty else {
             print("No protocols conforms to \(parentName)Dependency.".red.bold)
@@ -133,10 +133,10 @@ private extension UnlinkCommand {
             print("\t\tdelete codes matching with " + "\(searchText)".lightBlack + ".")
             return result.replacingOccurrences(of: searchText, with: "", options: .regularExpression)
         }
-        
+
         try write(text: replacedText, for: builderFilePath)
     }
-    
+
     func deleteRelatedCodesInParentRouter(for parentName: String) throws {
         print("\n\tDelete related codes in \(parentName)Router.swift.".bold)
         let targetFileName = "/\(parentName)/\(parentName)Router.swift"
@@ -144,7 +144,7 @@ private extension UnlinkCommand {
             print("Not found \(targetFileName.dropFirst()). \(targetName) RIB has already unlinked to \(parentName) RIB.".yellow.bold)
             return
         }
-    
+
         let routerFile = File(path: routerFilePath)!
         let routerFileStructure = try! Structure(file: routerFile)
         let routerDictionary = routerFileStructure.dictionary
@@ -156,14 +156,14 @@ private extension UnlinkCommand {
             print("Skip to delete related codes for \(parentName)ViewControllable.".yellow.bold)
             return
         }
-    
+
         let inheritedTypes = targetProtocolDictionary.getInheritedTypes()
         guard !inheritedTypes.isEmpty else {
             print("No protocols conforms to \(parentName)ViewControllable.".red.bold)
             print("Skip to delete related codes for \(parentName)ViewControllable.".yellow.bold)
             return
         }
-    
+
         let text = try String.init(contentsOfFile: routerFilePath, encoding: .utf8)
         var replacedText: String
         if inheritedTypes.count == 1 {
@@ -172,16 +172,16 @@ private extension UnlinkCommand {
         } else {
             replacedText = text
         }
-    
+
         replacedText = unlinkSetting.parentRouter.reduce(replacedText) { (result, routerSearchText) in
             let searchText = replacePlaceHolder(for: routerSearchText, with: targetName, and: parentName)
             print("\t\tdelete codes matching with " + "\(searchText)".lightBlack + ".")
             return result.replacingOccurrences(of: searchText, with: "", options: .regularExpression)
         }
-        
+
         try write(text: replacedText, for: routerFilePath)
     }
-    
+
     func deleteRelatedCodesInParentInteractor(for parentName: String) throws {
         print("\n\tDelete related codes in \(parentName)Interactor.swift.".bold)
         let targetFileName = "/\(parentName)/\(parentName)Interactor.swift"
@@ -189,25 +189,25 @@ private extension UnlinkCommand {
             print("Not found \(targetFileName.dropFirst()). \(targetName) RIB has already unlinked to \(parentName) RIB.".yellow.bold)
             return
         }
-        
+
         let text = try String.init(contentsOfFile: interactorFilePath, encoding: .utf8)
-    
+
         let replacedText = unlinkSetting.parentInteractor.reduce(text) { (result, interactorSearchText) in
             let searchText = replacePlaceHolder(for: interactorSearchText, with: targetName, and: parentName)
             print("\t\tdelete codes matching with " + "\(searchText)".lightBlack + ".")
             return result.replacingOccurrences(of: searchText, with: "", options: .regularExpression)
         }
-        
+
         var replacedTextArray = [String]()
-        replacedText.enumerateLines { line, stop in
+        replacedText.enumerateLines { line, _ in
             if line.contains(pattern: "router\\?\\..*\(targetName)\\(") {
                 replacedTextArray.append("// \(targetName) RIB has been deleted. The below codes seem not to be worked.")
             }
             replacedTextArray.append(line)
         }
-        
+
         let result = replacedTextArray.joined(separator: "\n") + "\n"
-        
+
         try write(text: result, for: interactorFilePath)
     }
 }
@@ -217,7 +217,7 @@ extension UnlinkCommand {
     func delete(path: String) throws {
         try Path(path).delete()
     }
-    
+
     func write(text: String, for path: String) throws {
         try Path(path).write(text)
     }
@@ -238,6 +238,6 @@ extension String {
         guard let regex = try? NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options()) else {
             return false
         }
-        return regex.firstMatch(in: self, options: NSRegularExpression.MatchingOptions(), range: NSMakeRange(0, count)) != nil
+        return regex.firstMatch(in: self, options: NSRegularExpression.MatchingOptions(), range: NSRange(location: 0, length: count)) != nil
     }
 }
