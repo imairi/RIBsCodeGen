@@ -386,9 +386,7 @@ private extension RenameCommand {
         }
 
         let newDirectoryPath = Path(targetRIBDirectoryPath.parent().description + "/\(newName)")
-        try newDirectoryPath.mkdir()
-        print("\t\tNew directory was created.")
-        print("\t\t\t\(newDirectoryPath.relativePath)".lightBlack)
+        try createDirectoryIfNeeded(newDirectoryPath)
 
         let newInteractorPath = Path(newDirectoryPath.description + "/" + interactorPath.lastElementSplittedBySlash.replacingOccurrences(of: currentName, with: newName))
         try Path(interactorPath).move(newInteractorPath)
@@ -412,14 +410,12 @@ private extension RenameCommand {
             print("\t\t\t\(newViewControllerPath.relativePath)".lightBlack)
         }
 
-        let targetRIBDependenciesDirectoryPath = try Path(targetRIBDirectoryPath.description + "/Dependencies")
+        let targetRIBDependenciesDirectoryPath = Path(targetRIBDirectoryPath.description + "/Dependencies")
         if targetRIBDependenciesDirectoryPath.exists {
             let targetRIBDependencyPaths = try targetRIBDependenciesDirectoryPath.children().map { $0.description }.filter { $0.contains("\(currentName)Component+") }
 
             let newDependenciesDirectoryPath = Path(newDirectoryPath.description + "/Dependencies")
-            try newDependenciesDirectoryPath.mkdir()
-            print("\t\tNew directory was created.")
-            print("\t\t\t\(newDirectoryPath.relativePath)".lightBlack)
+            try createDirectoryIfNeeded(newDependenciesDirectoryPath)
 
             try targetRIBDependencyPaths.forEach { targetRIBDependencyPath in
                 let newDependencyPath = Path(newDependenciesDirectoryPath.description + "/" + targetRIBDependencyPath.lastElementSplittedBySlash.replacingOccurrences(of: "\(currentName)Component+", with: "\(newName)Component+"))
@@ -457,7 +453,7 @@ private extension RenameCommand {
                 return
             }
 
-            let parentRIBDependenciesDirectoryPath = try Path(parentRIBDirectoryPath.description + "/Dependencies")
+            let parentRIBDependenciesDirectoryPath = Path(parentRIBDirectoryPath.description + "/Dependencies")
             guard parentRIBDependenciesDirectoryPath.isDirectory else {
                 print("Failed to detect target parent RIB \(parentName) Dependencies directory path.".red.bold)
                 return
@@ -471,12 +467,22 @@ private extension RenameCommand {
                 print("\t\t\t\(newDependencyPath.relativePath)".lightBlack)
             }
         }
-
     }
 }
 
 // MARK: - Internal extensions
 private extension RenameCommand {
+    func createDirectoryIfNeeded(_ path: Path) throws {
+        guard !path.exists else {
+            print("\t\t" + "Skip to create directory: \(path.relativePath)".yellow)
+            return
+        }
+
+        try path.mkdir()
+        print("\t\tNew directory was created.")
+        print("\t\t\t\(path.relativePath)".lightBlack)
+    }
+
     func replacePlaceHolder(for target: String, with ribName: String) -> String {
         target
             .replacingOccurrences(of: "__RIB_NAME_LOWER_CASED_FIRST_LETTER__", with: ribName.lowercasedFirstLetter())
