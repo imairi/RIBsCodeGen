@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SourceKittenFramework
 import PathKit
 
 struct CreateComponentExtension: Command {
@@ -82,4 +81,3 @@ private extension CreateComponentExtension {
         try Path(filePath).write(replacedText)
     }
 }
-

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SourceKittenFramework
 import Rainbow
 import PathKit
 
@@ -24,7 +23,7 @@ struct DependencyCommand: Command {
     init(paths: [String], parent: String, child: String) {
         self.parent = parent
         self.child = child
-        
+
         guard let parentInteractorPath = paths.filter({ $0.contains("/" + parent + "Interactor.swift") }).first else {
             fatalError("Not found \(parent)Interactor.swift".red.bold)
         }
@@ -56,7 +55,7 @@ struct DependencyCommand: Command {
         self.childRouterPath = childRouterPath
         self.childBuilderPath = childBuilderPath
     }
-    
+
     func run() -> Result {
         print("\nStart adding dependency and builder initialize".bold)
 
@@ -212,11 +211,10 @@ private extension DependencyCommand {
 
         var initArgumentEndPosition = 0
 
-        guard let lastArgumentLength = initArguments.last?["key.length"] as? Int64,
-              let lastArgumentOffset = initArguments.last?["key.offset"] as? Int64 else {
+        guard let lastArgument = initArguments.last else {
             return
         }
-        initArgumentEndPosition = Int(lastArgumentOffset + lastArgumentLength)
+        initArgumentEndPosition = lastArgument.getKeyOffset() + lastArgument.getKeyLength()
 
         var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
         let argumentInsertIndex = text.utf8.index(text.startIndex, offsetBy: initArgumentEndPosition)

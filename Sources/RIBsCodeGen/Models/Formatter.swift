@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SourceKittenFramework
 
 private enum FormatterError: Swift.Error {
     case notFoundTargetFile
@@ -22,7 +21,6 @@ private enum FormatterError: Swift.Error {
         return 1
     }
 }
-
 
 enum Formatter {
     static func format(path: String) throws -> String {

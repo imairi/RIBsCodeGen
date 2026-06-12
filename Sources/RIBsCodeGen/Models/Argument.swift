@@ -58,7 +58,7 @@ enum Action {
 
 struct Argument: CustomStringConvertible {
     let action: Action
-    let options: [String:String]
+    let options: [String: String]
 
     var description: String {
         "action: \(action), options: \(options)"

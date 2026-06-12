@@ -32,10 +32,10 @@ struct HelpCommand: Command {
 
         - unlink RIB
         ribscodegen unlink [target RIB name] --parent [parent RIB name]
-        
+
         - remove RIB
         ribscodegen remove [target RIB name]
-        
+
         cf. More details in https://github.com/imairi/RIBsCodeGen/
 
         """.lightBlue

@@ -13,6 +13,7 @@ interactor:
   - "listener: __RIB_NAME__Listener?"
   - "presenter: __RIB_NAME__Presentable"
   - "deactivate__RIB_NAME__"
+  - "finish__RIB_NAME__"
 router:
   - "__RIB_NAME__Router.swift"
   - "protocol __RIB_NAME__Interactable:"
@@ -35,7 +36,7 @@ builder:
   - "class __RIB_NAME__Builder:"
   - "__RIB_NAME__Dependency"
   - "__RIB_NAME__Component"
-  - "__RIB_NAME__ViewController"  
+  - "__RIB_NAME__ViewController"
   - "__RIB_NAME_LOWER_CASED_FIRST_LETTER__ViewController"
   - "__RIB_NAME__ViewControllable"
   - "__RIB_NAME__Listener"
@@ -61,6 +62,7 @@ parentInteractor:
   - "detach__RIB_NAME__"
   - "remove__RIB_NAME__"
   - "deactivate__RIB_NAME__"
+  - "finish__RIB_NAME__"
 parentRouter:
   - " __RIB_NAME__Listener"
   - "routeTo__RIB_NAME__"
@@ -81,7 +83,7 @@ parentNeedleBuilder:
   - "__RIB_NAME_LOWER_CASED_FIRST_LETTER__Builder: __RIB_NAME_LOWER_CASED_FIRST_LETTER__Builder"
   - "__RIB_NAME_LOWER_CASED_FIRST_LETTER__Component"
   - "__RIB_NAME__Component"
-  parentComponentExtension:
+parentComponentExtension:
   - "__PARENT_RIB_NAME__Component+__RIB_NAME__.swift"
   - "scope of __PARENT_RIB_NAME__ to provide for the __RIB_NAME__ scope."
   - "__PARENT_RIB_NAME__Dependency__RIB_NAME__"

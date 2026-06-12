@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SourceKittenFramework
 import PathKit
 
 struct CreateRIBCommand: Command {
@@ -44,7 +43,6 @@ struct CreateRIBCommand: Command {
         let parentDirectory = isNeedle ? setting.templateDirectory + "/Needle" : setting.templateDirectory + "/Normal"
         templateDirectory = isOwnsView ? parentDirectory + "/OwnsView" : parentDirectory + "/Default"
 
-        
         self.target = target
         self.isOwnsView = isOwnsView
         self.isNeedle = isNeedle
