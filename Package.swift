@@ -10,21 +10,17 @@ let package = Package(
         .executable(name: "ribscodegen", targets: ["RIBsCodeGen"])
     ],
     dependencies: [
-        .package(url: "https://github.com/swiftlang/swift-syntax.git", from: "602.0.0"),
-        .package(url: "https://github.com/jpsim/Yams.git", from: "5.0.5"),
+        .package(url: "https://github.com/jpsim/SourceKitten", from: "0.38.0"),
         .package(url: "https://github.com/kylef/PathKit", from: "1.0.1"),
-        .package(url: "https://github.com/onevcat/Rainbow", from: "3.2.0")
+        .package(url: "https://github.com/onevcat/Rainbow", from: "4.2.1")
     ],
     targets: [
         .executableTarget(
             name: "RIBsCodeGen",
             dependencies: [
-                .product(name: "SwiftParser", package: "swift-syntax"),
-                .product(name: "SwiftSyntax", package: "swift-syntax"),
+                .product(name: "SourceKittenFramework", package: "SourceKitten"),
                 "PathKit",
-                "Yams",
-                "Rainbow"
-            ]
+                "Rainbow"]
         )
     ]
 )

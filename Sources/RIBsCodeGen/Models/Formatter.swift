@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SourceKittenFramework
 
 private enum FormatterError: Swift.Error {
     case notFoundTargetFile

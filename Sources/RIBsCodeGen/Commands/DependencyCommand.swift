@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SourceKittenFramework
 import Rainbow
 import PathKit
 
@@ -211,10 +212,11 @@ private extension DependencyCommand {
 
         var initArgumentEndPosition = 0
 
-        guard let lastArgument = initArguments.last else {
+        guard let lastArgumentLength = initArguments.last?["key.length"] as? Int64,
+              let lastArgumentOffset = initArguments.last?["key.offset"] as? Int64 else {
             return
         }
-        initArgumentEndPosition = lastArgument.getKeyOffset() + lastArgument.getKeyLength()
+        initArgumentEndPosition = Int(lastArgumentOffset + lastArgumentLength)
 
         var text = try String.init(contentsOfFile: parentRouterFile.path!, encoding: .utf8)
         let argumentInsertIndex = text.utf8.index(text.startIndex, offsetBy: initArgumentEndPosition)

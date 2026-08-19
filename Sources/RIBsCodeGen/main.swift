@@ -8,6 +8,7 @@
 import Foundation
 import PathKit
 import Yams
+import SourceKittenFramework
 
 var setting: Setting!
 

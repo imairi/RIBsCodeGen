@@ -27,7 +27,7 @@ final class ___VARIABLE_productName___Builder: ComponentizedBuilder<___VARIABLE_
     func build(withListener listener: ___VARIABLE_productName___Listener) -> ___VARIABLE_productName___Routing {
         build(withDynamicBuildDependency: listener, dynamicComponentDependency: ())
     }
-    
+
     override func build(with component: ___VARIABLE_productName___Component, _ listener: ___VARIABLE_productName___Listener) -> ___VARIABLE_productName___Routing {
         let viewController = ___VARIABLE_productName___ViewController()
         let interactor = ___VARIABLE_productName___Interactor(presenter: viewController)
